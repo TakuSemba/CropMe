@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.takusemba.cropme.CropView
+        android:id="@+id/crop_me_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cropme_max_scale="3"
+        app:cropme_result_height="60%"
+        app:cropme_result_width="80%" />
+
+
+</FrameLayout>
