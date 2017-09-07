@@ -3,7 +3,10 @@ package com.takusemba.cropme;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -44,6 +47,7 @@ public class CropView extends FrameLayout implements Croppable {
     private float percentWidth;
     private float percentHeight;
     private int maxScale;
+    private RectF restriction;
 
     public CropView(@NonNull Context context) {
         this(context, null);
@@ -92,15 +96,15 @@ public class CropView extends FrameLayout implements Croppable {
                 float resultWidth = getWidth() * percentWidth;
                 float resultHeight = getHeight() * percentHeight;
 
-                RectF rect = new RectF((getWidth() - resultWidth) / 2f, (getHeight() - resultHeight) / 2f,
+                restriction = new RectF((getWidth() - resultWidth) / 2f, (getHeight() - resultHeight) / 2f,
                         (getWidth() + resultWidth) / 2f, (getHeight() + resultHeight) / 2f);
 
-                horizontalAnimator = new HorizontalMoveAnimatorImpl(target, rect);
-                verticalAnimator = new VerticalMoveAnimatorImpl(target, rect);
+                horizontalAnimator = new HorizontalMoveAnimatorImpl(target, restriction);
+                verticalAnimator = new VerticalMoveAnimatorImpl(target, restriction);
                 scaleAnimator = new ScaleAnimatorImpl(target, maxScale);
 
-                target.setResultRect(rect);
-                overlayView.setResultRect(rect);
+                target.setResultRect(restriction);
+                overlayView.setResultRect(restriction);
 
                 getViewTreeObserver().removeOnPreDrawListener(this);
                 return true;
@@ -175,7 +179,24 @@ public class CropView extends FrameLayout implements Croppable {
     }
 
     @Override
-    public void crop() {
-
+    public void crop(CropListener listener) {
+        CropImageView target = (CropImageView) findViewById(R.id.cropme_image_view);
+        Rect targetRect = new Rect();
+        target.getHitRect(targetRect);
+        Bitmap bitmap = ((BitmapDrawable) target.getDrawable()).getBitmap();
+        int leftOffset = (int) (restriction.left - targetRect.left);
+        int topOffset = (int) (restriction.top - targetRect.top);
+        int width = (int) restriction.width();
+        int height = (int) restriction.height();
+        if (bitmap.getWidth() < leftOffset + width || bitmap.getHeight() < topOffset + height) {
+            listener.onFailure();
+            return;
+        }
+        Bitmap result = Bitmap.createBitmap(bitmap, leftOffset, topOffset, width, height);
+        if (result != null) {
+            listener.onSuccess(result);
+        } else {
+            listener.onFailure();
+        }
     }
 }

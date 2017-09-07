@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
                 ((CropView) findViewById(R.id.crop_me_view)).setUri(uri);
             }
         });
+        
 
     }
 
