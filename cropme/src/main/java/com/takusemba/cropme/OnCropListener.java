@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
  * Created by takusemba on 2017/09/08.
  */
 
-public interface CropListener {
+public interface OnCropListener {
 
     void onSuccess(Bitmap bitmap);
 

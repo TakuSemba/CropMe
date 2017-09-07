@@ -12,5 +12,5 @@ interface Croppable {
 
     void setUri(Uri uri);
 
-    void crop(CropListener listener);
+    void crop(OnCropListener listener);
 }

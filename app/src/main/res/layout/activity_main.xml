@@ -7,10 +7,23 @@
     <com.takusemba.cropme.CropView
         android:id="@+id/crop_me_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="300dp"
         app:cropme_max_scale="3"
-        app:cropme_result_height="60%"
-        app:cropme_result_width="80%" />
+        app:cropme_result_height="70%"
+        app:cropme_result_width="70%" />
 
+    <Button
+        android:id="@+id/crop_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="crop" />
+
+    <ImageView
+        android:id="@+id/result"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginBottom="30dp" />
 
 </FrameLayout>
