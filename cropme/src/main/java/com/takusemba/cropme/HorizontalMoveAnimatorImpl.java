@@ -25,6 +25,7 @@ class HorizontalMoveAnimatorImpl implements MoveAnimator {
     private ObjectAnimator animator;
 
     private RectF restrictionRect;
+    private int maxScale;
 
     private DynamicAnimation.OnAnimationUpdateListener updateListener = new DynamicAnimation.OnAnimationUpdateListener() {
         @Override
@@ -41,7 +42,8 @@ class HorizontalMoveAnimatorImpl implements MoveAnimator {
 
     private boolean isFlinging = false;
 
-    HorizontalMoveAnimatorImpl(View target, RectF restrictionRect) {
+    HorizontalMoveAnimatorImpl(View target, RectF restrictionRect, int maxScale) {
+        this.maxScale = maxScale;
         this.restrictionRect = restrictionRect;
 
         spring = new SpringAnimation(target,
@@ -87,7 +89,14 @@ class HorizontalMoveAnimatorImpl implements MoveAnimator {
             Rect targetRect = new Rect();
             target.getHitRect(targetRect);
 
-            float scale = 1 < target.getScaleY() ? target.getScaleY() : 1;
+            float scale;
+            if (maxScale < target.getScaleX()) {
+                scale = maxScale;
+            } else if (target.getScaleX() < 1) {
+                scale = 1;
+            } else {
+                scale = target.getScaleX();
+            }
             float horizontalDiff = (target.getWidth() * scale - target.getWidth()) / 2;
 
             if (restrictionRect.left < targetRect.left) {

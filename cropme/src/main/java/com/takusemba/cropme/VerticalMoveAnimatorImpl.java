@@ -25,6 +25,7 @@ class VerticalMoveAnimatorImpl implements MoveAnimator {
     private ObjectAnimator animator;
 
     private RectF restrictionRect;
+    private int maxScale;
 
     private DynamicAnimation.OnAnimationUpdateListener updateListener = new DynamicAnimation.OnAnimationUpdateListener() {
         @Override
@@ -41,7 +42,8 @@ class VerticalMoveAnimatorImpl implements MoveAnimator {
 
     private boolean isFlinging = false;
 
-    VerticalMoveAnimatorImpl(View target, RectF restrictionRect) {
+    VerticalMoveAnimatorImpl(View target, RectF restrictionRect, int maxScale) {
+        this.maxScale = maxScale;
         this.restrictionRect = restrictionRect;
 
         spring = new SpringAnimation(target,
@@ -88,7 +90,14 @@ class VerticalMoveAnimatorImpl implements MoveAnimator {
             Rect targetRect = new Rect();
             target.getHitRect(targetRect);
 
-            float scale = 1 < target.getScaleY() ? target.getScaleY() : 1;
+            float scale;
+            if (maxScale < target.getScaleY()) {
+                scale = maxScale;
+            } else if (target.getScaleY() < 1) {
+                scale = 1;
+            } else {
+                scale = target.getScaleY();
+            }
             float verticalDiff = (target.getHeight() * scale - target.getHeight()) / 2;
 
             if (restrictionRect.top < targetRect.top) {

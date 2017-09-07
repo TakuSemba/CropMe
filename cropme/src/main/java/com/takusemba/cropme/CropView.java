@@ -99,8 +99,8 @@ public class CropView extends FrameLayout implements Croppable {
                 restriction = new RectF((getWidth() - resultWidth) / 2f, (getHeight() - resultHeight) / 2f,
                         (getWidth() + resultWidth) / 2f, (getHeight() + resultHeight) / 2f);
 
-                horizontalAnimator = new HorizontalMoveAnimatorImpl(target, restriction);
-                verticalAnimator = new VerticalMoveAnimatorImpl(target, restriction);
+                horizontalAnimator = new HorizontalMoveAnimatorImpl(target, restriction, maxScale);
+                verticalAnimator = new VerticalMoveAnimatorImpl(target, restriction, maxScale);
                 scaleAnimator = new ScaleAnimatorImpl(target, maxScale);
 
                 target.setResultRect(restriction);
@@ -184,22 +184,33 @@ public class CropView extends FrameLayout implements Croppable {
         Rect targetRect = new Rect();
         target.getHitRect(targetRect);
         Bitmap bitmap = ((BitmapDrawable) target.getDrawable()).getBitmap();
+        bitmap = Bitmap.createScaledBitmap(bitmap, targetRect.width(), targetRect.height(), false);
         int leftOffset = (int) (restriction.left - targetRect.left);
         int topOffset = (int) (restriction.top - targetRect.top);
+        int rightOffset = (int) (targetRect.right - restriction.right);
+        int bottomOffset = (int) (targetRect.bottom - restriction.bottom);
         int width = (int) restriction.width();
         int height = (int) restriction.height();
-        if (bitmap.getWidth() < leftOffset + width || bitmap.getHeight() < topOffset + height) {
+
+        if (leftOffset < 0) {
+            width += leftOffset;
+            leftOffset = 0;
+        }
+        if (topOffset < 0) {
+            height += topOffset;
+            topOffset = 0;
+        }
+        if (rightOffset < 0) {
+            width += rightOffset;
+        }
+        if (bottomOffset < 0) {
+            height += bottomOffset;
+        }
+        if (width < 0 || height < 0) {
             listener.onFailure();
             return;
         }
-        if (leftOffset < 0) {
-            leftOffset = 0;
-            width += leftOffset;
-        }
-        if (topOffset < 0) {
-            topOffset = 0;
-            height += topOffset;
-        }
+
         Bitmap result = Bitmap.createBitmap(bitmap, leftOffset, topOffset, width, height);
         if (result != null) {
             listener.onSuccess(result);
