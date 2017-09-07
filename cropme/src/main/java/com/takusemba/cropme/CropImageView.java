@@ -27,6 +27,9 @@ class CropImageView extends AppCompatImageView {
         super(context, attrs, defStyleAttr);
     }
 
+    /**
+     * set image size along with {@link CropImageView#resultRect}
+     **/
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);

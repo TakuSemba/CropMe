@@ -8,7 +8,15 @@ import android.graphics.Bitmap;
 
 public interface OnCropListener {
 
+    /**
+     * called when cropping is successful
+     *
+     * @param bitmap result bitmap
+     **/
     void onSuccess(Bitmap bitmap);
 
+    /**
+     * called when cropping is failed
+     **/
     void onFailure();
 }

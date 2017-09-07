@@ -10,7 +10,13 @@ import android.net.Uri;
  **/
 interface Croppable {
 
+    /**
+     * setUri to {@link CropImageView}
+     **/
     void setUri(Uri uri);
 
+    /**
+     * crop image. fails if image is outside of {@link CropOverlayView#resultRect}
+     **/
     void crop(OnCropListener listener);
 }
