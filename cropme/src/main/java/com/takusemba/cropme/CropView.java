@@ -27,16 +27,23 @@ import android.widget.ImageView;
  **/
 public class CropView extends FrameLayout implements Croppable {
 
-    private static final int MIN_PERCENT = 0;
-    private static final int MAX_PERCENT = 1;
     private static final int DEFAULT_BASE = 1;
     private static final int DEFAULT_PBASE = 1;
+
+    private static final int MIN_PERCENT = 0;
+    private static final int MAX_PERCENT = 1;
+
     private static final float DEFAULT_PERCENT_WIDTH = 0.8f;
     private static final float DEFAULT_PERCENT_HEIGHT = 0.8f;
 
     private static final int DEFAULT_MAX_SCALE = 2;
     private static final int MIN_SCALE = 1;
     private static final int MAX_SCALE = 5;
+
+    private static final float DEFAULT_BACKGROUND_ALPHA = 0.8f;
+    private static final float COLOR_DENSITY = 255;
+
+    private static final boolean DEFAULT_WITH_BORDER = true;
 
     private MoveAnimator horizontalAnimator;
     private MoveAnimator verticalAnimator;
@@ -48,6 +55,8 @@ public class CropView extends FrameLayout implements Croppable {
     private float percentHeight;
     private int maxScale;
     private RectF restriction;
+    private int backgroundAlpha;
+    private boolean withBorder;
 
     public CropView(@NonNull Context context) {
         this(context, null);
@@ -75,6 +84,13 @@ public class CropView extends FrameLayout implements Croppable {
         if (maxScale < MIN_SCALE || MAX_SCALE < maxScale) {
             throw new IllegalArgumentException("sr_max_scale must be set from 1 to 5");
         }
+
+        backgroundAlpha = (int) (a.getFraction(R.styleable.CropView_cropme_background_alpha, DEFAULT_BASE, DEFAULT_PBASE, DEFAULT_BACKGROUND_ALPHA) * COLOR_DENSITY);
+        if (percentWidth < MIN_PERCENT || MAX_PERCENT < percentWidth) {
+            throw new IllegalArgumentException("sr_background_alpha must be set from 0% to 100%");
+        }
+
+        withBorder = a.getBoolean(R.styleable.CropView_cropme_with_border, DEFAULT_WITH_BORDER);
 
         a.recycle();
 
@@ -104,7 +120,7 @@ public class CropView extends FrameLayout implements Croppable {
                 scaleAnimator = new ScaleAnimatorImpl(target, maxScale);
 
                 target.setResultRect(restriction);
-                overlayView.setResultRect(restriction);
+                overlayView.setAttrs(restriction, backgroundAlpha, withBorder);
 
                 getViewTreeObserver().removeOnPreDrawListener(this);
                 return true;

@@ -21,11 +21,16 @@ import android.widget.FrameLayout;
  **/
 class CropOverlayView extends FrameLayout {
 
+    private static final int BORDER_WIDTH = 5;
+
     private final Paint background = new Paint();
     private final Paint border = new Paint();
     private final Paint cropPaint = new Paint();
 
     private RectF resultRect;
+    private int backgroundAlpha;
+    private boolean withBorder;
+
 
     public CropOverlayView(@NonNull Context context) {
         this(context, null);
@@ -44,31 +49,38 @@ class CropOverlayView extends FrameLayout {
         setWillNotDraw(false);
         setLayerType(View.LAYER_TYPE_HARDWARE, null);
         cropPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        background.setColor(ContextCompat.getColor(getContext(), R.color.background));
-        border.setColor(ContextCompat.getColor(getContext(), R.color.white));
-        border.setStrokeWidth(5);
+        border.setStrokeWidth(BORDER_WIDTH);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        background.setColor(ContextCompat.getColor(getContext(), android.R.color.black));
+        background.setAlpha(backgroundAlpha);
+        border.setColor(ContextCompat.getColor(getContext(), R.color.light_white));
+
         canvas.drawRect(0, 0, getWidth(), getHeight(), background);
         canvas.drawRect(resultRect, cropPaint);
 
-        float borderHeight = resultRect.height() / 3;
-        canvas.drawLine(resultRect.left, resultRect.top, resultRect.right, resultRect.top, border);
-        canvas.drawLine(resultRect.left, resultRect.top + borderHeight, resultRect.right, resultRect.top + borderHeight, border);
-        canvas.drawLine(resultRect.left, resultRect.top + borderHeight * 2, resultRect.right, resultRect.top + borderHeight * 2, border);
-        canvas.drawLine(resultRect.left, resultRect.bottom, resultRect.right, resultRect.bottom, border);
+        if (withBorder) {
+            float borderHeight = resultRect.height() / 3;
+            canvas.drawLine(resultRect.left, resultRect.top, resultRect.right, resultRect.top, border);
+            canvas.drawLine(resultRect.left, resultRect.top + borderHeight, resultRect.right, resultRect.top + borderHeight, border);
+            canvas.drawLine(resultRect.left, resultRect.top + borderHeight * 2, resultRect.right, resultRect.top + borderHeight * 2, border);
+            canvas.drawLine(resultRect.left, resultRect.bottom, resultRect.right, resultRect.bottom, border);
 
-        float borderWidth = resultRect.width() / 3;
-        canvas.drawLine(resultRect.left, resultRect.top, resultRect.left, resultRect.bottom, border);
-        canvas.drawLine(resultRect.left + borderWidth, resultRect.top, resultRect.left + borderWidth, resultRect.bottom, border);
-        canvas.drawLine(resultRect.left + borderWidth * 2, resultRect.top, resultRect.left + borderWidth * 2, resultRect.bottom, border);
-        canvas.drawLine(resultRect.right, resultRect.top, resultRect.right, resultRect.bottom, border);
+            float borderWidth = resultRect.width() / 3;
+            canvas.drawLine(resultRect.left, resultRect.top, resultRect.left, resultRect.bottom, border);
+            canvas.drawLine(resultRect.left + borderWidth, resultRect.top, resultRect.left + borderWidth, resultRect.bottom, border);
+            canvas.drawLine(resultRect.left + borderWidth * 2, resultRect.top, resultRect.left + borderWidth * 2, resultRect.bottom, border);
+            canvas.drawLine(resultRect.right, resultRect.top, resultRect.right, resultRect.bottom, border);
+        }
     }
 
-    void setResultRect(RectF resultRect) {
+    void setAttrs(RectF resultRect, int backgroundAlpha, boolean withBorder) {
         this.resultRect = resultRect;
+        this.backgroundAlpha = backgroundAlpha;
+        this.withBorder = withBorder;
     }
 }

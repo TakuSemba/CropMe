@@ -3,9 +3,11 @@ package com.takusemba.cropme;
 import android.graphics.Bitmap;
 
 /**
- * Created by takusemba on 2017/09/08.
- */
-
+ * OnCropListener
+ *
+ * @author takusemba
+ * @since 05/09/2017
+ **/
 public interface OnCropListener {
 
     /**

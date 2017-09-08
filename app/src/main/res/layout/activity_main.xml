@@ -8,9 +8,11 @@
         android:id="@+id/crop_me_view"
         android:layout_width="match_parent"
         android:layout_height="300dp"
+        app:cropme_background_alpha="80%"
         app:cropme_max_scale="3"
         app:cropme_result_height="70%"
-        app:cropme_result_width="70%" />
+        app:cropme_result_width="70%"
+        app:cropme_with_border="true" />
 
     <Button
         android:id="@+id/crop_image"
