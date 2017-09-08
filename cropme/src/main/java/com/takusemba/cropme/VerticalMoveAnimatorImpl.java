@@ -91,19 +91,27 @@ class VerticalMoveAnimatorImpl implements MoveAnimator {
             target.getHitRect(targetRect);
 
             float scale;
+            Rect afterRect;
             if (maxScale < target.getScaleY()) {
                 scale = maxScale;
+                int heightDiff = (int) ((targetRect.height() - targetRect.height() * (maxScale / target.getScaleY())) / 2);
+                int widthDiff = (int) ((targetRect.width() - targetRect.width() * (maxScale / target.getScaleY())) / 2);
+                afterRect = new Rect(targetRect.left + widthDiff, targetRect.top + heightDiff, targetRect.right - widthDiff, targetRect.bottom - heightDiff);
             } else if (target.getScaleY() < 1) {
                 scale = 1;
+                int heightDiff = (target.getHeight() - targetRect.height()) / 2;
+                int widthDiff = (target.getWidth() - targetRect.width()) / 2;
+                afterRect = new Rect(targetRect.left + widthDiff, targetRect.top + heightDiff, targetRect.right - widthDiff, targetRect.bottom - heightDiff);
             } else {
                 scale = target.getScaleY();
+                afterRect = targetRect;
             }
             float verticalDiff = (target.getHeight() * scale - target.getHeight()) / 2;
 
-            if (restrictionRect.top < targetRect.top) {
+            if (restrictionRect.top < afterRect.top) {
                 cancel();
                 spring.setStartVelocity(velocity).animateToFinalPosition(restrictionRect.top + verticalDiff);
-            } else if (targetRect.bottom < restrictionRect.bottom) {
+            } else if (afterRect.bottom < restrictionRect.bottom) {
                 cancel();
                 spring.setStartVelocity(velocity).animateToFinalPosition(restrictionRect.bottom - target.getHeight() - verticalDiff);
             }
