@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CropMe</string>
+
+    <string name="editing">Editing</string>
 </resources>

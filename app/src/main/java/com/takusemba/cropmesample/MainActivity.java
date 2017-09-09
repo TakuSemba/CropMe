@@ -1,19 +1,11 @@
 package com.takusemba.cropmesample;
 
-import android.graphics.Bitmap;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 
-import com.mlsdev.rximagepicker.RxImagePicker;
-import com.mlsdev.rximagepicker.Sources;
-import com.takusemba.cropme.CropView;
-import com.takusemba.cropme.OnCropListener;
-
-import io.reactivex.functions.Consumer;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,30 +14,36 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RxImagePicker.with(this).requestImage(Sources.GALLERY).subscribe(new Consumer<Uri>() {
-            @Override
-            public void accept(Uri uri) throws Exception {
-                ((CropView) findViewById(R.id.crop_me_view)).setUri(uri);
-            }
-        });
-
-        findViewById(R.id.crop_image).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((CropView) findViewById(R.id.crop_me_view)).crop(new OnCropListener() {
-                    @Override
-                    public void onSuccess(Bitmap bitmap) {
-                        ((ImageView) findViewById(R.id.result)).setImageBitmap(bitmap);
-                    }
-
-                    @Override
-                    public void onFailure() {
-                        Log.d("mydebug", "failed");
-                    }
-                });
-            }
-        });
-
     }
+
+//    private List<Uri> getPhotos(){
+//        AlbumLoader albumLoader = new AlbumLoader(this);
+//        Cursor albumCursor =
+//    }
+//
+//
+//    override fun getPhotos(): Single<List<Photo>> {
+//        return Single.create<List<Photo>> { subscriber ->
+//                val albumCursor = albumLoader.loadInBackground()
+//                val photos: ArrayList<Photo> = ArrayList()
+//        if (albumCursor.moveToFirst()) {
+//            do {
+//                val photoLoader = PhotoLoader(albumLoader.context, arrayOf(albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_ID))))
+//                val photoCursor = photoLoader.loadInBackground()
+//                if (photoCursor.moveToFirst()) {
+//                    do {
+//                        val id = photoCursor.getLong(photoCursor.getColumnIndex(MediaStore.Images.Media._ID))
+//                        val uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+//                        val photo = Photo()
+//                        photo.uri = uri.toString()
+//                        photos.add(photo)
+//                    } while (photoCursor.moveToNext() and (photos.size < 100))
+//                }
+//            } while (albumCursor.moveToNext() and (photos.size < 100))
+//        }
+//        albumCursor.close()
+//        subscriber.onSuccess(photos)
+//        }
+//    }
 
 }
