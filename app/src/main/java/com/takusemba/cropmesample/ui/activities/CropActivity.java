@@ -2,10 +2,10 @@ package com.takusemba.cropmesample.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.takusemba.cropmesample.R;
@@ -44,9 +44,8 @@ public class CropActivity extends AppCompatActivity {
         client.getAlbums(new AlbumClient.OnLoadedListener() {
             @Override
             public void onSuccess(List<Album> albums) {
-                Log.d("mydebug", "loaded: " + albums.size());
                 if (albums.isEmpty()) {
-
+                    Snackbar.make(findViewById(R.id.container), R.string.error_no_photos_found, Snackbar.LENGTH_LONG).show();
                 } else {
                     adapter = new AlbumAdapter(albums);
                     RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -58,7 +57,7 @@ public class CropActivity extends AppCompatActivity {
 
             @Override
             public void onError(Exception e) {
-                Log.d("mydebug", "error: " + e.getMessage());
+
             }
         });
     }

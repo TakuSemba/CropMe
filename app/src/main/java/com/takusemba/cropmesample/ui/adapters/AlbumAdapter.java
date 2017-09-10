@@ -1,5 +1,7 @@
 package com.takusemba.cropmesample.ui.adapters;
 
+import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +19,13 @@ import java.util.List;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> {
 
-    private List<Album> albums;
+    private static final int COLUMNS = 4;
 
-    public AlbumAdapter(List<Album> albums) {
+    private List<Album> albums;
+    private Context context;
+
+    public AlbumAdapter(Context context, List<Album> albums) {
+        this.context = context;
         this.albums = albums;
     }
 
@@ -33,6 +39,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     public void onBindViewHolder(AlbumAdapter.ViewHolder holder, int position) {
         Album album = albums.get(position);
         holder.title.setText(album.name);
+
+        PhotoAdapter adapter = new PhotoAdapter(album.photos);
+        GridLayoutManager layoutManager = new GridLayoutManager(context, COLUMNS);
+        holder.recyclerView.setLayoutManager(layoutManager);
+        holder.recyclerView.setAdapter(adapter);
+        holder.recyclerView.setHasFixedSize(true);
     }
 
     @Override
@@ -42,10 +54,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
+        private RecyclerView recyclerView;
 
         ViewHolder(final View itemView) {
             super(itemView);
             this.title = (TextView) itemView.findViewById(R.id.title);
+            this.recyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_view);
         }
     }
 }
