@@ -2,11 +2,9 @@ package com.takusemba.cropmesample.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.takusemba.cropmesample.R;
@@ -14,12 +12,13 @@ import com.takusemba.cropmesample.clients.AlbumClient;
 import com.takusemba.cropmesample.models.Album;
 import com.takusemba.cropmesample.ui.adapters.AlbumAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CropActivity extends AppCompatActivity {
 
-    AlbumClient client;
-    AlbumAdapter adapter;
+    private AlbumClient client;
+    private AlbumAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,25 +41,26 @@ public class CropActivity extends AppCompatActivity {
             }
         });
 
-        client.getAlbums(new AlbumClient.OnLoadedListener() {
-            @Override
-            public void onSuccess(List<Album> albums) {
-                if (albums.isEmpty()) {
-                    Snackbar.make(findViewById(R.id.container), R.string.error_no_photos_found, Snackbar.LENGTH_LONG).show();
-                } else {
-                    adapter = new AlbumAdapter(CropActivity.this, albums);
-                    RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(CropActivity.this, LinearLayoutManager.VERTICAL, false);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter);
-                }
-            }
+        adapter = new AlbumAdapter(CropActivity.this, new ArrayList<Album>());
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(CropActivity.this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
-            @Override
-            public void onError(Exception e) {
-                Log.d("mydebug", "error: " + e.getMessage());
-            }
-        });
+        final List<Album> result = client.getAlbums();
+        for (final Album album : result) {
+            new Thread(new Runnable() {
+                public void run() {
+                    client.getResizedBitmap(CropActivity.this, album);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.addItem(album);
+                        }
+                    });
+                }
+            }).start();
+        }
     }
 
 

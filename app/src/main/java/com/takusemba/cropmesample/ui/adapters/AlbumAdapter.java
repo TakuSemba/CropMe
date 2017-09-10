@@ -62,4 +62,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
             this.recyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_view);
         }
     }
+
+    public void addItem(Album album) {
+        albums.add(album);
+        notifyDataSetChanged();
+    }
 }

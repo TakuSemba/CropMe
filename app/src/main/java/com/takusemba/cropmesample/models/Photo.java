@@ -1,5 +1,6 @@
 package com.takusemba.cropmesample.models;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 /**
@@ -11,4 +12,6 @@ public class Photo {
     public long id;
 
     public Uri uri;
+
+    public Bitmap bitmap;
 }

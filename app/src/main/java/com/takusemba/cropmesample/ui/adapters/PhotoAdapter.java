@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import com.takusemba.cropmesample.R;
 import com.takusemba.cropmesample.models.Photo;
-import com.takusemba.cropmesample.utils.ImageUtils;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     private List<Photo> photos;
     private Context context;
 
-    public PhotoAdapter(Context context, List<Photo> photos) {
+    PhotoAdapter(Context context, List<Photo> photos) {
         this.context = context;
         this.photos = photos;
     }
@@ -36,7 +35,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(PhotoAdapter.ViewHolder holder, int position) {
         Photo photo = photos.get(position);
-        holder.image.setImageBitmap(ImageUtils.getResizedBitmap(context, photo.uri));
+        holder.image.setImageBitmap(photo.bitmap);
     }
 
     @Override
