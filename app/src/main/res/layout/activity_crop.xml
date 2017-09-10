@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/colorPrimary"
+        android:elevation="4dp"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp">
 
@@ -52,7 +53,7 @@
     <com.takusemba.cropme.CropView
         android:id="@+id/crop_view"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:layout_below="@id/toolbar"
         app:cropme_background_alpha="80%"
         app:cropme_max_scale="3"

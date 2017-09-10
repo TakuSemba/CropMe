@@ -28,11 +28,9 @@ import java.util.List;
 public class AlbumClient {
 
     private final AlbumLoader albumLoader;
-    private final Context context;
 
 
     public AlbumClient(Context context) {
-        this.context = context;
         this.albumLoader = new AlbumLoader(context);
     }
 
