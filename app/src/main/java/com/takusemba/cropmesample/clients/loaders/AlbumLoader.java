@@ -1,4 +1,4 @@
-package com.takusemba.cropmesample;
+package com.takusemba.cropmesample.clients.loaders;
 
 import android.content.Context;
 import android.provider.MediaStore;

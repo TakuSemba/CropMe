@@ -9,13 +9,21 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/colorPrimary"
-        android:elevation="2dp"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:padding="16dp"
+                android:src="@drawable/back" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -31,25 +39,19 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <com.takusemba.cropme.CropView
-        android:id="@+id/crop_view"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_below="@id/toolbar"
-        app:cropme_background_alpha="80%"
-        app:cropme_max_scale="3"
-        app:cropme_result_height="80%"
-        app:cropme_result_width="80%"
-        app:cropme_with_border="true" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/crop_view"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-        android:overScrollMode="never"
-        android:scrollbars="vertical" />
+        android:layout_below="@id/toolbar">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop" />
+
+    </FrameLayout>
+
 
 </RelativeLayout>
