@@ -40,7 +40,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         Album album = albums.get(position);
         holder.title.setText(album.name);
 
-        PhotoAdapter adapter = new PhotoAdapter(album.photos);
+        PhotoAdapter adapter = new PhotoAdapter(context, album.photos);
         GridLayoutManager layoutManager = new GridLayoutManager(context, COLUMNS);
         holder.recyclerView.setLayoutManager(layoutManager);
         holder.recyclerView.setAdapter(adapter);

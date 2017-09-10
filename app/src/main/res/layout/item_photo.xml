@@ -2,11 +2,14 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <ImageView
         android:id="@id/image"
         android:layout_width="90dp"
-        android:layout_height="90dp" />
+        android:layout_height="90dp"
+        android:padding="1dp"
+        android:scaleType="centerCrop" />
 
 </FrameLayout>

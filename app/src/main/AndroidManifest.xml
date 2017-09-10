@@ -12,15 +12,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activities.SplashActivity">
+        <activity
+            android:name=".ui.activities.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.CropActivity" />
-        <activity android:name=".ui.activities.ResultActivity" />
+        <activity
+            android:name=".ui.activities.CropActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.ResultActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
