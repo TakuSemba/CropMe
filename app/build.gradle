@@ -23,5 +23,6 @@ android {
 dependencies {
     compile "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
     compile "com.android.support:recyclerview-v7:$APP_COMPAT_VERSION"
+    compile "com.android.support:design:$APP_COMPAT_VERSION"
     compile project(':cropme')
 }

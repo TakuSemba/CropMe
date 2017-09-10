@@ -1,6 +1,7 @@
 package com.takusemba.cropmesample.clients;
 
 import android.content.ContentUris;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -19,43 +20,47 @@ import java.util.List;
 
 public class AlbumClient {
 
-    interface OnLoadedListener {
-        void onSuccess(List<Photo> photos);
+    public interface OnLoadedListener {
+        void onSuccess(List<Album> albums);
 
-        void onError();
+        void onError(Exception e);
     }
 
     private final AlbumLoader albumLoader;
 
-    public AlbumClient(AlbumLoader albumLoader) {
-        this.albumLoader = albumLoader;
+    public AlbumClient(Context context) {
+        this.albumLoader = new AlbumLoader(context);
     }
 
-    public List<Album> getAlbums() {
-        Cursor albumCursor = albumLoader.loadInBackground();
+    public void getAlbums(OnLoadedListener listener) {
         List<Album> albums = new ArrayList<>();
-        if (albumCursor.moveToFirst()) {
-            do {
-                PhotoLoader photoLoader = new PhotoLoader(albumLoader.getContext(), new String[]{albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_ID))});
-                Cursor photoCursor = photoLoader.loadInBackground();
-                List<Photo> photos = new ArrayList<>();
-                if (photoCursor.moveToFirst()) {
-                    do {
-                        Long id = photoCursor.getLong(photoCursor.getColumnIndex(MediaStore.Images.Media._ID));
-                        Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-                        Photo photo = new Photo();
-                        photo.id = id;
-                        photo.uri = uri;
-                        photos.add(photo);
-                    } while (photoCursor.moveToNext());
-                }
-                Album album = new Album();
-                album.bucketId = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_ID));
-                album.name = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
-                album.photos = photos;
-                albums.add(album);
-            } while (albumCursor.moveToNext());
+        try {
+            Cursor albumCursor = albumLoader.loadInBackground();
+            if (albumCursor.moveToFirst()) {
+                do {
+                    PhotoLoader photoLoader = new PhotoLoader(albumLoader.getContext(), new String[]{albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_ID))});
+                    Cursor photoCursor = photoLoader.loadInBackground();
+                    List<Photo> photos = new ArrayList<>();
+                    if (photoCursor.moveToFirst()) {
+                        do {
+                            Long id = photoCursor.getLong(photoCursor.getColumnIndex(MediaStore.Images.Media._ID));
+                            Uri uri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
+                            Photo photo = new Photo();
+                            photo.id = id;
+                            photo.uri = uri;
+                            photos.add(photo);
+                        } while (photoCursor.moveToNext());
+                    }
+                    Album album = new Album();
+                    album.bucketId = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_ID));
+                    album.name = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
+                    album.photos = photos;
+                    albums.add(album);
+                } while (albumCursor.moveToNext());
+            }
+            listener.onSuccess(albums);
+        } catch (Exception e) {
+            listener.onError(e);
         }
-        return albums;
     }
 }

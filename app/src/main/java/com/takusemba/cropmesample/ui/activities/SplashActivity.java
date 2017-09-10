@@ -1,4 +1,4 @@
-package com.takusemba.cropmesample.activities;
+package com.takusemba.cropmesample.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
