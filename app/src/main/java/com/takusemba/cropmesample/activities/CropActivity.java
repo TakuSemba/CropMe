@@ -1,13 +1,15 @@
-package com.takusemba.cropmesample;
+package com.takusemba.cropmesample.activities;
 
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.takusemba.cropmesample.R;
+
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class CropActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
