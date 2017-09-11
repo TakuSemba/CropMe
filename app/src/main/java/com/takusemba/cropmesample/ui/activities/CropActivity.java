@@ -1,14 +1,21 @@
 package com.takusemba.cropmesample.ui.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.takusemba.cropme.CropView;
 import com.takusemba.cropme.OnCropListener;
@@ -32,7 +39,10 @@ public class CropActivity extends AppCompatActivity {
     private ImageView backButton;
     private ImageView cropButton;
     private RecyclerView recyclerView;
+    private RelativeLayout parent;
     private CropView cropView;
+
+    private static final int REQUEST_CODE_PERMISSION = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +88,58 @@ public class CropActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                Snackbar.make(parent, R.string.error_permission_is_off, Snackbar.LENGTH_LONG).show();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_PERMISSION);
+            }
+        } else {
+            loadAlbums();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                loadAlbums();
+            } else {
+                Snackbar.make(parent, R.string.error_permission_denied
+                        , Snackbar.LENGTH_LONG).show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    private void findViewsByIds() {
+        backButton = (ImageView) findViewById(R.id.cross);
+        cropButton = (ImageView) findViewById(R.id.crop);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        cropView = (CropView) findViewById(R.id.crop_view);
+        parent = (RelativeLayout) findViewById(R.id.container);
+    }
+
+    private void saveBitmapAndStartActivity(final Bitmap bitmap) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                imageClient.saveBitmap(bitmap);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(CropActivity.this, ResultActivity.class));
+                    }
+                });
+            }
+        }).start();
+    }
+
+    private void loadAlbums() {
+        adapter.clear();
         final List<Album> result = albumClient.getAlbums();
         for (final Album album : result) {
             new Thread(new Runnable() {
@@ -98,28 +160,6 @@ public class CropActivity extends AppCompatActivity {
                 }
             }).start();
         }
-    }
-
-    private void findViewsByIds() {
-        backButton = (ImageView) findViewById(R.id.cross);
-        cropButton = (ImageView) findViewById(R.id.crop);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        cropView = (CropView) findViewById(R.id.crop_view);
-    }
-
-    private void saveBitmapAndStartActivity(final Bitmap bitmap) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                imageClient.saveBitmap(bitmap);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        startActivity(new Intent(CropActivity.this, ResultActivity.class));
-                    }
-                });
-            }
-        }).start();
     }
 
 }

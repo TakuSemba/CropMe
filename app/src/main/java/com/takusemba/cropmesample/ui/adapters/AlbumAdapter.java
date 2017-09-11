@@ -70,4 +70,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         albums.add(album);
         notifyDataSetChanged();
     }
+
+    public void clear(){
+        albums.clear();
+        notifyDataSetChanged();
+    }
 }

@@ -11,7 +11,7 @@
 
 
     <!--error-->
-    <string name="error_no_photos_found">写真が取得できませんでした。</string>
-    <string name="error_something_wrong_when_loading_photos">写真取得時にエラーが発生しました。</string>
+    <string name="error_permission_denied">権限が許可されていません。</string>
+    <string name="error_permission_is_off">権限がOFFになっています。</string>
 
 </resources>
