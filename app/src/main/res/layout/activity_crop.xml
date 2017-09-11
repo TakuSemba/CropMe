@@ -52,25 +52,41 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <com.takusemba.cropme.CropView
-        android:id="@+id/crop_view"
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_below="@id/toolbar"
-        app:cropme_background_alpha="80%"
-        app:cropme_max_scale="3"
-        app:cropme_result_height="80%"
-        app:cropme_result_width="80%"
-        app:cropme_with_border="true" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/crop_view"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-        android:overScrollMode="never"
-        android:scrollbars="vertical" />
+        android:layout_below="@id/toolbar"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+        <com.takusemba.cropme.CropView
+            android:id="@+id/crop_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            app:cropme_background_alpha="80%"
+            app:cropme_max_scale="3"
+            app:cropme_result_height="80%"
+            app:cropme_result_width="80%"
+            app:cropme_with_border="true" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:overScrollMode="never"
+            android:scrollbars="vertical" />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

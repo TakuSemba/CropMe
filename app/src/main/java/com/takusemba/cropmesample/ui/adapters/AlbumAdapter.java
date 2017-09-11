@@ -1,11 +1,13 @@
 package com.takusemba.cropmesample.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.takusemba.cropmesample.R;
@@ -25,11 +27,17 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
     private List<Album> albums;
     private Context context;
     private OnPhotoClickListener listener;
+    private int length;
 
     public AlbumAdapter(Context context, List<Album> albums, OnPhotoClickListener listener) {
         this.context = context;
         this.albums = albums;
         this.listener = listener;
+
+        Point point = new Point();
+        WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        manager.getDefaultDisplay().getSize(point);
+        length = point.x / COLUMNS;
     }
 
     @Override
@@ -43,7 +51,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         Album album = albums.get(position);
         holder.title.setText(album.name);
 
-        PhotoAdapter adapter = new PhotoAdapter(album.photos, listener);
+        PhotoAdapter adapter = new PhotoAdapter(album.photos, listener, length);
         GridLayoutManager layoutManager = new GridLayoutManager(context, COLUMNS);
         holder.recyclerView.setLayoutManager(layoutManager);
         holder.recyclerView.setAdapter(adapter);

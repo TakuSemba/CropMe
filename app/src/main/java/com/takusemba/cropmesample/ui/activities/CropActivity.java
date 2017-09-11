@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.takusemba.cropme.CropView;
@@ -41,6 +42,7 @@ public class CropActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RelativeLayout parent;
     private CropView cropView;
+    private ProgressBar progressBar;
 
     private static final int REQUEST_CODE_PERMISSION = 100;
 
@@ -106,8 +108,7 @@ public class CropActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 loadAlbums();
             } else {
-                Snackbar.make(parent, R.string.error_permission_denied
-                        , Snackbar.LENGTH_LONG).show();
+                Snackbar.make(parent, R.string.error_permission_denied, Snackbar.LENGTH_LONG).show();
             }
             return;
         }
@@ -121,9 +122,12 @@ public class CropActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         cropView = (CropView) findViewById(R.id.crop_view);
         parent = (RelativeLayout) findViewById(R.id.container);
+        progressBar = (ProgressBar) findViewById(R.id.progress);
     }
 
     private void saveBitmapAndStartActivity(final Bitmap bitmap) {
+        progressBar.setVisibility(View.VISIBLE);
+        cropView.setEnabled(false);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -131,6 +135,8 @@ public class CropActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        progressBar.setVisibility(View.GONE);
+                        cropView.setEnabled(true);
                         startActivity(new Intent(CropActivity.this, ResultActivity.class));
                     }
                 });

@@ -20,15 +20,21 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
 
     private List<Photo> photos;
     private OnPhotoClickListener listener;
+    private int length;
 
-    PhotoAdapter(List<Photo> photos, OnPhotoClickListener listener) {
+    PhotoAdapter(List<Photo> photos, OnPhotoClickListener listener, int length) {
         this.photos = photos;
         this.listener = listener;
+        this.length = length;
     }
 
     @Override
     public PhotoAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_photo, viewGroup, false);
+        ImageView image = (ImageView) view.findViewById(R.id.image);
+        ViewGroup.LayoutParams params = image.getLayoutParams();
+        params.width = length;
+        params.height = length;
         return new PhotoAdapter.ViewHolder(view);
     }
 
