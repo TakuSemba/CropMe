@@ -43,7 +43,6 @@ Enjoy cropping!
 ```
 
 <br/>
-<br/>
 
 <img src="https://github.com/TakuSemba/CropMe/blob/master/arts/snap_count.gif" align="left" width="300">
 
