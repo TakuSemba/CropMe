@@ -7,7 +7,8 @@
 ```groovy
 
 dependencies {
-    compile 'com.github.takusemba:cropme:1.0.2'
+    compile 'com.github.takusemba:cropme:1.0.3'
+    compile "com.android.support:support-dynamic-animation:26.x.x" // need to be more than 26
 }
 
 ```
