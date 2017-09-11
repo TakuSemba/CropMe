@@ -12,4 +12,11 @@
         android:padding="1dp"
         android:scaleType="centerCrop" />
 
+    <View
+        android:id="@+id/cover"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:background="@color/white_70"
+        android:visibility="gone" />
+
 </FrameLayout>

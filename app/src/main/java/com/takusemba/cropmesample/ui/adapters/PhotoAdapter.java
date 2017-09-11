@@ -36,6 +36,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
     public void onBindViewHolder(PhotoAdapter.ViewHolder holder, int position) {
         Photo photo = photos.get(position);
         holder.image.setImageBitmap(photo.bitmap);
+        holder.cover.setVisibility(photo.isSelected ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -45,10 +46,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView image;
+        private View cover;
 
         ViewHolder(final View itemView) {
             super(itemView);
             this.image = (ImageView) itemView.findViewById(R.id.image);
+            this.cover = itemView.findViewById(R.id.cover);
         }
     }
 }

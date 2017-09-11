@@ -2,7 +2,6 @@ package com.takusemba.cropmesample.ui.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +16,7 @@ import com.takusemba.cropmesample.R;
 import com.takusemba.cropmesample.clients.AlbumClient;
 import com.takusemba.cropmesample.clients.ImageClient;
 import com.takusemba.cropmesample.models.Album;
+import com.takusemba.cropmesample.models.Photo;
 import com.takusemba.cropmesample.ui.adapters.AlbumAdapter;
 
 import java.util.ArrayList;
@@ -81,8 +81,8 @@ public class CropActivity extends AppCompatActivity {
                         public void run() {
                             if (!album.photos.isEmpty()) {
                                 if (adapter.getItemCount() == 0) {
-                                    Uri uri = album.photos.get(0).uri;
-                                    cropView.setUri(uri);
+                                    Photo photo = album.photos.get(0);
+                                    cropView.setUri(photo.uri);
                                 }
                                 adapter.addItem(album);
                             }

@@ -24,4 +24,7 @@
 
     <color name="ripple_dark">@color/white_20</color>
     <color name="ripple_light">@color/black_12</color>
+
+    <color name="splash_top">#1E5649</color>
+    <color name="splash_bottom">#222222</color>
 </resources>

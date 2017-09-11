@@ -14,4 +14,6 @@ public class Photo {
     public Uri uri;
 
     public Bitmap bitmap;
+
+    public boolean isSelected;
 }

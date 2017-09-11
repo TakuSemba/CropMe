@@ -195,6 +195,11 @@ public class CropView extends FrameLayout implements Croppable {
     }
 
     @Override
+    public void setBitmap(Bitmap bitmap) {
+        ((ImageView) findViewById(R.id.cropme_image_view)).setImageBitmap(bitmap);
+    }
+
+    @Override
     public void crop(OnCropListener listener) {
         CropImageView target = (CropImageView) findViewById(R.id.cropme_image_view);
         Rect targetRect = new Rect();

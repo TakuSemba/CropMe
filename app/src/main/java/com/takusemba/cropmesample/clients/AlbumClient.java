@@ -51,6 +51,7 @@ public class AlbumClient {
                             Photo photo = new Photo();
                             photo.id = id;
                             photo.uri = uri;
+                            photo.isSelected = photos.isEmpty();
                             photos.add(photo);
                         } while (photoCursor.moveToNext() && photos.size() < 40);
                     }
@@ -59,6 +60,7 @@ public class AlbumClient {
                     album.bucketId = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_ID));
                     album.name = albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME));
                     album.photos = photos;
+                    album.isSelected = albums.isEmpty();
                     albums.add(album);
                 } while (albumCursor.moveToNext() && albums.size() < 10);
             }

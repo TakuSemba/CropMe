@@ -13,4 +13,6 @@ public class Album {
     public String name;
 
     public List<Photo> photos;
+
+    public boolean isSelected = false;
 }
