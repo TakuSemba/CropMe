@@ -86,7 +86,7 @@ cropView.crop(new OnCropListener() {
 <br/>
 
 ## Sample
-Clone this repo and check out the [app](https://github.com/TakuSemba/MultiSnapRecyclerView/tree/master/app) module.
+Clone this repo and check out the [app](https://github.com/TakuSemba/CropMe/tree/master/app) module.
 
 ## Change Log
 
