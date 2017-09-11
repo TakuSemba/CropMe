@@ -27,22 +27,7 @@ This is an Android library for cropping images.
 Move images smoothly, and crop images precisely.
 
 Enjoy cropping!
-<br/>
-- [x] fling animation.
-- [x] moveing and scaleing.
-- [x] interface to crop image.
-- [x] smaple code.
-- [ ] rotation and tilting
-- [ ] test code
 
-<br/>
-<br/>
-<br/>
-<br/>
-
-<img src="https://github.com/TakuSemba/CropMe/blob/master/arts/snap_count.gif" align="left" width="300">
-
-## Usage
 ##### Use CropView in your xml file.
 
 ```xml
@@ -56,6 +41,13 @@ Enjoy cropping!
     app:cropme_with_border="true" />
 
 ```
+
+<br/>
+<br/>
+
+<img src="https://github.com/TakuSemba/CropMe/blob/master/arts/snap_count.gif" align="left" width="300">
+
+## Usage
 
 ##### Set your image
 
