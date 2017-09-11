@@ -16,7 +16,7 @@ dependencies {
 
 <img src="https://github.com/TakuSemba/CropMe/blob/master/arts/crop.gif" align="right" width="300">
 
-## Features
+## Usage
 
 ![Platform](http://img.shields.io/badge/platform-android-green.svg?style=flat)
 ![Download](https://api.bintray.com/packages/takusemba/maven/multisnaprecyclerview/images/download.svg)
@@ -46,8 +46,6 @@ Enjoy cropping!
 <br/>
 
 <img src="https://github.com/TakuSemba/CropMe/blob/master/arts/snap_count.gif" align="left" width="300">
-
-## Usage
 
 ##### Set your image
 
