@@ -45,9 +45,8 @@ Enjoy cropping!
 
 ```xml
 <com.takusemba.cropme.CropView
-    android:id="@+id/crop_view"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
+    android:layout_height="match_parent"
     android:layout_weight="2"
     app:cropme_background_alpha="80%"
     app:cropme_max_scale="3"
