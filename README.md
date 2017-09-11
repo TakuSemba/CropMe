@@ -23,7 +23,9 @@ dependencies {
 ![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)
 
 This is an Android library for cropping images.
+
 Move images smoothly, and crop images precisely.
+
 Enjoy cropping!
 <br/>
 - [x] fling animation.
