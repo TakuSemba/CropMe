@@ -1,6 +1,5 @@
 package com.takusemba.cropmesample.ui.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +8,7 @@ import android.widget.ImageView;
 
 import com.takusemba.cropmesample.R;
 import com.takusemba.cropmesample.models.Photo;
+import com.takusemba.cropmesample.ui.OnPhotoClickListener;
 
 import java.util.List;
 
@@ -19,11 +19,11 @@ import java.util.List;
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> {
 
     private List<Photo> photos;
-    private Context context;
+    private OnPhotoClickListener listener;
 
-    PhotoAdapter(Context context, List<Photo> photos) {
-        this.context = context;
+    PhotoAdapter(List<Photo> photos, OnPhotoClickListener listener) {
         this.photos = photos;
+        this.listener = listener;
     }
 
     @Override
@@ -34,9 +34,14 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(PhotoAdapter.ViewHolder holder, int position) {
-        Photo photo = photos.get(position);
+        final Photo photo = photos.get(position);
         holder.image.setImageBitmap(photo.bitmap);
-        holder.cover.setVisibility(photo.isSelected ? View.VISIBLE : View.GONE);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onPhotoClicked(photo);
+            }
+        });
     }
 
     @Override
@@ -46,12 +51,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView image;
-        private View cover;
 
         ViewHolder(final View itemView) {
             super(itemView);
             this.image = (ImageView) itemView.findViewById(R.id.image);
-            this.cover = itemView.findViewById(R.id.cover);
         }
     }
 }

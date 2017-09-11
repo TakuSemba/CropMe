@@ -17,6 +17,7 @@ import com.takusemba.cropmesample.clients.AlbumClient;
 import com.takusemba.cropmesample.clients.ImageClient;
 import com.takusemba.cropmesample.models.Album;
 import com.takusemba.cropmesample.models.Photo;
+import com.takusemba.cropmesample.ui.OnPhotoClickListener;
 import com.takusemba.cropmesample.ui.adapters.AlbumAdapter;
 
 import java.util.ArrayList;
@@ -41,7 +42,13 @@ public class CropActivity extends AppCompatActivity {
 
         albumClient = new AlbumClient(this);
         imageClient = new ImageClient(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-        adapter = new AlbumAdapter(CropActivity.this, new ArrayList<Album>());
+        OnPhotoClickListener listener = new OnPhotoClickListener() {
+            @Override
+            public void onPhotoClicked(Photo photo) {
+                cropView.setUri(photo.uri);
+            }
+        };
+        adapter = new AlbumAdapter(CropActivity.this, new ArrayList<Album>(), listener);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

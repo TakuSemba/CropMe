@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.takusemba.cropmesample.R;
 import com.takusemba.cropmesample.models.Album;
+import com.takusemba.cropmesample.ui.OnPhotoClickListener;
 
 import java.util.List;
 
@@ -23,10 +24,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
     private List<Album> albums;
     private Context context;
+    private OnPhotoClickListener listener;
 
-    public AlbumAdapter(Context context, List<Album> albums) {
+    public AlbumAdapter(Context context, List<Album> albums, OnPhotoClickListener listener) {
         this.context = context;
         this.albums = albums;
+        this.listener = listener;
     }
 
     @Override
@@ -40,7 +43,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
         Album album = albums.get(position);
         holder.title.setText(album.name);
 
-        PhotoAdapter adapter = new PhotoAdapter(context, album.photos);
+        PhotoAdapter adapter = new PhotoAdapter(album.photos, listener);
         GridLayoutManager layoutManager = new GridLayoutManager(context, COLUMNS);
         holder.recyclerView.setLayoutManager(layoutManager);
         holder.recyclerView.setAdapter(adapter);
