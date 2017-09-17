@@ -106,8 +106,8 @@ public class CropView extends FrameLayout implements Croppable {
             @Override
             public boolean onPreDraw() {
 
-                CropImageView target = (CropImageView) findViewById(R.id.cropme_image_view);
-                CropOverlayView overlayView = (CropOverlayView) findViewById(R.id.cropme_overlay);
+                CropImageView target = findViewById(R.id.cropme_image_view);
+                CropOverlayView overlayView = findViewById(R.id.cropme_overlay);
 
                 float resultWidth = getWidth() * percentWidth;
                 float resultHeight = getHeight() * percentHeight;
@@ -191,21 +191,21 @@ public class CropView extends FrameLayout implements Croppable {
 
     @Override
     public void setUri(Uri uri) {
-        ImageView image = ((ImageView) findViewById(R.id.cropme_image_view));
+        ImageView image = findViewById(R.id.cropme_image_view);
         image.setImageURI(uri);
         image.requestLayout();
     }
 
     @Override
     public void setBitmap(Bitmap bitmap) {
-        ImageView image = ((ImageView) findViewById(R.id.cropme_image_view));
+        ImageView image = findViewById(R.id.cropme_image_view);
         image.setImageBitmap(bitmap);
         image.requestLayout();
     }
 
     @Override
     public void crop(OnCropListener listener) {
-        CropImageView target = (CropImageView) findViewById(R.id.cropme_image_view);
+        CropImageView target = findViewById(R.id.cropme_image_view);
         Rect targetRect = new Rect();
         target.getHitRect(targetRect);
         Bitmap bitmap = ((BitmapDrawable) target.getDrawable()).getBitmap();
