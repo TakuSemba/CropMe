@@ -19,7 +19,7 @@ dependencies {
 ## Usage
 
 ![Platform](http://img.shields.io/badge/platform-android-green.svg?style=flat)
-![Download](https://api.bintray.com/packages/takusemba/maven/multisnaprecyclerview/images/download.svg)
+![Download](https://api.bintray.com/packages/takusemba/maven/cropme/images/download.svg)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)
 
