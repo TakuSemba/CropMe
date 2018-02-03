@@ -14,7 +14,7 @@ dependencies {
 ```
 <br/>
 
-<img src="https://github.com/TakuSemba/CropMe/blob/master/arts/crop.gif" align="right" width="300">
+<img src="https://github.com/TakuSemba/CropMe/blob/master/arts/crop.gif" align="right" width="30%">
 
 ## Usage
 
