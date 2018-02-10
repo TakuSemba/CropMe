@@ -69,8 +69,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.ViewHolder> 
 
         ViewHolder(final View itemView) {
             super(itemView);
-            this.title = (TextView) itemView.findViewById(R.id.title);
-            this.recyclerView = (RecyclerView) itemView.findViewById(R.id.recycler_view);
+            this.title = itemView.findViewById(R.id.title);
+            this.recyclerView = itemView.findViewById(R.id.recycler_view);
         }
     }
 
