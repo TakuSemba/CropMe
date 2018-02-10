@@ -19,9 +19,6 @@ dependencies {
     compile "com.android.support:support-dynamic-animation:$APP_COMPAT_VERSION"
 }
 
-group = GROUP
-version = LIBRARY_VERSION_NAME
-
 def getBintrayUserProperty() {
     return hasProperty('bintrayUser') ? bintrayUser : ""
 }
@@ -35,7 +32,9 @@ bintray {
     user = bintrayUserProperty
     key = bintrayApiKeyProperty
 
-    configurations = ['archives'] //When uploading configuration files
+    group = GROUP
+    version = LIBRARY_VERSION_NAME
+    configurations = ['archives']
     pkg {
         repo = POM_REPO
         name = POM_NAME
@@ -98,6 +97,8 @@ artifacts {
     archives sourcesJar
 }
 
-task findConventions << {
-    println project.getConvention()
+afterEvaluate {
+    javadoc.classpath += files(android.libraryVariants.collect { variant ->
+        variant.javaCompiler.classpath.files
+    })
 }
