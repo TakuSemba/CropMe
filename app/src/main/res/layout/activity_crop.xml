@@ -64,7 +64,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
-            app:cropme_adjust_view_bounds="false"
             app:cropme_background_alpha="80%"
             app:cropme_max_scale="3"
             app:cropme_result_height="80%"
