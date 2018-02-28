@@ -44,6 +44,7 @@ public class CropView extends FrameLayout implements Croppable {
     private static final float COLOR_DENSITY = 255;
 
     private static final boolean DEFAULT_WITH_BORDER = true;
+    private static final boolean DEFAULT_ADJUST_IMAGE_BOUNDS = true;
 
     private MoveAnimator horizontalAnimator;
     private MoveAnimator verticalAnimator;
@@ -57,6 +58,7 @@ public class CropView extends FrameLayout implements Croppable {
     private RectF restriction;
     private int backgroundAlpha;
     private boolean withBorder;
+    private boolean adjustBounds;
 
     public CropView(@NonNull Context context) {
         this(context, null);
@@ -92,6 +94,8 @@ public class CropView extends FrameLayout implements Croppable {
 
         withBorder = a.getBoolean(R.styleable.CropView_cropme_with_border, DEFAULT_WITH_BORDER);
 
+        adjustBounds = a.getBoolean(R.styleable.CropView_cropme_adjust_view_bounds,DEFAULT_ADJUST_IMAGE_BOUNDS);
+
         a.recycle();
 
         init();
@@ -119,6 +123,7 @@ public class CropView extends FrameLayout implements Croppable {
                 verticalAnimator = new VerticalMoveAnimatorImpl(target, restriction, maxScale);
                 scaleAnimator = new ScaleAnimatorImpl(target, maxScale);
 
+                target.setAdjustViewBounds(adjustBounds);
                 target.setResultRect(restriction);
                 overlayView.setAttrs(restriction, backgroundAlpha, withBorder);
 
@@ -200,6 +205,13 @@ public class CropView extends FrameLayout implements Croppable {
     public void setBitmap(Bitmap bitmap) {
         ImageView image = findViewById(R.id.cropme_image_view);
         image.setImageBitmap(bitmap);
+        image.requestLayout();
+    }
+
+    @Override
+    public void setAdjustViewBounds(Boolean value) {
+        ImageView image = findViewById(R.id.cropme_image_view);
+        image.setAdjustViewBounds(value);
         image.requestLayout();
     }
 

@@ -25,4 +25,9 @@ interface Croppable {
      * crop image. fails if image is outside of {@link CropOverlayView#resultRect}
      **/
     void crop(OnCropListener listener);
+
+    /**
+     * set adjustViewBounds to keep image aspect ratio
+     */
+    void setAdjustViewBounds(Boolean value);
 }

@@ -6,5 +6,6 @@
         <attr name="cropme_max_scale" format="integer" />
         <attr name="cropme_with_border" format="boolean" />
         <attr name="cropme_background_alpha" format="fraction" />
+        <attr name="cropme_adjust_view_bounds" format="boolean" />
     </declare-styleable>
 </resources>

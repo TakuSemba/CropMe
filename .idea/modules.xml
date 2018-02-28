@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CropMe.iml" filepath="$PROJECT_DIR$/CropMe.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Wolf\Android\CropMe\app\app.iml" filepath="C:\Users\Wolf\Android\CropMe\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/cropme/cropme.iml" filepath="$PROJECT_DIR$/cropme/cropme.iml" />
     </modules>
   </component>
