@@ -117,12 +117,12 @@ public class CropActivity extends AppCompatActivity {
 
 
     private void findViewsByIds() {
-        backButton = (ImageView) findViewById(R.id.cross);
-        cropButton = (ImageView) findViewById(R.id.crop);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        cropView = (CropView) findViewById(R.id.crop_view);
-        parent = (RelativeLayout) findViewById(R.id.container);
-        progressBar = (ProgressBar) findViewById(R.id.progress);
+        backButton = findViewById(R.id.cross);
+        cropButton = findViewById(R.id.crop);
+        recyclerView = findViewById(R.id.recycler_view);
+        cropView = findViewById(R.id.crop_view);
+        parent = findViewById(R.id.container);
+        progressBar = findViewById(R.id.progress);
     }
 
     private void saveBitmapAndStartActivity(final Bitmap bitmap) {
