@@ -44,6 +44,7 @@ public class CropView extends FrameLayout implements Croppable {
     private static final float COLOR_DENSITY = 255;
 
     private static final boolean DEFAULT_WITH_BORDER = true;
+    private static final boolean DEFAULT_WITH_CIRCLE = false;
 
     private MoveAnimator horizontalAnimator;
     private MoveAnimator verticalAnimator;
@@ -57,6 +58,7 @@ public class CropView extends FrameLayout implements Croppable {
     private RectF restriction;
     private int backgroundAlpha;
     private boolean withBorder;
+    private final boolean withCircle;
 
     public CropView(@NonNull Context context) {
         this(context, null);
@@ -91,6 +93,7 @@ public class CropView extends FrameLayout implements Croppable {
         }
 
         withBorder = a.getBoolean(R.styleable.CropView_cropme_with_border, DEFAULT_WITH_BORDER);
+        withCircle = a.getBoolean(R.styleable.CropView_cropme_with_ciecle, DEFAULT_WITH_CIRCLE);
 
         a.recycle();
 
@@ -120,7 +123,7 @@ public class CropView extends FrameLayout implements Croppable {
                 scaleAnimator = new ScaleAnimatorImpl(target, maxScale);
 
                 target.setResultRect(restriction);
-                overlayView.setAttrs(restriction, backgroundAlpha, withBorder);
+                overlayView.setAttrs(restriction, backgroundAlpha, withBorder, withCircle);
 
                 getViewTreeObserver().removeOnPreDrawListener(this);
                 return true;

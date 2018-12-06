@@ -30,7 +30,7 @@ class CropOverlayView extends FrameLayout {
     private RectF resultRect;
     private int backgroundAlpha;
     private boolean withBorder;
-
+    private boolean withCircle;
 
     public CropOverlayView(@NonNull Context context) {
         this(context, null);
@@ -49,6 +49,7 @@ class CropOverlayView extends FrameLayout {
         setWillNotDraw(false);
         setLayerType(View.LAYER_TYPE_HARDWARE, null);
         cropPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        cropPaint.setAntiAlias(true);
         border.setStrokeWidth(BORDER_WIDTH);
     }
 
@@ -61,7 +62,12 @@ class CropOverlayView extends FrameLayout {
         border.setColor(ContextCompat.getColor(getContext(), R.color.light_white));
 
         canvas.drawRect(0, 0, getWidth(), getHeight(), background);
-        canvas.drawRect(resultRect, cropPaint);
+        if (withCircle) {
+            canvas.drawArc(resultRect, 0F, 360F, true,
+                    cropPaint);
+        }else{
+            canvas.drawRect(resultRect, cropPaint);
+        }
 
         if (withBorder) {
             float borderHeight = resultRect.height() / 3;
@@ -78,9 +84,10 @@ class CropOverlayView extends FrameLayout {
         }
     }
 
-    void setAttrs(RectF resultRect, int backgroundAlpha, boolean withBorder) {
+    void setAttrs(RectF resultRect, int backgroundAlpha, boolean withBorder, boolean withCircle) {
         this.resultRect = resultRect;
         this.backgroundAlpha = backgroundAlpha;
         this.withBorder = withBorder;
+        this.withCircle = withCircle;
     }
 }
