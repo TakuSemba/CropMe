@@ -79,6 +79,7 @@ cropView.crop(new OnCropListener() {
 | cropme_result_height | height propping area in CropView | 80% |
 | cropme_max_scale | max scale | 2 |
 | cropme_with_border | true if white borders are shown while cropping | true |
+| cropme_with_circle | If true then show a circle overlay | true |
 | cropme_background_alpha | background alpha out side of propping area | 80% |
 
 <br/>
