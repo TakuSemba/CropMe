@@ -16,6 +16,8 @@ dependencies {
 
 ## Usage
 
+<img src="https://github.com/TakuSemba/CropMe/blob/master/arts/crop.gif" align="right" width="30%">
+
 ![Platform](http://img.shields.io/badge/platform-android-green.svg?style=flat)
 ![Download](https://api.bintray.com/packages/takusemba/maven/cropme/images/download.svg)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
@@ -47,8 +49,6 @@ Move images smoothly, and crop images precisely.
 </com.takusemba.cropme.CropLayout>
 
 ```
-
-<img src="https://github.com/TakuSemba/CropMe/blob/master/arts/crop.gif" align="right" width="30%">
 
 <br/>
 
