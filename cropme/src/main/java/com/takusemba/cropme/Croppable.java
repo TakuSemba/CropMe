@@ -27,5 +27,5 @@ interface Croppable {
     /**
      * crop image.
      **/
-    void crop(OnCropListener listener);
+    Bitmap getCroppedImage();
 }

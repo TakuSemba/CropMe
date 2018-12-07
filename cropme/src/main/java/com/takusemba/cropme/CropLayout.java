@@ -157,8 +157,7 @@ public final class CropLayout extends FrameLayout implements Croppable {
     }
 
     @Override
-    public void crop(OnCropListener listener) {
-        // TODO do OnBackground
+    public Bitmap getCroppedImage() {
         ImageView imageView = findViewById(R.id.cropme_image_view);
         Rect targetRect = new Rect();
         imageView.getHitRect(targetRect);
@@ -186,15 +185,9 @@ public final class CropLayout extends FrameLayout implements Croppable {
             height += bottomOffset;
         }
         if (width < 0 || height < 0) {
-            listener.onFailure();
-            return;
+            throw new IllegalStateException("width or height is less than 0");
         }
 
-        Bitmap result = Bitmap.createBitmap(bitmap, leftOffset, topOffset, width, height);
-        if (result != null) {
-            listener.onSuccess(result);
-        } else {
-            listener.onFailure();
-        }
+        return Bitmap.createBitmap(bitmap, leftOffset, topOffset, width, height);
     }
 }
