@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.widget.ImageView;
 
 /**
- * Croppable
+ * Interface to set an Image, and return an cropped image back.
  **/
 interface Croppable {
 

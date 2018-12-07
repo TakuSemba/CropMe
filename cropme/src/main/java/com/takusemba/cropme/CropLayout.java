@@ -20,7 +20,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 /**
- * CropView
+ * CropLayout is a parent layout that has {@link CropOverlay}.
+ * Image can be set thorough this class. see {@link Croppable}
  **/
 public final class CropLayout extends FrameLayout implements Croppable {
 
@@ -35,6 +36,7 @@ public final class CropLayout extends FrameLayout implements Croppable {
     private ActionDetector actionDetector;
 
     private int maxScale;
+    private RectF frame;
 
     public CropLayout(@NonNull Context context) {
         this(context, null);
@@ -63,7 +65,7 @@ public final class CropLayout extends FrameLayout implements Croppable {
             @Override
             public boolean onPreDraw() {
                 final CropOverlay overlayView = findViewById(R.id.cropme_overlay);
-                RectF frame = overlayView.getFrame();
+                frame = overlayView.getFrame();
                 CropImageView cropImageView = new CropImageView(getContext());
                 cropImageView.setFrame(frame);
                 LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -150,8 +152,6 @@ public final class CropLayout extends FrameLayout implements Croppable {
     public void crop(OnCropListener listener) {
         // TODO do OnBackground
         // TODO check when TargetRect is off
-        final CropOverlay overlayView = findViewById(R.id.cropme_overlay);
-        RectF frame = overlayView.getFrame();
         ImageView imageView = findViewById(R.id.cropme_image_view);
         Rect targetRect = new Rect();
         imageView.getHitRect(targetRect);

@@ -12,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 public class SquareCropOverlay extends CropOverlay {
 
@@ -22,7 +21,6 @@ public class SquareCropOverlay extends CropOverlay {
     private final Paint border = new Paint();
     private final Paint cropPaint = new Paint();
 
-    private RectF frame;
     private int backgroundAlpha;
     private boolean withBorder;
     private float percentWidth;
@@ -74,31 +72,17 @@ public class SquareCropOverlay extends CropOverlay {
 
         a.recycle();
 
-        getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                float resultWidth = getWidth() * percentWidth;
-                float resultHeight = getHeight() * percentHeight;
-                frame = new RectF((getWidth() - resultWidth) / 2f, (getHeight() - resultHeight) / 2f,
-                        (getWidth() + resultWidth) / 2f, (getHeight() + resultHeight) / 2f);
-                return true;
-            }
-        });
-
         init();
     }
 
     @Override
     public RectF getFrame() {
-        if (frame != null) {
-            return frame;
-        } else {
-            float resultWidth = getMeasuredWidth() * percentWidth;
-            float resultHeight = getMeasuredHeight() * percentHeight;
-            frame = new RectF((getMeasuredWidth() - resultWidth) / 2f, (getMeasuredHeight() - resultHeight) / 2f,
-                    (getMeasuredWidth() + resultWidth) / 2f, (getMeasuredHeight() + resultHeight) / 2f);
-            return frame;
-        }
+        float totalWidth = getMeasuredWidth();
+        float totalHeight = getMeasuredHeight();
+        float frameWidth = getMeasuredWidth() * percentWidth;
+        float frameHeight = getMeasuredHeight() * percentHeight;
+        return new RectF((totalWidth - frameWidth) / 2f, (totalHeight - frameHeight) / 2f,
+                (totalWidth + frameWidth) / 2f, (totalHeight + frameHeight) / 2f);
     }
 
     private void init() {
@@ -112,27 +96,32 @@ public class SquareCropOverlay extends CropOverlay {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (frame == null) return;
-
         background.setColor(ContextCompat.getColor(getContext(), android.R.color.black));
         background.setAlpha(backgroundAlpha);
         border.setColor(ContextCompat.getColor(getContext(), R.color.light_white));
 
+        float frameWidth = getMeasuredWidth() * percentWidth;
+        float frameHeight = getMeasuredHeight() * percentHeight;
+        float left = (getWidth() - frameWidth) / 2f;
+        float top = (getHeight() - frameHeight) / 2f;
+        float right = (getWidth() + frameWidth) / 2f;
+        float bottom = (getHeight() + frameHeight) / 2f;
+
         canvas.drawRect(0, 0, getWidth(), getHeight(), background);
-        canvas.drawRect(frame, cropPaint);
+        canvas.drawRect(left, top, right, bottom, cropPaint);
 
         if (withBorder) {
-            float borderHeight = frame.height() / 3;
-            canvas.drawLine(frame.left, frame.top, frame.right, frame.top, border);
-            canvas.drawLine(frame.left, frame.top + borderHeight, frame.right, frame.top + borderHeight, border);
-            canvas.drawLine(frame.left, frame.top + borderHeight * 2, frame.right, frame.top + borderHeight * 2, border);
-            canvas.drawLine(frame.left, frame.bottom, frame.right, frame.bottom, border);
+            float borderHeight = frameHeight / 3;
+            canvas.drawLine(left, top, right, top, border);
+            canvas.drawLine(left, top + borderHeight, right, top + borderHeight, border);
+            canvas.drawLine(left, top + borderHeight * 2, right, top + borderHeight * 2, border);
+            canvas.drawLine(left, bottom, right, bottom, border);
 
-            float borderWidth = frame.width() / 3;
-            canvas.drawLine(frame.left, frame.top, frame.left, frame.bottom, border);
-            canvas.drawLine(frame.left + borderWidth, frame.top, frame.left + borderWidth, frame.bottom, border);
-            canvas.drawLine(frame.left + borderWidth * 2, frame.top, frame.left + borderWidth * 2, frame.bottom, border);
-            canvas.drawLine(frame.right, frame.top, frame.right, frame.bottom, border);
+            float borderWidth = frameWidth / 3;
+            canvas.drawLine(left, top, left, bottom, border);
+            canvas.drawLine(left + borderWidth, top, left + borderWidth, bottom, border);
+            canvas.drawLine(left + borderWidth * 2, top, left + borderWidth * 2, bottom, border);
+            canvas.drawLine(right, top, right, bottom, border);
         }
     }
 }

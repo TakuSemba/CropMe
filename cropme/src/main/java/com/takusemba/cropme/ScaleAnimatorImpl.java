@@ -8,7 +8,7 @@ import static android.view.View.SCALE_X;
 import static android.view.View.SCALE_Y;
 
 /**
- * ScaleAnimatorImpl
+ * ScaleAnimatorImpl is responsible for scaling {@link CropImageView}.
  **/
 class ScaleAnimatorImpl implements ScaleAnimator {
 

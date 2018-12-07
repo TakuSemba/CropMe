@@ -6,7 +6,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
 /**
- * CropImageView
+ * ImageView to hold an Image to be animated.
  **/
 class CropImageView extends AppCompatImageView {
 

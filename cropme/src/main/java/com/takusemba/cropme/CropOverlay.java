@@ -7,6 +7,10 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+/**
+ * CropOverlay is laid on {@link CropImageView}.
+ * You can extend this view to show your custom shaped overlay.
+ */
 abstract class CropOverlay extends View {
 
     public CropOverlay(@NonNull Context context) {
@@ -21,6 +25,9 @@ abstract class CropOverlay extends View {
         super(context, attrs, defStyleAttr);
     }
 
-    // TODO comment called after onPreDrawListener
+    /**
+     * This RectF is used to restrict smooth animations,
+     * and cropped image also will be cropped in this shape.
+     */
     abstract RectF getFrame();
 }

@@ -3,7 +3,7 @@ package com.takusemba.cropme;
 import android.support.animation.SpringForce;
 
 /**
- * MoveAnimator
+ * interface to move Image.
  **/
 interface MoveAnimator {
 

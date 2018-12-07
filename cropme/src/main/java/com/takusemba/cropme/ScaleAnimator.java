@@ -1,7 +1,7 @@
 package com.takusemba.cropme;
 
 /**
- * ScaleAnimator
+ * interface to scale Image.
  **/
 interface ScaleAnimator {
 

@@ -1,7 +1,7 @@
 package com.takusemba.cropme;
 
 /**
- * ActionListener
+ * ActionListener passes events to {@link ScaleAnimator} and {@link MoveAnimator} to animate Image.
  **/
 interface ActionListener {
 
