@@ -11,7 +11,7 @@
 
 
     <!--error-->
-    <string name="error_permission_denied">権限が許可されていません。</string>
-    <string name="error_permission_is_off">権限がOFFになっています。</string>
+    <string name="error_permission_denied">Permission is denied.</string>
+    <string name="error_permission_is_off">Permission is off.</string>
 
 </resources>
