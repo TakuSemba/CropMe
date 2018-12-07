@@ -2,6 +2,7 @@ package com.takusemba.cropme;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.support.annotation.MainThread;
 import android.widget.ImageView;
 
 /**
@@ -25,7 +26,8 @@ interface Croppable {
     boolean isOffOfFrame();
 
     /**
-     * crop image.
+     * Crop the Image on a new thread, and return the cropped Bitmap on MainThread via {@link OnCropListener}.
      **/
-    Bitmap getCroppedImage();
+    @MainThread
+    void crop(OnCropListener listener);
 }

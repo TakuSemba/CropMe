@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.takusemba.cropme.CropLayout;
+import com.takusemba.cropme.OnCropListener;
 import com.takusemba.cropmesample.R;
 import com.takusemba.cropmesample.clients.AlbumClient;
 import com.takusemba.cropmesample.clients.ImageClient;
@@ -75,8 +76,17 @@ public class CropActivity extends AppCompatActivity {
                     Snackbar.make(parent, R.string.error_image_is_off_of_frame, Snackbar.LENGTH_LONG).show();
                     return;
                 }
-                Bitmap bitmap = cropLayout.getCroppedImage();
-                saveBitmapAndStartActivity(bitmap);
+                cropLayout.crop(new OnCropListener() {
+                    @Override
+                    public void onSuccess(Bitmap bitmap) {
+                        saveBitmapAndStartActivity(bitmap);
+                    }
+
+                    @Override
+                    public void onFailure() {
+
+                    }
+                });
             }
         });
 
