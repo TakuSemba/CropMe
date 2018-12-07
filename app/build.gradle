@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION as int
-    buildToolsVersion BUILD_TOOLS_VERSION
     defaultConfig {
         applicationId "com.takusemba.cropme"
 
@@ -21,10 +20,10 @@ android {
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
-    compile "com.android.support:recyclerview-v7:$APP_COMPAT_VERSION"
-    compile "com.android.support:design:$APP_COMPAT_VERSION"
-    compile "com.android.support:exifinterface:$APP_COMPAT_VERSION"
-    compile "com.android.support:support-dynamic-animation:$APP_COMPAT_VERSION"
-    compile project(':cropme')
+    implementation "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
+    implementation "com.android.support:recyclerview-v7:$APP_COMPAT_VERSION"
+    implementation "com.android.support:design:$APP_COMPAT_VERSION"
+    implementation "com.android.support:exifinterface:$APP_COMPAT_VERSION"
+    implementation "com.android.support:support-dynamic-animation:$APP_COMPAT_VERSION"
+    implementation project(':cropme')
 }
