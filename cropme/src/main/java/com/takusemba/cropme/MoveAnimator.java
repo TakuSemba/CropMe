@@ -30,7 +30,7 @@ interface MoveAnimator {
     void move(float delta);
 
     /**
-     * bounce image when image is off of {@link CropOverlayView#resultRect}
+     * bounce image when image is off of {@link CropOverlay#getFrame()}
      *
      * @param velocity velocity when starting to move
      **/

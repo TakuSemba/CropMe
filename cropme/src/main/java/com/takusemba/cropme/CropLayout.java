@@ -24,23 +24,9 @@ import android.widget.ImageView;
  **/
 public final class CropLayout extends FrameLayout implements Croppable {
 
-    private static final int DEFAULT_BASE = 1;
-    private static final int DEFAULT_PBASE = 1;
-
-    private static final int MIN_PERCENT = 0;
-    private static final int MAX_PERCENT = 1;
-
-    private static final float DEFAULT_PERCENT_WIDTH = 0.8f;
-    private static final float DEFAULT_PERCENT_HEIGHT = 0.8f;
-
     private static final int DEFAULT_MAX_SCALE = 2;
     private static final int MIN_SCALE = 1;
     private static final int MAX_SCALE = 5;
-
-    private static final float DEFAULT_BACKGROUND_ALPHA = 0.8f;
-    private static final float COLOR_DENSITY = 255;
-
-    private static final boolean DEFAULT_WITH_BORDER = true;
 
     private MoveAnimator horizontalAnimator;
     private MoveAnimator verticalAnimator;
@@ -48,12 +34,7 @@ public final class CropLayout extends FrameLayout implements Croppable {
 
     private ActionDetector actionDetector;
 
-    private float percentWidth;
-    private float percentHeight;
     private int maxScale;
-    private RectF restriction;
-    private int backgroundAlpha;
-    private boolean withBorder;
 
     public CropLayout(@NonNull Context context) {
         this(context, null);
@@ -67,27 +48,10 @@ public final class CropLayout extends FrameLayout implements Croppable {
         super(context, attrs, defStyleAttr);
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CropLayout);
 
-        percentWidth = a.getFraction(R.styleable.CropLayout_cropme_result_width, DEFAULT_BASE, DEFAULT_PBASE, DEFAULT_PERCENT_WIDTH);
-        if (percentWidth < MIN_PERCENT || MAX_PERCENT < percentWidth) {
-            throw new IllegalArgumentException("sr_result_width must be set from 0% to 100%");
-        }
-
-        percentHeight = a.getFraction(R.styleable.CropLayout_cropme_result_height, DEFAULT_BASE, DEFAULT_PBASE, DEFAULT_PERCENT_HEIGHT);
-        if (percentHeight < MIN_PERCENT || MAX_PERCENT < percentHeight) {
-            throw new IllegalArgumentException("sr_result_height must be set from 0% to 100%");
-        }
-
         maxScale = a.getInt(R.styleable.CropLayout_cropme_max_scale, DEFAULT_MAX_SCALE);
         if (maxScale < MIN_SCALE || MAX_SCALE < maxScale) {
-            throw new IllegalArgumentException("sr_max_scale must be set from 1 to 5");
+            throw new IllegalArgumentException("cropme_max_scale must be set from 1 to 5");
         }
-
-        backgroundAlpha = (int) (a.getFraction(R.styleable.CropLayout_cropme_background_alpha, DEFAULT_BASE, DEFAULT_PBASE, DEFAULT_BACKGROUND_ALPHA) * COLOR_DENSITY);
-        if (percentWidth < MIN_PERCENT || MAX_PERCENT < percentWidth) {
-            throw new IllegalArgumentException("sr_background_alpha must be set from 0% to 100%");
-        }
-
-        withBorder = a.getBoolean(R.styleable.CropLayout_cropme_with_border, DEFAULT_WITH_BORDER);
 
         a.recycle();
 
@@ -95,29 +59,26 @@ public final class CropLayout extends FrameLayout implements Croppable {
     }
 
     private void init() {
-
-        startActionDetector();
-        addLayouts();
-
         getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
+                final CropOverlay overlayView = findViewById(R.id.cropme_overlay);
+                RectF frame = overlayView.getFrame();
+                CropImageView cropImageView = new CropImageView(getContext());
+                cropImageView.setFrame(frame);
+                LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
+                cropImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                cropImageView.setAdjustViewBounds(true);
+                cropImageView.setLayoutParams(layoutParams);
+                cropImageView.setId(R.id.cropme_image_view);
+                addView(cropImageView, 0);
 
-                CropImageView target = findViewById(R.id.cropme_image_view);
-                CropOverlayView overlayView = findViewById(R.id.cropme_overlay);
+                horizontalAnimator = new HorizontalMoveAnimatorImpl(cropImageView, frame, maxScale);
+                verticalAnimator = new VerticalMoveAnimatorImpl(cropImageView, frame, maxScale);
+                scaleAnimator = new ScaleAnimatorImpl(cropImageView, maxScale);
 
-                float resultWidth = getWidth() * percentWidth;
-                float resultHeight = getHeight() * percentHeight;
-
-                restriction = new RectF((getWidth() - resultWidth) / 2f, (getHeight() - resultHeight) / 2f,
-                        (getWidth() + resultWidth) / 2f, (getHeight() + resultHeight) / 2f);
-
-                horizontalAnimator = new HorizontalMoveAnimatorImpl(target, restriction, maxScale);
-                verticalAnimator = new VerticalMoveAnimatorImpl(target, restriction, maxScale);
-                scaleAnimator = new ScaleAnimatorImpl(target, maxScale);
-
-                target.setResultRect(restriction);
-                overlayView.setAttrs(restriction, backgroundAlpha, withBorder);
+                startActionDetector();
 
                 getViewTreeObserver().removeOnPreDrawListener(this);
                 return true;
@@ -171,22 +132,6 @@ public final class CropLayout extends FrameLayout implements Croppable {
         });
     }
 
-    private void addLayouts() {
-        CropImageView imageView = new CropImageView(getContext());
-        imageView.setId(R.id.cropme_image_view);
-        LayoutParams imageParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER);
-        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        imageView.setAdjustViewBounds(true);
-        addView(imageView, imageParams);
-
-        CropOverlayView overlayView = new CropOverlayView(getContext());
-        overlayView.setId(R.id.cropme_overlay);
-        LayoutParams overlayParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        addView(overlayView, overlayParams);
-    }
-
     @Override
     public void setUri(Uri uri) {
         ImageView image = findViewById(R.id.cropme_image_view);
@@ -203,17 +148,21 @@ public final class CropLayout extends FrameLayout implements Croppable {
 
     @Override
     public void crop(OnCropListener listener) {
-        CropImageView target = findViewById(R.id.cropme_image_view);
+        // TODO do OnBackground
+        // TODO check when TargetRect is off
+        final CropOverlay overlayView = findViewById(R.id.cropme_overlay);
+        RectF frame = overlayView.getFrame();
+        ImageView imageView = findViewById(R.id.cropme_image_view);
         Rect targetRect = new Rect();
-        target.getHitRect(targetRect);
-        Bitmap bitmap = ((BitmapDrawable) target.getDrawable()).getBitmap();
+        imageView.getHitRect(targetRect);
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         bitmap = Bitmap.createScaledBitmap(bitmap, targetRect.width(), targetRect.height(), false);
-        int leftOffset = (int) (restriction.left - targetRect.left);
-        int topOffset = (int) (restriction.top - targetRect.top);
-        int rightOffset = (int) (targetRect.right - restriction.right);
-        int bottomOffset = (int) (targetRect.bottom - restriction.bottom);
-        int width = (int) restriction.width();
-        int height = (int) restriction.height();
+        int leftOffset = (int) frame.left - targetRect.left;
+        int topOffset = (int) frame.top - targetRect.top;
+        int rightOffset = (int) (targetRect.right - frame.right);
+        int bottomOffset = (int) (targetRect.bottom - frame.bottom);
+        int width = (int) frame.width();
+        int height = (int) frame.height();
 
         if (leftOffset < 0) {
             width += leftOffset;

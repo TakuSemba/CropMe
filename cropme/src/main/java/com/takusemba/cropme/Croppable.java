@@ -2,6 +2,7 @@ package com.takusemba.cropme;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.widget.ImageView;
 
 /**
  * Croppable
@@ -9,17 +10,17 @@ import android.net.Uri;
 interface Croppable {
 
     /**
-     * setUri to {@link CropImageView}
+     * setUri to {@link ImageView}
      **/
     void setUri(Uri uri);
 
     /**
-     * setBitmap to {@link CropImageView}
+     * setBitmap to {@link ImageView}
      **/
     void setBitmap(Bitmap bitmap);
 
     /**
-     * crop image. fails if image is outside of {@link CropOverlayView#resultRect}
+     * crop image. fails if image is outside of {@link CropOverlay#getFrame()}
      **/
     void crop(OnCropListener listener);
 }
