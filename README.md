@@ -91,7 +91,7 @@ cropView.crop(new OnCropListener() {
 
 <br/>
 
-## Custom Shape
+## Custom Overlay
 
 If you want to show circle overlay or anything else, you can customize the Overlay by extending CropOverlay.
 SquareCropOverlay is provided by default.
