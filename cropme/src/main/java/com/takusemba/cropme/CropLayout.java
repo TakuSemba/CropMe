@@ -22,7 +22,7 @@ import android.widget.ImageView;
 /**
  * CropView
  **/
-public class CropView extends FrameLayout implements Croppable {
+public final class CropLayout extends FrameLayout implements Croppable {
 
     private static final int DEFAULT_BASE = 1;
     private static final int DEFAULT_PBASE = 1;
@@ -55,39 +55,39 @@ public class CropView extends FrameLayout implements Croppable {
     private int backgroundAlpha;
     private boolean withBorder;
 
-    public CropView(@NonNull Context context) {
+    public CropLayout(@NonNull Context context) {
         this(context, null);
     }
 
-    public CropView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public CropLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CropView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CropLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CropView);
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.CropLayout);
 
-        percentWidth = a.getFraction(R.styleable.CropView_cropme_result_width, DEFAULT_BASE, DEFAULT_PBASE, DEFAULT_PERCENT_WIDTH);
+        percentWidth = a.getFraction(R.styleable.CropLayout_cropme_result_width, DEFAULT_BASE, DEFAULT_PBASE, DEFAULT_PERCENT_WIDTH);
         if (percentWidth < MIN_PERCENT || MAX_PERCENT < percentWidth) {
             throw new IllegalArgumentException("sr_result_width must be set from 0% to 100%");
         }
 
-        percentHeight = a.getFraction(R.styleable.CropView_cropme_result_height, DEFAULT_BASE, DEFAULT_PBASE, DEFAULT_PERCENT_HEIGHT);
+        percentHeight = a.getFraction(R.styleable.CropLayout_cropme_result_height, DEFAULT_BASE, DEFAULT_PBASE, DEFAULT_PERCENT_HEIGHT);
         if (percentHeight < MIN_PERCENT || MAX_PERCENT < percentHeight) {
             throw new IllegalArgumentException("sr_result_height must be set from 0% to 100%");
         }
 
-        maxScale = a.getInt(R.styleable.CropView_cropme_max_scale, DEFAULT_MAX_SCALE);
+        maxScale = a.getInt(R.styleable.CropLayout_cropme_max_scale, DEFAULT_MAX_SCALE);
         if (maxScale < MIN_SCALE || MAX_SCALE < maxScale) {
             throw new IllegalArgumentException("sr_max_scale must be set from 1 to 5");
         }
 
-        backgroundAlpha = (int) (a.getFraction(R.styleable.CropView_cropme_background_alpha, DEFAULT_BASE, DEFAULT_PBASE, DEFAULT_BACKGROUND_ALPHA) * COLOR_DENSITY);
+        backgroundAlpha = (int) (a.getFraction(R.styleable.CropLayout_cropme_background_alpha, DEFAULT_BASE, DEFAULT_PBASE, DEFAULT_BACKGROUND_ALPHA) * COLOR_DENSITY);
         if (percentWidth < MIN_PERCENT || MAX_PERCENT < percentWidth) {
             throw new IllegalArgumentException("sr_background_alpha must be set from 0% to 100%");
         }
 
-        withBorder = a.getBoolean(R.styleable.CropView_cropme_with_border, DEFAULT_WITH_BORDER);
+        withBorder = a.getBoolean(R.styleable.CropLayout_cropme_with_border, DEFAULT_WITH_BORDER);
 
         a.recycle();
 

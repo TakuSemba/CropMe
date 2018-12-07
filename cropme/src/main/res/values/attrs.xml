@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="CropView">
+    <declare-styleable name="CropLayout">
         <attr name="cropme_result_width" format="fraction" />
         <attr name="cropme_result_height" format="fraction" />
         <attr name="cropme_max_scale" format="integer" />

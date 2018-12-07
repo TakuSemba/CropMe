@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
-import com.takusemba.cropme.CropView;
+import com.takusemba.cropme.CropLayout;
 import com.takusemba.cropme.OnCropListener;
 import com.takusemba.cropmesample.R;
 import com.takusemba.cropmesample.clients.AlbumClient;
@@ -41,7 +41,7 @@ public class CropActivity extends AppCompatActivity {
     private ImageView cropButton;
     private RecyclerView recyclerView;
     private RelativeLayout parent;
-    private CropView cropView;
+    private CropLayout cropLayout;
     private ProgressBar progressBar;
 
     private static final int REQUEST_CODE_PERMISSION = 100;
@@ -57,7 +57,7 @@ public class CropActivity extends AppCompatActivity {
         OnPhotoClickListener listener = new OnPhotoClickListener() {
             @Override
             public void onPhotoClicked(Photo photo) {
-                cropView.setUri(photo.uri);
+                cropLayout.setUri(photo.uri);
             }
         };
         adapter = new AlbumAdapter(CropActivity.this, new ArrayList<Album>(), listener);
@@ -72,7 +72,7 @@ public class CropActivity extends AppCompatActivity {
         cropButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cropView.crop(new OnCropListener() {
+                cropLayout.crop(new OnCropListener() {
                     @Override
                     public void onSuccess(Bitmap bitmap) {
                         saveBitmapAndStartActivity(bitmap);
@@ -120,14 +120,14 @@ public class CropActivity extends AppCompatActivity {
         backButton = findViewById(R.id.cross);
         cropButton = findViewById(R.id.crop);
         recyclerView = findViewById(R.id.recycler_view);
-        cropView = findViewById(R.id.crop_view);
+        cropLayout = findViewById(R.id.crop_view);
         parent = findViewById(R.id.container);
         progressBar = findViewById(R.id.progress);
     }
 
     private void saveBitmapAndStartActivity(final Bitmap bitmap) {
         progressBar.setVisibility(View.VISIBLE);
-        cropView.setEnabled(false);
+        cropLayout.setEnabled(false);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -136,7 +136,7 @@ public class CropActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         progressBar.setVisibility(View.GONE);
-                        cropView.setEnabled(true);
+                        cropLayout.setEnabled(true);
                         startActivity(new Intent(CropActivity.this, ResultActivity.class));
                     }
                 });
@@ -157,7 +157,7 @@ public class CropActivity extends AppCompatActivity {
                             if (!album.photos.isEmpty()) {
                                 if (adapter.getItemCount() == 0) {
                                     Photo photo = album.photos.get(0);
-                                    cropView.setUri(photo.uri);
+                                    cropLayout.setUri(photo.uri);
                                 }
                                 adapter.addItem(album);
                             }

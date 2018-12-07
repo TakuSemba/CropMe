@@ -59,7 +59,7 @@
         android:orientation="vertical"
         android:weightSum="3">
 
-        <com.takusemba.cropme.CropView
+        <com.takusemba.cropme.CropLayout
             android:id="@+id/crop_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
