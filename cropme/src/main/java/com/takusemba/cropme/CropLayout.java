@@ -149,9 +149,16 @@ public final class CropLayout extends FrameLayout implements Croppable {
     }
 
     @Override
+    public boolean isOffOfFrame() {
+        ImageView imageView = findViewById(R.id.cropme_image_view);
+        Rect targetRect = new Rect();
+        imageView.getHitRect(targetRect);
+        return !targetRect.contains((int) frame.left, (int) frame.top, (int) frame.right, (int) frame.bottom);
+    }
+
+    @Override
     public void crop(OnCropListener listener) {
         // TODO do OnBackground
-        // TODO check when TargetRect is off
         ImageView imageView = findViewById(R.id.cropme_image_view);
         Rect targetRect = new Rect();
         imageView.getHitRect(targetRect);

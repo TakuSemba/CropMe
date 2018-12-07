@@ -75,7 +75,6 @@
                 app:cropme_result_width="80%"
                 app:cropme_with_border="true" />
 
-
         </com.takusemba.cropme.CropLayout>
 
         <android.support.v7.widget.RecyclerView

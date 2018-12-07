@@ -72,6 +72,10 @@ public class CropActivity extends AppCompatActivity {
         cropButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (cropLayout.isOffOfFrame()) {
+                    Snackbar.make(parent, R.string.error_image_is_off_of_frame, Snackbar.LENGTH_LONG).show();
+                    return;
+                }
                 cropLayout.crop(new OnCropListener() {
                     @Override
                     public void onSuccess(Bitmap bitmap) {

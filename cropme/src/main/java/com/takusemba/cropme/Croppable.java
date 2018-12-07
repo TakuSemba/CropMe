@@ -20,7 +20,12 @@ interface Croppable {
     void setBitmap(Bitmap bitmap);
 
     /**
-     * crop image. fails if image is outside of {@link CropOverlay#getFrame()}
+     * check if Image is out of the frame.
+     */
+    boolean isOffOfFrame();
+
+    /**
+     * crop image.
      **/
     void crop(OnCropListener listener);
 }
