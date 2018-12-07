@@ -14,32 +14,37 @@ dependencies {
 ```
 <br/>
 
-<img src="https://github.com/TakuSemba/CropMe/blob/master/arts/crop.gif" align="right" width="30%">
-
 ## Usage
+
+<img src="https://github.com/TakuSemba/CropMe/blob/master/arts/crop.gif" align="right" width="30%">
 
 ![Platform](http://img.shields.io/badge/platform-android-green.svg?style=flat)
 ![Download](https://api.bintray.com/packages/takusemba/maven/cropme/images/download.svg)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)
 
-This is an Android library for cropping images.
-
-Move images smoothly, and crop images precisely.
-
-Enjoy cropping!
+This is an Android library for cropping images. Move images smoothly, and crop images precisely.
 
 ##### Use CropView in your xml file.
 
 ```xml
-<com.takusemba.cropme.CropView
+<com.takusemba.cropme.CropLayout
+    android:id="@+id/crop_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:cropme_background_alpha="80%"
-    app:cropme_max_scale="3"
-    app:cropme_result_height="80%"
-    app:cropme_result_width="80%"
-    app:cropme_with_border="true" />
+    android:layout_height="0dp"
+    android:layout_weight="2"
+    app:cropme_max_scale="3">
+
+    <com.takusemba.cropme.SquareCropOverlay
+        android:id="@+id/cropme_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cropme_background_alpha="80%"
+        app:cropme_result_height="80%"
+        app:cropme_result_width="80%"
+        app:cropme_with_border="true" />
+
+</com.takusemba.cropme.CropLayout>
 
 ```
 
@@ -56,6 +61,9 @@ cropView.setBitmap(bitmap);
 ##### Crop it!
 
 ```java
+
+cropView.isOffOfFrame(); // optionally check if the image is off of the frame.
+
 cropView.crop(new OnCropListener() {
     @Override
     public void onSuccess(Bitmap bitmap) {
@@ -82,6 +90,30 @@ cropView.crop(new OnCropListener() {
 | cropme_background_alpha | background alpha out side of propping area | 80% |
 
 <br/>
+
+## Custom Overlay
+
+If you want to show circle overlay or anything else, you can customize the Overlay by extending CropOverlay.
+SquareCropOverlay is provided by default.
+
+```java
+
+public class CircleCropOverlay extends CropOverlay {
+
+    @Override
+    RectF getFrame() {
+        // return a rect of the Circle. This is used to restrict animations, and also to crop the image.
+        return RectF(circleLeftEdge, circleTopEdge, circleRightEdge, circleBottomEdge);
+    }
+    
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        // draw transparent circle on black background.
+    }
+}
+
+```
 
 ## Sample
 Clone this repo and check out the [app](https://github.com/TakuSemba/CropMe/tree/master/app) module.
