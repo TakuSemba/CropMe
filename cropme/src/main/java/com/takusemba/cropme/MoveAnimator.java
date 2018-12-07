@@ -4,9 +4,6 @@ import android.support.animation.SpringForce;
 
 /**
  * MoveAnimator
- *
- * @author takusemba
- * @since 05/09/2017
  **/
 interface MoveAnimator {
 

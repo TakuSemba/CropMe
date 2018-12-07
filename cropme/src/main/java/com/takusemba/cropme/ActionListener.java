@@ -2,9 +2,6 @@ package com.takusemba.cropme;
 
 /**
  * ActionListener
- *
- * @author takusemba
- * @since 05/09/2017
  **/
 interface ActionListener {
 

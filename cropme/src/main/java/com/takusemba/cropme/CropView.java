@@ -21,9 +21,6 @@ import android.widget.ImageView;
 
 /**
  * CropView
- *
- * @author takusemba
- * @since 05/09/2017
  **/
 public class CropView extends FrameLayout implements Croppable {
 

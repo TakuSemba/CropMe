@@ -4,9 +4,6 @@ import android.graphics.Bitmap;
 
 /**
  * OnCropListener
- *
- * @author takusemba
- * @since 05/09/2017
  **/
 public interface OnCropListener {
 

@@ -7,9 +7,6 @@ import android.util.AttributeSet;
 
 /**
  * CropImageView
- *
- * @author takusemba
- * @since 05/09/2017
  **/
 class CropImageView extends AppCompatImageView {
 

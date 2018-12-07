@@ -9,9 +9,6 @@ import static android.view.View.SCALE_Y;
 
 /**
  * ScaleAnimatorImpl
- *
- * @author takusemba
- * @since 05/09/2017
  **/
 class ScaleAnimatorImpl implements ScaleAnimator {
 

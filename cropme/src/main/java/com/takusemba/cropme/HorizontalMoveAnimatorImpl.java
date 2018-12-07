@@ -14,9 +14,6 @@ import static android.view.View.TRANSLATION_X;
 
 /**
  * HorizontalMoveAnimatorImpl
- *
- * @author takusemba
- * @since 05/09/2017
  **/
 class HorizontalMoveAnimatorImpl implements MoveAnimator {
 

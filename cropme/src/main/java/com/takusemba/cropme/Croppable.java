@@ -5,9 +5,6 @@ import android.net.Uri;
 
 /**
  * Croppable
- *
- * @author takusemba
- * @since 05/09/2017
  **/
 interface Croppable {
 

@@ -8,9 +8,6 @@ import android.view.ScaleGestureDetector;
 
 /**
  * ActionDetector
- *
- * @author takusemba
- * @since 05/09/2017
  **/
 class ActionDetector {
 

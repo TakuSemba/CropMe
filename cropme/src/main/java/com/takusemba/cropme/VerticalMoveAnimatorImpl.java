@@ -14,9 +14,6 @@ import static android.view.View.TRANSLATION_Y;
 
 /**
  * VerticalMoveAnimatorImpl
- *
- * @author takusemba
- * @since 05/09/2017
  **/
 class VerticalMoveAnimatorImpl implements MoveAnimator {
 

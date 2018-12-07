@@ -15,9 +15,6 @@ import android.widget.FrameLayout;
 
 /**
  * CropOverlayView
- *
- * @author takusemba
- * @since 05/09/2017
  **/
 class CropOverlayView extends FrameLayout {
 
