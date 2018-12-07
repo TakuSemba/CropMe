@@ -23,9 +23,7 @@ dependencies {
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)
 
-This is an Android library for cropping images.
-
-Move images smoothly, and crop images precisely.
+This is an Android library for cropping images. Move images smoothly, and crop images precisely.
 
 ##### Use CropView in your xml file.
 
