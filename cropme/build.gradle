@@ -39,7 +39,7 @@ bintray {
         name = POM_NAME
         desc = POM_DESCRIPTION
         websiteUrl = POM_URL
-        issueTrackerUrl = ISSUE_URL
+        issueTrackerUrl = POM_ISSUE_URL
         vcsUrl = POM_SCM_URL
         licenses = ['Apache-2.0']
         labels = ['android']
