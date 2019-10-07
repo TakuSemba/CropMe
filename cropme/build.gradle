@@ -3,19 +3,18 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 android {
-    compileSdkVersion COMPILE_SDK_VERSION as int
-
+    compileSdkVersion Config.compileSdkVersion
     defaultConfig {
-        minSdkVersion MIN_SDK_VERSION as int
-        targetSdkVersion TARGET_SDK_VERSION as int
-        versionCode LIBRARY_VERSION_CODE as int
-        versionName LIBRARY_VERSION_NAME
+        minSdkVersion Config.minSdkVersion
+        targetSdkVersion Config.targetSdkVersion
+        versionCode Config.libraryVersionCode
+        versionName Config.libraryVersionName
     }
 }
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:$APP_COMPAT_VERSION"
-    implementation "com.android.support:support-dynamic-animation:$APP_COMPAT_VERSION"
+    implementation Dep.appcompat
+    implementation Dep.dynamicAnimation
 }
 
 def getBintrayUserProperty() {
@@ -31,16 +30,16 @@ bintray {
     user = bintrayUserProperty
     key = bintrayApiKeyProperty
 
-    group = GROUP
-    version = LIBRARY_VERSION_NAME
+    group = Config.group
+    version = Config.libraryVersionName
     configurations = ['archives']
     pkg {
-        repo = POM_REPO
-        name = POM_NAME
-        desc = POM_DESCRIPTION
-        websiteUrl = POM_URL
-        issueTrackerUrl = POM_ISSUE_URL
-        vcsUrl = POM_SCM_URL
+        repo = Config.pomRepo
+        name = Config.pomName
+        desc = Config.pomDescription
+        websiteUrl = Config.pomUrl
+        issueTrackerUrl = Config.pomIssueUrl
+        vcsUrl = Config.pomScmUrl
         licenses = ['Apache-2.0']
         labels = ['android']
         publicDownloadNumbers = true
@@ -52,25 +51,25 @@ install {
         pom {
             project {
                 packaging 'aar'
-                name ARTIFACT_ID
-                url POM_URL
+                name Config.artifactId
+                url Config.pomUrl
                 licenses {
                     license {
-                        name POM_LICENSE_NAME
-                        url POM_LICENSE_URL
+                        name Config.pomLicenseName
+                        url Config.pomLicenseUrl
                     }
                 }
                 developers {
                     developer {
-                        id POM_DEVELOPER_ID
-                        name POM_DEVELOPER_NAME
-                        email POM_DEVELOPER_EMAIL
+                        id Config.pomDeveloperId
+                        name Config.pomDeveloperName
+                        email Config.pomDeveloperEmail
                     }
                 }
                 scm {
-                    connection POM_SCM_CONNECTION
-                    developerConnection POM_SCM_CONNECTION
-                    url POM_URL
+                    connection Config.pomScmConnection
+                    developerConnection Config.pomScmConnection
+                    url Config.pomScmUrl
                 }
             }
         }
