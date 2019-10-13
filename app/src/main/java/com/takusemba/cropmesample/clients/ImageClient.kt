@@ -1,13 +1,15 @@
 package com.takusemba.cropmesample.clients
 
-import android.content.SharedPreferences
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.preference.PreferenceManager
 import android.util.Base64
-
 import java.io.ByteArrayOutputStream
 
-class ImageClient(private val prefs: SharedPreferences) {
+class ImageClient(context: Context) {
+
+    private val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
     fun getBitmap(): Bitmap? {
         val bitmapStr = checkNotNull(prefs.getString(KEY_BITMAP_STRING, ""))

@@ -20,6 +20,10 @@ object Dep {
     val recyclerview = "androidx.recyclerview:recyclerview:${Version.androidx}"
     val exifinterface = "androidx.exifinterface:exifinterface:${Version.androidx}"
 
-    /** material */
+    /** design */
     val material = "com.google.android.material:material:${Version.material}"
+    val constraintLayout = "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
+
+    /** image loading */
+    val picasso = "com.squareup.picasso:picasso:2.71828"
 }

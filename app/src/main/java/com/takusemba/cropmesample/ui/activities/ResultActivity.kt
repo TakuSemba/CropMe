@@ -1,7 +1,6 @@
 package com.takusemba.cropmesample.ui.activities
 
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +11,7 @@ import kotlin.concurrent.thread
 class ResultActivity : AppCompatActivity() {
 
     private val imageClient: ImageClient by lazy {
-        ImageClient(PreferenceManager.getDefaultSharedPreferences(applicationContext))
+        ImageClient(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,7 +23,7 @@ class ResultActivity : AppCompatActivity() {
         thread {
             val bitmap = imageClient.getBitmap()
             runOnUiThread {
-                (findViewById<View>(R.id.image) as ImageView).setImageBitmap(bitmap)
+                findViewById<ImageView>(R.id.image).setImageBitmap(bitmap)
             }
         }
     }

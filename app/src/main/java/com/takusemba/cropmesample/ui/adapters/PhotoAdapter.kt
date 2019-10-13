@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 import com.takusemba.cropmesample.R
 import com.takusemba.cropmesample.models.Photo
@@ -30,7 +31,7 @@ class PhotoAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val photo = photos[position]
-        holder.image.setImageBitmap(photo.bitmap)
+        Picasso.get().load(photo.uri).resize(IMAGE_SIZE, IMAGE_SIZE).centerCrop().into(holder.image)
         holder.itemView.setOnClickListener { listener.onPhotoClicked(photo) }
     }
 
@@ -40,5 +41,10 @@ class PhotoAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.image)
+    }
+
+    companion object {
+
+        private const val IMAGE_SIZE = 200
     }
 }

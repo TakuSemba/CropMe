@@ -5,7 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.preference.PreferenceManager
+import android.os.Handler
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -33,7 +33,7 @@ class CropActivity : AppCompatActivity() {
         AlbumClient(this)
     }
     private val imageClient: ImageClient by lazy {
-        ImageClient(PreferenceManager.getDefaultSharedPreferences(applicationContext))
+        ImageClient(this)
     }
 
     private val backButton by lazy { findViewById<ImageView>(R.id.cross) }
@@ -85,7 +85,8 @@ class CropActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), REQUEST_CODE_PERMISSION)
             }
         } else {
-            loadAlbums()
+            // TODO Fix this workaround
+            Handler().postDelayed({ loadAlbums() }, 1000)
         }
     }
 
@@ -120,7 +121,6 @@ class CropActivity : AppCompatActivity() {
         val result = albumClient.getAlbums()
         for (album in result) {
             thread {
-                albumClient.getResizedBitmap(this, album)
                 runOnUiThread {
                     if (album.photos.isNotEmpty()) {
                         if (adapter.itemCount == 0) {

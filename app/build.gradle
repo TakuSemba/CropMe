@@ -17,5 +17,7 @@ dependencies {
     implementation Dep.recyclerview
     implementation Dep.exifinterface
     implementation Dep.material
+    implementation Dep.constraintLayout
+    implementation Dep.picasso
     implementation project(':cropme')
 }
