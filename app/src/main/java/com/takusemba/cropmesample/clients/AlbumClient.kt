@@ -16,10 +16,6 @@ import com.takusemba.cropmesample.models.Photo
 import java.io.IOException
 import java.util.*
 
-/**
- * Created by takusemba on 2017/09/10.
- */
-
 class AlbumClient(context: Context) {
 
     private val albumLoader: AlbumLoader = AlbumLoader(context)

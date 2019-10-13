@@ -7,10 +7,6 @@ import android.util.Base64
 
 import java.io.ByteArrayOutputStream
 
-/**
- * Created by takusemba on 2017/09/10.
- */
-
 class ImageClient(private val prefs: SharedPreferences) {
 
     fun getBitmap(): Bitmap? {
