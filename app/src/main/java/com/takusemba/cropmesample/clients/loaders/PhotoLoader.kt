@@ -24,7 +24,7 @@ class PhotoLoader(
 
         private val PROJECTION = arrayOf(MediaStore.Images.Media._ID, MediaStore.Images.Media.BUCKET_ID, MediaStore.Images.Media.DATE_TAKEN)
 
-        private val ORDER_BY = MediaStore.Images.Media.DATE_TAKEN + " DESC"
+        private const val ORDER_BY = MediaStore.Images.Media.DATE_TAKEN + " DESC"
 
         private const val SELECTION = MediaStore.Images.Media.BUCKET_ID + " = ?"
     }
