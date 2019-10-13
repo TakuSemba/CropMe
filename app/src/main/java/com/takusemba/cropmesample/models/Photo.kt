@@ -7,8 +7,5 @@ class Photo(
         val id: Long,
         val uri: Uri
 ) {
-
     var bitmap: Bitmap? = null
-
-    var isSelected: Boolean = false
 }

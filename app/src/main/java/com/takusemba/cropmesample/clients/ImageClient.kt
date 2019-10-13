@@ -10,7 +10,7 @@ import java.io.ByteArrayOutputStream
 class ImageClient(private val prefs: SharedPreferences) {
 
     fun getBitmap(): Bitmap? {
-        val bitmapStr = prefs.getString(KEY_BITMAP_STRING, "") ?: ""
+        val bitmapStr = checkNotNull(prefs.getString(KEY_BITMAP_STRING, ""))
         var bitmap: Bitmap? = null
         if (bitmapStr.isNotEmpty()) {
             val bytes = Base64.decode(bitmapStr, Base64.DEFAULT)

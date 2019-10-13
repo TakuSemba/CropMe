@@ -36,24 +36,25 @@ class CropActivity : AppCompatActivity() {
         ImageClient(PreferenceManager.getDefaultSharedPreferences(applicationContext))
     }
 
-    private val backButton: ImageView by lazy { findViewById<ImageView>(R.id.cross) }
-    private val cropButton: ImageView by lazy { findViewById<ImageView>(R.id.crop) }
-    private val recyclerView: RecyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view) }
-    private val parent: RelativeLayout by lazy { findViewById<RelativeLayout>(R.id.container) }
-    private val cropLayout: CropLayout by lazy { findViewById<CropLayout>(R.id.crop_view) }
-    private val progressBar: ProgressBar by lazy { findViewById<ProgressBar>(R.id.progress) }
+    private val backButton by lazy { findViewById<ImageView>(R.id.cross) }
+    private val cropButton by lazy { findViewById<ImageView>(R.id.crop) }
+    private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view) }
+    private val parent by lazy { findViewById<RelativeLayout>(R.id.container) }
+    private val cropLayout by lazy { findViewById<CropLayout>(R.id.crop_view) }
+    private val progressBar by lazy { findViewById<ProgressBar>(R.id.progress) }
 
     private lateinit var adapter: AlbumAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_crop)
+
         val listener = object : OnPhotoClickListener {
             override fun onPhotoClicked(photo: Photo) {
                 cropLayout.setUri(photo.uri)
             }
         }
-        adapter = AlbumAdapter(this@CropActivity, ArrayList(), listener)
+        adapter = AlbumAdapter(this, ArrayList(), listener)
 
         backButton.setOnClickListener { finish() }
 
@@ -73,7 +74,7 @@ class CropActivity : AppCompatActivity() {
             })
         })
 
-        val layoutManager = LinearLayoutManager(this@CropActivity, LinearLayoutManager.VERTICAL, false)
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
 
@@ -109,7 +110,7 @@ class CropActivity : AppCompatActivity() {
             runOnUiThread {
                 progressBar.visibility = View.GONE
                 cropLayout.isEnabled = true
-                startActivity(Intent(this@CropActivity, ResultActivity::class.java))
+                startActivity(Intent(this, ResultActivity::class.java))
             }
         }
     }
@@ -119,7 +120,7 @@ class CropActivity : AppCompatActivity() {
         val result = albumClient.getAlbums()
         for (album in result) {
             thread {
-                albumClient.getResizedBitmap(this@CropActivity, album)
+                albumClient.getResizedBitmap(this, album)
                 runOnUiThread {
                     if (album.photos.isNotEmpty()) {
                         if (adapter.itemCount == 0) {
