@@ -29,12 +29,8 @@ import kotlin.concurrent.thread
 
 class CropActivity : AppCompatActivity() {
 
-    private val albumClient: AlbumClient by lazy {
-        AlbumClient(this)
-    }
-    private val imageClient: ImageClient by lazy {
-        ImageClient(this)
-    }
+    private val albumClient: AlbumClient by lazy { AlbumClient(this) }
+    private val imageClient: ImageClient by lazy { ImageClient(this) }
 
     private val backButton by lazy { findViewById<ImageView>(R.id.cross) }
     private val cropButton by lazy { findViewById<ImageView>(R.id.crop) }

@@ -10,9 +10,7 @@ import kotlin.concurrent.thread
 
 class ResultActivity : AppCompatActivity() {
 
-    private val imageClient: ImageClient by lazy {
-        ImageClient(this)
-    }
+    private val imageClient: ImageClient by lazy { ImageClient(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
