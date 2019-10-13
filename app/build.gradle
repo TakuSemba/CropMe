@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion Config.compileSdkVersion
@@ -9,6 +11,7 @@ android {
 }
 
 dependencies {
+    implementation Dep.kotlin
     implementation Dep.appcompat
     implementation Dep.dynamicAnimation
     implementation Dep.recyclerview
