@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 android {
@@ -17,86 +16,4 @@ dependencies {
     implementation Dep.dynamicAnimation
 }
 
-def getBintrayUserProperty() {
-    return hasProperty('bintrayUser') ? bintrayUser : ""
-}
-
-def getBintrayApiKeyProperty() {
-    return hasProperty('bintrayApiKey') ? bintrayApiKey : ""
-}
-
-bintray {
-
-    user = bintrayUserProperty
-    key = bintrayApiKeyProperty
-
-    group = Config.group
-    version = Config.libraryVersionName
-    configurations = ['archives']
-    pkg {
-        repo = Config.pomRepo
-        name = Config.pomName
-        desc = Config.pomDescription
-        websiteUrl = Config.pomUrl
-        issueTrackerUrl = Config.pomIssueUrl
-        vcsUrl = Config.pomScmUrl
-        licenses = ['Apache-2.0']
-        labels = ['android']
-        publicDownloadNumbers = true
-    }
-}
-
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'aar'
-                name Config.artifactId
-                url Config.pomUrl
-                licenses {
-                    license {
-                        name Config.pomLicenseName
-                        url Config.pomLicenseUrl
-                    }
-                }
-                developers {
-                    developer {
-                        id Config.pomDeveloperId
-                        name Config.pomDeveloperName
-                        email Config.pomDeveloperEmail
-                    }
-                }
-                scm {
-                    connection Config.pomScmConnection
-                    developerConnection Config.pomScmConnection
-                    url Config.pomScmUrl
-                }
-            }
-        }
-    }
-}
-
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-afterEvaluate {
-    javadoc.classpath += files(android.libraryVariants.collect { variant ->
-        variant.javaCompiler.classpath.files
-    })
-}
+apply from: "../publish.gradle"

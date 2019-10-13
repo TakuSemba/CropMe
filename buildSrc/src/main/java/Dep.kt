@@ -6,8 +6,7 @@ object Dep {
 
     /** plugin */
     val pluginBuildGradle = "com.android.tools.build:gradle:3.5.1"
-    val pluginBintrayGradle = "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.1"
-    val pluginAndroidMaven = "com.github.dcendents:android-maven-gradle-plugin:2.1"
+    val pluginBintrayGradle = "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4"
 
     /** appcompat */
     val appcompat = "com.android.support:appcompat-v7:${Version.appcompat}"

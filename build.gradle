@@ -8,7 +8,6 @@ buildscript {
     dependencies {
         classpath Dep.pluginBuildGradle
         classpath Dep.pluginBintrayGradle
-        classpath Dep.pluginAndroidMaven
     }
 }
 
