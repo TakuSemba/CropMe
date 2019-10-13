@@ -2,8 +2,9 @@ package com.takusemba.cropme;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.annotation.MainThread;
 import android.widget.ImageView;
+
+import androidx.annotation.MainThread;
 
 /**
  * Interface to set an Image, and return an cropped image back.

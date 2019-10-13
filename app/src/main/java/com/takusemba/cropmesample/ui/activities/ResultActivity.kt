@@ -2,9 +2,9 @@ package com.takusemba.cropmesample.ui.activities
 
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import com.takusemba.cropmesample.R
 import com.takusemba.cropmesample.clients.ImageClient
 import kotlin.concurrent.thread

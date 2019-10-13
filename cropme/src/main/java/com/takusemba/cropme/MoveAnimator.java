@@ -1,6 +1,6 @@
 package com.takusemba.cropme;
 
-import android.support.animation.SpringForce;
+import androidx.dynamicanimation.animation.SpringForce;
 
 /**
  * interface to move Image.

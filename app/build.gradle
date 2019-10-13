@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 
 android {
@@ -15,7 +14,7 @@ dependencies {
     implementation Dep.appcompat
     implementation Dep.dynamicAnimation
     implementation Dep.recyclerview
-    implementation Dep.design
     implementation Dep.exifinterface
+    implementation Dep.material
     implementation project(':cropme')
 }

@@ -8,7 +8,7 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.support.media.ExifInterface
+import androidx.exifinterface.media.ExifInterface
 import com.takusemba.cropmesample.clients.loaders.AlbumLoader
 import com.takusemba.cropmesample.clients.loaders.PhotoLoader
 import com.takusemba.cropmesample.models.Album
@@ -27,11 +27,11 @@ class AlbumClient(context: Context) {
     fun getAlbums(): List<Album> {
         val albums = ArrayList<Album>()
         try {
-            val albumCursor = albumLoader.loadInBackground()
+            val albumCursor = albumLoader.loadInBackground() ?: return emptyList()
             if (albumCursor.moveToFirst()) {
                 do {
                     val photoLoader = PhotoLoader(albumLoader.context, arrayOf(albumCursor.getString(albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_ID))))
-                    val photoCursor = photoLoader.loadInBackground()
+                    val photoCursor = photoLoader.loadInBackground() ?: break
                     val photos = ArrayList<Photo>()
                     if (photoCursor.moveToFirst()) {
                         do {

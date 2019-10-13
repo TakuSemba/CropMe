@@ -2,8 +2,9 @@ package com.takusemba.cropme;
 
 import android.content.Context;
 import android.graphics.RectF;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 /**
  * ImageView to hold an Image to be animated.

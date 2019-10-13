@@ -9,9 +9,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.support.annotation.MainThread;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -20,6 +17,10 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import androidx.annotation.MainThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * CropLayout is a parent layout that has {@link CropOverlay}.

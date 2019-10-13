@@ -1,8 +1,9 @@
 object Dep {
 
     object Version {
-        const val appcompat = "26.0.0"
         const val kotlin = "1.3.50"
+        const val androidx = "1.0.0"
+        const val material = "1.0.0"
     }
 
     /** plugin */
@@ -13,10 +14,12 @@ object Dep {
     /** kotlin */
     val kotlin = "org.jetbrains.kotlin:kotlin-stdlib:${Version.kotlin}"
 
-    /** appcompat */
-    val appcompat = "com.android.support:appcompat-v7:${Version.appcompat}"
-    val dynamicAnimation = "com.android.support:support-dynamic-animation:${Version.appcompat}"
-    val recyclerview = "com.android.support:recyclerview-v7:${Version.appcompat}"
-    val design = "com.android.support:design:${Version.appcompat}"
-    val exifinterface = "com.android.support:exifinterface:${Version.appcompat}"
+    /** androidx */
+    val appcompat = "androidx.appcompat:appcompat:${Version.androidx}"
+    val dynamicAnimation = "androidx.dynamicanimation:dynamicanimation:${Version.androidx}"
+    val recyclerview = "androidx.recyclerview:recyclerview:${Version.androidx}"
+    val exifinterface = "androidx.exifinterface:exifinterface:${Version.androidx}"
+
+    /** material */
+    val material = "com.google.android.material:material:${Version.material}"
 }
