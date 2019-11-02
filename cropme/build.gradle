@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion Config.compileSdkVersion
@@ -12,6 +12,7 @@ android {
 }
 
 dependencies {
+    implementation Dep.kotlin
     implementation Dep.appcompat
     implementation Dep.dynamicAnimation
 }

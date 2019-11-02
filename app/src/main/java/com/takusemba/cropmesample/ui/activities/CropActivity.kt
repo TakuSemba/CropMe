@@ -55,7 +55,7 @@ class CropActivity : AppCompatActivity() {
     backButton.setOnClickListener { finish() }
 
     cropButton.setOnClickListener(View.OnClickListener {
-      if (cropLayout.isOffOfFrame) {
+      if (cropLayout.isOffOfFrame()) {
         Snackbar.make(parent, R.string.error_image_is_off_of_frame, Snackbar.LENGTH_LONG).show()
         return@OnClickListener
       }
