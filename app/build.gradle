@@ -3,21 +3,21 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion Config.compileSdkVersion
-    defaultConfig {
-        minSdkVersion Config.minSdkVersion
-        targetSdkVersion Config.targetSdkVersion
-    }
+  compileSdkVersion Config.compileSdkVersion
+  defaultConfig {
+    minSdkVersion Config.minSdkVersion
+    targetSdkVersion Config.targetSdkVersion
+  }
 }
 
 dependencies {
-    implementation Dep.kotlin
-    implementation Dep.appcompat
-    implementation Dep.dynamicAnimation
-    implementation Dep.recyclerview
-    implementation Dep.exifinterface
-    implementation Dep.material
-    implementation Dep.constraintLayout
-    implementation Dep.picasso
-    implementation project(':cropme')
+  implementation Dep.kotlin
+  implementation Dep.appcompat
+  implementation Dep.dynamicAnimation
+  implementation Dep.recyclerview
+  implementation Dep.exifinterface
+  implementation Dep.material
+  implementation Dep.constraintLayout
+  implementation Dep.picasso
+  implementation project(':cropme')
 }

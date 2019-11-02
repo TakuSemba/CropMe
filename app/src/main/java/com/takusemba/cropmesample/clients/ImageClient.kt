@@ -9,29 +9,30 @@ import java.io.ByteArrayOutputStream
 
 class ImageClient(context: Context) {
 
-    private val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
+  private val prefs = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
-    fun getBitmap(): Bitmap? {
-        val bitmapStr = checkNotNull(prefs.getString(KEY_BITMAP_STRING, ""))
-        var bitmap: Bitmap? = null
-        if (bitmapStr.isNotEmpty()) {
-            val bytes = Base64.decode(bitmapStr, Base64.DEFAULT)
-            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size).copy(Bitmap.Config.ARGB_8888, true)
-        }
-        return bitmap
+  fun getBitmap(): Bitmap? {
+    val bitmapStr = checkNotNull(prefs.getString(KEY_BITMAP_STRING, ""))
+    var bitmap: Bitmap? = null
+    if (bitmapStr.isNotEmpty()) {
+      val bytes = Base64.decode(bitmapStr, Base64.DEFAULT)
+      bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size).copy(Bitmap.Config.ARGB_8888,
+          true)
     }
+    return bitmap
+  }
 
-    fun saveBitmap(bitmap: Bitmap) {
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
-        val bitmapStr = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT)
-        val editor = prefs.edit()
-        editor.putString(KEY_BITMAP_STRING, bitmapStr)
-        editor.apply()
-    }
+  fun saveBitmap(bitmap: Bitmap) {
+    val baos = ByteArrayOutputStream()
+    bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+    val bitmapStr = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT)
+    val editor = prefs.edit()
+    editor.putString(KEY_BITMAP_STRING, bitmapStr)
+    editor.apply()
+  }
 
-    companion object {
+  companion object {
 
-        private const val KEY_BITMAP_STRING = "key_bitmap_string"
-    }
+    private const val KEY_BITMAP_STRING = "key_bitmap_string"
+  }
 }

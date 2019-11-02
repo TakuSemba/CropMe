@@ -7,8 +7,8 @@ import com.takusemba.cropmesample.models.Photo
  */
 interface OnPhotoClickListener {
 
-    /**
-     * called when photo item in list is clicked.
-     */
-    fun onPhotoClicked(photo: Photo)
+  /**
+   * called when photo item in list is clicked.
+   */
+  fun onPhotoClicked(photo: Photo)
 }

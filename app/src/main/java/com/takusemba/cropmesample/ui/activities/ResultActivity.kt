@@ -10,19 +10,19 @@ import kotlin.concurrent.thread
 
 class ResultActivity : AppCompatActivity() {
 
-    private val imageClient: ImageClient by lazy { ImageClient(this) }
+  private val imageClient: ImageClient by lazy { ImageClient(this) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_result)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_result)
 
-        findViewById<View>(R.id.back).setOnClickListener { finish() }
+    findViewById<View>(R.id.back).setOnClickListener { finish() }
 
-        thread {
-            val bitmap = imageClient.getBitmap()
-            runOnUiThread {
-                findViewById<ImageView>(R.id.image).setImageBitmap(bitmap)
-            }
-        }
+    thread {
+      val bitmap = imageClient.getBitmap()
+      runOnUiThread {
+        findViewById<ImageView>(R.id.image).setImageBitmap(bitmap)
+      }
     }
+  }
 }
