@@ -66,7 +66,7 @@ class SquareCropOverlay @JvmOverloads constructor(
 
   private fun init() {
     setWillNotDraw(false)
-    setLayerType(View.LAYER_TYPE_HARDWARE, null)
+    setLayerType(LAYER_TYPE_HARDWARE, null)
     cropPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
     border.strokeWidth = BORDER_WIDTH.toFloat()
   }

@@ -1,10 +1,10 @@
-package com.takusemba.cropme
+package com.takusemba.cropme.internal
 
 import android.animation.ObjectAnimator
 import android.graphics.Rect
 import android.graphics.RectF
 import android.view.View
-import android.view.View.TRANSLATION_X
+import android.view.View.TRANSLATION_Y
 import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.FlingAnimation
 import androidx.dynamicanimation.animation.FloatPropertyCompat
@@ -12,9 +12,9 @@ import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 
 /**
- * HorizontalMoveAnimatorImpl is responsible for animating [CropImageView] horizontally.
+ * VerticalMoveAnimatorImpl is responsible for animating [CropImageView] vertically.
  */
-internal class HorizontalMoveAnimatorImpl(
+internal class VerticalMoveAnimatorImpl(
     target: View, private val restrictionRect: RectF, private val maxScale: Int
 ) : MoveAnimator {
 
@@ -29,16 +29,20 @@ internal class HorizontalMoveAnimatorImpl(
 
   private var isFlinging = false
 
+  override fun isNotFlinging(): Boolean {
+    return !isFlinging
+  }
+
   init {
 
     spring = SpringAnimation(target,
-        object : FloatPropertyCompat<View>("X") {
+        object : FloatPropertyCompat<View>("Y") {
           override fun getValue(view: View): Float {
-            return view.x
+            return view.y
           }
 
           override fun setValue(view: View, value: Float) {
-            view.x = value
+            view.y = value
           }
         })
         .setSpring(SpringForce()
@@ -46,10 +50,11 @@ internal class HorizontalMoveAnimatorImpl(
             .setDampingRatio(MoveAnimator.DAMPING_RATIO)
         )
 
-    fling = FlingAnimation(target, DynamicAnimation.X).setFriction(MoveAnimator.FRICTION)
+    fling = FlingAnimation(target, DynamicAnimation.Y).setFriction(
+        MoveAnimator.FRICTION)
 
     animator = ObjectAnimator()
-    animator.setProperty(TRANSLATION_X)
+    animator.setProperty(TRANSLATION_Y)
     animator.target = target
   }
 
@@ -59,7 +64,7 @@ internal class HorizontalMoveAnimatorImpl(
       cancel()
       animator.interpolator = null
       animator.duration = 0
-      animator.setFloatValues(target.translationX + delta)
+      animator.setFloatValues(target.translationY + delta)
       animator.start()
     }
   }
@@ -72,54 +77,49 @@ internal class HorizontalMoveAnimatorImpl(
 
       val scale: Float
       val afterRect: Rect
-      if (maxScale < target.scaleX) {
+      if (maxScale < target.scaleY) {
         scale = maxScale.toFloat()
         val heightDiff = ((targetRect.height() - targetRect.height() * (maxScale / target.scaleY)) / 2).toInt()
         val widthDiff = ((targetRect.width() - targetRect.width() * (maxScale / target.scaleY)) / 2).toInt()
         afterRect = Rect(targetRect.left + widthDiff, targetRect.top + heightDiff,
             targetRect.right - widthDiff, targetRect.bottom - heightDiff)
-      } else if (target.scaleX < 1) {
+      } else if (target.scaleY < 1) {
         scale = 1f
         val heightDiff = (target.height - targetRect.height()) / 2
         val widthDiff = (target.width - targetRect.width()) / 2
         afterRect = Rect(targetRect.left + widthDiff, targetRect.top + heightDiff,
             targetRect.right - widthDiff, targetRect.bottom - heightDiff)
       } else {
-        scale = target.scaleX
+        scale = target.scaleY
         afterRect = targetRect
       }
-      val horizontalDiff = (target.width * scale - target.width) / 2
+      val verticalDiff = (target.height * scale - target.height) / 2
 
-      if (restrictionRect.left < afterRect.left) {
+      if (restrictionRect.top < afterRect.top) {
+        cancel()
+        spring.setStartVelocity(velocity).animateToFinalPosition(restrictionRect.top + verticalDiff)
+      } else if (afterRect.bottom < restrictionRect.bottom) {
         cancel()
         spring.setStartVelocity(velocity).animateToFinalPosition(
-            restrictionRect.left + horizontalDiff)
-      } else if (afterRect.right < restrictionRect.right) {
-        cancel()
-        spring.setStartVelocity(velocity).animateToFinalPosition(
-            restrictionRect.right - target.width.toFloat() - horizontalDiff)
+            restrictionRect.bottom - target.height.toFloat() - verticalDiff)
       }
     }
   }
 
   override fun fling(velocity: Float) {
-    isFlinging = true
     cancel()
+    isFlinging = true
     fling.addUpdateListener(updateListener)
     fling.addEndListener(endListener)
     fling.setStartVelocity(velocity).start()
   }
 
-  override fun isNotFlinging(): Boolean {
-    return !isFlinging
-  }
-
   private fun cancel() {
+    isFlinging = false
     animator.cancel()
     spring.cancel()
     fling.cancel()
     fling.removeUpdateListener(updateListener)
     fling.removeEndListener(endListener)
-    isFlinging = false
   }
 }

@@ -14,6 +14,13 @@ import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.MainThread
+import com.takusemba.cropme.internal.ActionDetector
+import com.takusemba.cropme.internal.ActionListener
+import com.takusemba.cropme.internal.HorizontalMoveAnimatorImpl
+import com.takusemba.cropme.internal.MoveAnimator
+import com.takusemba.cropme.internal.ScaleAnimator
+import com.takusemba.cropme.internal.ScaleAnimatorImpl
+import com.takusemba.cropme.internal.VerticalMoveAnimatorImpl
 
 /**
  * CropLayout is a parent layout that has [CropOverlay].
@@ -61,9 +68,12 @@ class CropLayout @JvmOverloads constructor(
         cropImageView.id = R.id.cropme_image_view
         addView(cropImageView, 0)
 
-        horizontalAnimator = HorizontalMoveAnimatorImpl(cropImageView, frame!!, maxScale)
-        verticalAnimator = VerticalMoveAnimatorImpl(cropImageView, frame!!, maxScale)
-        scaleAnimator = ScaleAnimatorImpl(cropImageView, maxScale.toFloat())
+        horizontalAnimator = HorizontalMoveAnimatorImpl(cropImageView,
+            frame!!, maxScale)
+        verticalAnimator = VerticalMoveAnimatorImpl(cropImageView,
+            frame!!, maxScale)
+        scaleAnimator = ScaleAnimatorImpl(cropImageView,
+            maxScale.toFloat())
 
         startActionDetector()
 
@@ -74,36 +84,37 @@ class CropLayout @JvmOverloads constructor(
   }
 
   private fun startActionDetector() {
-    actionDetector = ActionDetector(context, object : ActionListener {
+    actionDetector = ActionDetector(context,
+        object : ActionListener {
 
-      override fun onScaled(scale: Float) {
-        scaleAnimator!!.scale(scale)
-      }
+          override fun onScaled(scale: Float) {
+            scaleAnimator!!.scale(scale)
+          }
 
-      override fun onScaleEnded() {
-        scaleAnimator!!.reScaleIfNeeded()
-      }
+          override fun onScaleEnded() {
+            scaleAnimator!!.reScaleIfNeeded()
+          }
 
-      override fun onMoved(dx: Float, dy: Float) {
-        horizontalAnimator!!.move(dx)
-        verticalAnimator!!.move(dy)
-      }
+          override fun onMoved(dx: Float, dy: Float) {
+            horizontalAnimator!!.move(dx)
+            verticalAnimator!!.move(dy)
+          }
 
-      override fun onFlinged(velocityX: Float, velocityY: Float) {
-        horizontalAnimator!!.fling(velocityX)
-        verticalAnimator!!.fling(velocityY)
-      }
+          override fun onFlinged(velocityX: Float, velocityY: Float) {
+            horizontalAnimator!!.fling(velocityX)
+            verticalAnimator!!.fling(velocityY)
+          }
 
-      override fun onMoveEnded() {
-        if (horizontalAnimator!!.isNotFlinging()) {
-          horizontalAnimator!!.reMoveIfNeeded(0f)
-        }
+          override fun onMoveEnded() {
+            if (horizontalAnimator!!.isNotFlinging()) {
+              horizontalAnimator!!.reMoveIfNeeded(0f)
+            }
 
-        if (verticalAnimator!!.isNotFlinging()) {
-          verticalAnimator!!.reMoveIfNeeded(0f)
-        }
-      }
-    })
+            if (verticalAnimator!!.isNotFlinging()) {
+              verticalAnimator!!.reMoveIfNeeded(0f)
+            }
+          }
+        })
     setOnTouchListener { v, event ->
       actionDetector!!.detectAction(event)
       true

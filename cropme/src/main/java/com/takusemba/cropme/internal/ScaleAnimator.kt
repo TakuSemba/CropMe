@@ -1,4 +1,4 @@
-package com.takusemba.cropme
+package com.takusemba.cropme.internal
 
 /**
  * interface to scale Image.

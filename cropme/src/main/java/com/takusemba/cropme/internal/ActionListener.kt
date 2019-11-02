@@ -1,4 +1,4 @@
-package com.takusemba.cropme
+package com.takusemba.cropme.internal
 
 /**
  * ActionListener passes events to [ScaleAnimator] and [MoveAnimator] to animate Image.
