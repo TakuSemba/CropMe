@@ -1,7 +1,6 @@
 package com.takusemba.cropmesample.ui.activities
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -9,6 +8,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.ProgressBar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -20,17 +20,14 @@ import com.takusemba.cropme.CropLayout
 import com.takusemba.cropme.OnCropListener
 import com.takusemba.cropmesample.R
 import com.takusemba.cropmesample.clients.AlbumClient
-import com.takusemba.cropmesample.clients.ImageClient
 import com.takusemba.cropmesample.models.Photo
 import com.takusemba.cropmesample.ui.OnPhotoClickListener
 import com.takusemba.cropmesample.ui.adapters.AlbumAdapter
 import java.util.ArrayList
-import kotlin.concurrent.thread
 
 class CropActivity : AppCompatActivity() {
 
   private val albumClient: AlbumClient by lazy { AlbumClient(this) }
-  private val imageClient: ImageClient by lazy { ImageClient(this) }
 
   private val backButton by lazy { findViewById<ImageView>(R.id.cross) }
   private val cropButton by lazy { findViewById<ImageView>(R.id.crop) }
@@ -59,12 +56,17 @@ class CropActivity : AppCompatActivity() {
         Snackbar.make(parent, R.string.error_image_is_off_of_frame, Snackbar.LENGTH_LONG).show()
         return@OnClickListener
       }
+      progressBar.visibility = View.VISIBLE
       cropLayout.crop(object : OnCropListener {
         override fun onSuccess(bitmap: Bitmap) {
-          saveBitmapAndStartActivity(bitmap)
+          progressBar.visibility = View.GONE
+          val view = layoutInflater.inflate(R.layout.dialog_result, null)
+          view.findViewById<ImageView>(R.id.image).setImageBitmap(bitmap)
+          AlertDialog.Builder(this@CropActivity).setView(view).show()
         }
 
         override fun onFailure() {
+          Snackbar.make(parent, R.string.error_failed_to_clip_image, Snackbar.LENGTH_LONG).show()
         }
       })
     })
@@ -110,19 +112,6 @@ class CropActivity : AppCompatActivity() {
       return
     }
     super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-  }
-
-  private fun saveBitmapAndStartActivity(bitmap: Bitmap) {
-    progressBar.visibility = View.VISIBLE
-    cropLayout.isEnabled = false
-    thread {
-      imageClient.saveBitmap(bitmap)
-      runOnUiThread {
-        progressBar.visibility = View.GONE
-        cropLayout.isEnabled = true
-        startActivity(Intent(this, ResultActivity::class.java))
-      }
-    }
   }
 
   private fun loadAlbums() {

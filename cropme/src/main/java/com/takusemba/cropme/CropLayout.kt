@@ -76,13 +76,13 @@ class CropLayout @JvmOverloads constructor(
       scale = a.getInt(R.styleable.CropLayout_cropme_max_scale, DEFAULT_MAX_SCALE)
 
       percentWidth = a.getFraction(
-          R.styleable.CropLayout_cropme_percent_width,
+          R.styleable.CropLayout_cropme_frame_width_percent,
           DEFAULT_BASE,
           DEFAULT_PBASE,
           DEFAULT_PERCENT_WIDTH
       )
       percentHeight = a.getFraction(
-          R.styleable.CropLayout_cropme_percent_height,
+          R.styleable.CropLayout_cropme_frame_height_percent,
           DEFAULT_BASE,
           DEFAULT_PBASE,
           DEFAULT_PERCENT_HEIGHT

@@ -17,8 +17,8 @@
   </attr>
 
   <declare-styleable name="CropLayout">
-    <attr name="cropme_percent_width" />
-    <attr name="cropme_percent_height" />
+    <attr name="cropme_frame_width_percent" />
+    <attr name="cropme_frame_height_percent" />
     <attr name="cropme_max_scale" />
     <attr name="cropme_overlay_shape" />
     <attr name="cropme_with_border" />
