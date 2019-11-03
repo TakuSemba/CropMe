@@ -36,8 +36,6 @@ class CropLayout @JvmOverloads constructor(
   private var verticalAnimator: MoveAnimator? = null
   private var scaleAnimator: ScaleAnimator? = null
 
-  private var actionDetector: ActionDetector? = null
-
   private val maxScale: Int
   private var frame: RectF? = null
 
@@ -68,12 +66,9 @@ class CropLayout @JvmOverloads constructor(
         cropImageView.id = R.id.cropme_image_view
         addView(cropImageView, 0)
 
-        horizontalAnimator = HorizontalMoveAnimatorImpl(cropImageView,
-            frame!!, maxScale)
-        verticalAnimator = VerticalMoveAnimatorImpl(cropImageView,
-            frame!!, maxScale)
-        scaleAnimator = ScaleAnimatorImpl(cropImageView,
-            maxScale.toFloat())
+        horizontalAnimator = HorizontalMoveAnimatorImpl(cropImageView, frame!!, maxScale)
+        verticalAnimator = VerticalMoveAnimatorImpl(cropImageView, frame!!, maxScale)
+        scaleAnimator = ScaleAnimatorImpl(cropImageView, maxScale.toFloat())
 
         startActionDetector()
 
@@ -84,41 +79,37 @@ class CropLayout @JvmOverloads constructor(
   }
 
   private fun startActionDetector() {
-    actionDetector = ActionDetector(context,
-        object : ActionListener {
+    val actionDetector = ActionDetector(this, object : ActionListener {
 
-          override fun onScaled(scale: Float) {
-            scaleAnimator!!.scale(scale)
-          }
+      override fun onScaled(scale: Float) {
+        scaleAnimator!!.scale(scale)
+      }
 
-          override fun onScaleEnded() {
-            scaleAnimator!!.reScaleIfNeeded()
-          }
+      override fun onScaleEnded() {
+        scaleAnimator!!.reScaleIfNeeded()
+      }
 
-          override fun onMoved(dx: Float, dy: Float) {
-            horizontalAnimator!!.move(dx)
-            verticalAnimator!!.move(dy)
-          }
+      override fun onMoved(dx: Float, dy: Float) {
+        horizontalAnimator!!.move(dx)
+        verticalAnimator!!.move(dy)
+      }
 
-          override fun onFlinged(velocityX: Float, velocityY: Float) {
-            horizontalAnimator!!.fling(velocityX)
-            verticalAnimator!!.fling(velocityY)
-          }
+      override fun onFlinged(velocityX: Float, velocityY: Float) {
+        horizontalAnimator!!.fling(velocityX)
+        verticalAnimator!!.fling(velocityY)
+      }
 
-          override fun onMoveEnded() {
-            if (horizontalAnimator!!.isNotFlinging()) {
-              horizontalAnimator!!.reMoveIfNeeded(0f)
-            }
+      override fun onMoveEnded() {
+        if (horizontalAnimator!!.isNotFlinging()) {
+          horizontalAnimator!!.reMoveIfNeeded(0f)
+        }
 
-            if (verticalAnimator!!.isNotFlinging()) {
-              verticalAnimator!!.reMoveIfNeeded(0f)
-            }
-          }
-        })
-    setOnTouchListener { v, event ->
-      actionDetector!!.detectAction(event)
-      true
-    }
+        if (verticalAnimator!!.isNotFlinging()) {
+          verticalAnimator!!.reMoveIfNeeded(0f)
+        }
+      }
+    })
+    actionDetector.start()
   }
 
   override fun setUri(uri: Uri) {

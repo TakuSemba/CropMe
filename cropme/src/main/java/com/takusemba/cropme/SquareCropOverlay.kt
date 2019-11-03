@@ -7,7 +7,6 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
 import android.graphics.RectF
 import android.util.AttributeSet
-import android.view.View
 import androidx.core.content.ContextCompat
 
 class SquareCropOverlay @JvmOverloads constructor(

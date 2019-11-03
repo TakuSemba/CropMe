@@ -1,23 +1,20 @@
 package com.takusemba.cropme.internal
 
-import android.content.Context
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
+import android.view.View
 import androidx.core.view.GestureDetectorCompat
 
 /**
- * Detect all actions related to Image transition.
+ * Detect all actions related to Image moving and scaling.
  */
 internal class ActionDetector(
-    context: Context,
+    private val target: View,
     private val listener: ActionListener
 ) {
 
-  private val gestureDetectorCompat: GestureDetectorCompat?
-  private val scaleGestureDetector: ScaleGestureDetector
-
-  private val simpleOnGestureListener = object : GestureDetector.SimpleOnGestureListener() {
+  private val gestureListener = object : GestureDetector.SimpleOnGestureListener() {
     override fun onDown(e: MotionEvent): Boolean {
       return true
     }
@@ -45,7 +42,7 @@ internal class ActionDetector(
     }
   }
 
-  private val simpleScaleListener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+  private val scaleListener = object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
 
     override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
       return super.onScaleBegin(detector)
@@ -62,19 +59,17 @@ internal class ActionDetector(
     }
   }
 
-  init {
-    this.gestureDetectorCompat = GestureDetectorCompat(context, simpleOnGestureListener)
-    this.scaleGestureDetector = ScaleGestureDetector(context, simpleScaleListener)
-  }
+  private val gestureDetector = GestureDetectorCompat(target.context, gestureListener)
+  private val scaleDetector = ScaleGestureDetector(target.context, scaleListener)
 
-  fun detectAction(event: MotionEvent) {
-    if (gestureDetectorCompat == null) {
-      throw IllegalStateException("GestureDetectorCompat must not be null")
-    }
-    gestureDetectorCompat.onTouchEvent(event)
-    scaleGestureDetector.onTouchEvent(event)
-    when (event.action) {
-      MotionEvent.ACTION_UP -> listener.onMoveEnded()
+  fun start() {
+    target.setOnTouchListener { _, event ->
+      gestureDetector.onTouchEvent(event)
+      scaleDetector.onTouchEvent(event)
+      when (event.action) {
+        MotionEvent.ACTION_UP -> listener.onMoveEnded()
+      }
+      true
     }
   }
 }
