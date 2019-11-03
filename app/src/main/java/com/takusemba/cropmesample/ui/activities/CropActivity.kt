@@ -40,7 +40,7 @@ class CropActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_crop)
+    setContentView(intent.getIntExtra(EXTRA_SHAPE_TYPE, -1))
 
     val listener = object : OnPhotoClickListener {
       override fun onPhotoClicked(photo: Photo) {
@@ -130,6 +130,8 @@ class CropActivity : AppCompatActivity() {
   }
 
   companion object {
+
+    const val EXTRA_SHAPE_TYPE = "shape_type"
 
     private const val REQUEST_CODE_PERMISSION = 100
   }

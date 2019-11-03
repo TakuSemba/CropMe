@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.takusemba.cropmesample.ui.CustomCropOverlay xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@id/cropme_overlay"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  app:cropme_background_alpha="80%"
+  app:cropme_with_border="true"
+  />

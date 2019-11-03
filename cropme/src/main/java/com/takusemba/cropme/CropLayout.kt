@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Handler
 import android.util.AttributeSet
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewTreeObserver
@@ -50,28 +51,28 @@ class CropLayout @JvmOverloads constructor(
       addView(defaultCropImageView, 0)
       cropImageView = defaultCropImageView
 
-      val customCropOverlay = findViewById<CropOverlay>(R.id.cropme_overlay)
-      if (customCropOverlay != null) {
-        cropOverlay = customCropOverlay
-      } else {
-        @OverlayShape val overlayShape = a.getInt(
-            R.styleable.CropLayout_cropme_overlay_shape,
-            DEFAULT_OVERLAY_SHAPE
-        )
-        // Propagate attrs as cropOverlayAttrs so that CropOverlay's custom attributes are transferred,
-        // but standard attributes (e.g. background) are not.
-        // Inspired from https://github.com/google/ExoPlayer/blob/r2.10.6/library/ui/src/main/java/com/google/android/exoplayer2/ui/PlayerView.java#L464
-        val defaultCropOverlay: CropOverlay = when (overlayShape) {
-          OVERLAY_SHAPE_NONE -> NoneCropOverlay(context, null, 0, attrs)
-          OVERLAY_SHAPE_RECTANGLE -> RectangleCropOverlay(context, null, 0, attrs)
-          OVERLAY_SHAPE_CIRCLE -> CircleCropOverlay(context, null, 0, attrs)
-          else -> RectangleCropOverlay(context, null, 0, attrs)
+      @OverlayShape val overlayShape = a.getInt(
+          R.styleable.CropLayout_cropme_overlay_shape,
+          DEFAULT_OVERLAY_SHAPE
+      )
+      // Propagate attrs as cropOverlayAttrs so that CropOverlay's custom attributes are transferred,
+      // but standard attributes (e.g. background) are not.
+      // Inspired from https://github.com/google/ExoPlayer/blob/r2.10.6/library/ui/src/main/java/com/google/android/exoplayer2/ui/PlayerView.java#L464
+      val defaultCropOverlay: CropOverlay = when (overlayShape) {
+        OVERLAY_SHAPE_NONE -> NoneCropOverlay(context, null, 0, attrs)
+        OVERLAY_SHAPE_RECTANGLE -> RectangleCropOverlay(context, null, 0, attrs)
+        OVERLAY_SHAPE_CIRCLE -> CircleCropOverlay(context, null, 0, attrs)
+        OVERLAY_SHAPE_CUSTOM -> {
+          val layoutId = a.getResourceId(R.styleable.CropLayout_cropme_custom_shape_layout, -1)
+          val view = LayoutInflater.from(context).inflate(layoutId, null)
+          view.findViewById(R.id.cropme_overlay)
         }
-        defaultCropOverlay.id = R.id.cropme_overlay
-        defaultCropOverlay.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT, Gravity.CENTER)
-        addView(defaultCropOverlay, 1)
-        cropOverlay = defaultCropOverlay
+        else -> RectangleCropOverlay(context, null, 0, attrs)
       }
+      defaultCropOverlay.id = R.id.cropme_overlay
+      defaultCropOverlay.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT, Gravity.CENTER)
+      addView(defaultCropOverlay, 1)
+      cropOverlay = defaultCropOverlay
 
       scale = a.getInt(R.styleable.CropLayout_cropme_max_scale, DEFAULT_MAX_SCALE)
 
@@ -171,12 +172,13 @@ class CropLayout @JvmOverloads constructor(
   companion object {
 
     @Retention(AnnotationRetention.SOURCE)
-    @IntDef(OVERLAY_SHAPE_NONE, OVERLAY_SHAPE_RECTANGLE, OVERLAY_SHAPE_CIRCLE)
+    @IntDef(OVERLAY_SHAPE_NONE, OVERLAY_SHAPE_RECTANGLE, OVERLAY_SHAPE_CIRCLE, OVERLAY_SHAPE_CUSTOM)
     annotation class OverlayShape
 
     private const val OVERLAY_SHAPE_NONE = 0
     private const val OVERLAY_SHAPE_RECTANGLE = 1
     private const val OVERLAY_SHAPE_CIRCLE = 2
+    private const val OVERLAY_SHAPE_CUSTOM = 3
 
     private const val DEFAULT_OVERLAY_SHAPE = OVERLAY_SHAPE_RECTANGLE
     private const val DEFAULT_MAX_SCALE = 2

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
   package="com.takusemba.cropmesample"
   >
 
@@ -13,9 +14,10 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/AppTheme"
+    tools:ignore="GoogleAppIndexingWarning"
     >
     <activity
-      android:name=".ui.activities.CropActivity"
+      android:name=".ui.activities.ChooserActivity"
       android:screenOrientation="portrait"
       >
       <intent-filter>
@@ -25,7 +27,7 @@
       </intent-filter>
     </activity>
     <activity
-      android:name=".ui.activities.ResultActivity"
+      android:name=".ui.activities.CropActivity"
       android:screenOrientation="portrait"
       />
   </application>
