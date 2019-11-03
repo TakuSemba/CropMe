@@ -13,11 +13,12 @@ class CircleCropOverlay @JvmOverloads constructor(
 ) : CropOverlay(context, attrs, defStyleAttr, cropOverlayAttrs) {
 
   override fun drawCrop(canvas: Canvas, paint: Paint) {
+    val frameRect = frame ?: return
     val x = measuredWidth / 2f
     val y = measuredHeight / 2f
 
-    val frameWidth = measuredWidth * percentWidth
-    val frameHeight = measuredHeight * percentHeight
+    val frameWidth = frameRect.width()
+    val frameHeight = frameRect.height()
     val radius = maxOf(frameWidth, frameHeight) / 2f
 
     canvas.drawCircle(x, y, radius, paint)

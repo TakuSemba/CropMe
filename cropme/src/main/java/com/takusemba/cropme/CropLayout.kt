@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Rect
+import android.graphics.RectF
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.util.AttributeSet
@@ -28,6 +29,11 @@ class CropLayout @JvmOverloads constructor(
   private val cropImageView: CropImageView
   private val cropOverlay: CropOverlay
 
+  private val percentWidth: Float
+  private val percentHeight: Float
+
+  private var frameCache: RectF? = null
+
   init {
     val a = context.obtainStyledAttributes(attrs, R.styleable.CropLayout, 0, 0)
 
@@ -37,7 +43,7 @@ class CropLayout @JvmOverloads constructor(
       // Propagate attrs as cropImageAttrs so that CropImageView's custom attributes are transferred,
       // but standard attributes (e.g. background) are not.
       // Inspired from https://github.com/google/ExoPlayer/blob/r2.10.6/library/ui/src/main/java/com/google/android/exoplayer2/ui/PlayerView.java#L464
-      val defaultCropImageView = CropImageView(context, null, 0, attrs)
+      val defaultCropImageView = CropImageView(context, null, 0)
       defaultCropImageView.id = R.id.cropme_image_view
       defaultCropImageView.scaleType = ImageView.ScaleType.FIT_XY
       defaultCropImageView.adjustViewBounds = true
@@ -69,17 +75,45 @@ class CropLayout @JvmOverloads constructor(
       }
 
       scale = a.getInt(R.styleable.CropLayout_cropme_max_scale, DEFAULT_MAX_SCALE)
+
+      percentWidth = a.getFraction(
+          R.styleable.CropLayout_cropme_percent_width,
+          DEFAULT_BASE,
+          DEFAULT_PBASE,
+          DEFAULT_PERCENT_WIDTH
+      )
+      percentHeight = a.getFraction(
+          R.styleable.CropLayout_cropme_percent_height,
+          DEFAULT_BASE,
+          DEFAULT_PBASE,
+          DEFAULT_PERCENT_HEIGHT
+      )
     } finally {
       a.recycle()
     }
 
-    val vto = cropOverlay.viewTreeObserver
+    val vto = viewTreeObserver
     vto.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
 
       override fun onPreDraw(): Boolean {
-        cropImageView.setFrame(cropOverlay.getFrame())
-        val animator = GestureAnimator.of(cropImageView, cropOverlay.getFrame(), scale)
-        val animation = GestureAnimation(this@CropLayout, animator)
+
+        val totalWidth = measuredWidth.toFloat()
+        val totalHeight = measuredHeight.toFloat()
+        val frameWidth = measuredWidth * percentWidth
+        val frameHeight = measuredHeight * percentHeight
+        val frame = RectF(
+            (totalWidth - frameWidth) / 2f,
+            (totalHeight - frameHeight) / 2f,
+            (totalWidth + frameWidth) / 2f,
+            (totalHeight + frameHeight) / 2f
+        )
+
+        cropImageView.setFrame(frame)
+        cropOverlay.setFrame(frame)
+        frameCache = frame
+
+        val animator = GestureAnimator.of(cropImageView, frame, scale)
+        val animation = GestureAnimation(cropOverlay, animator)
         animation.start()
         when {
           vto.isAlive -> vto.removeOnPreDrawListener(this)
@@ -101,7 +135,7 @@ class CropLayout @JvmOverloads constructor(
   }
 
   fun isOffFrame(): Boolean {
-    val frameRect = cropOverlay.getFrame()
+    val frameRect = frameCache ?: return false
     val targetRect = Rect()
     cropImageView.getHitRect(targetRect)
     return !frameRect.contains(
@@ -114,9 +148,8 @@ class CropLayout @JvmOverloads constructor(
 
   @MainThread
   fun crop(listener: OnCropListener) {
+    val frame = frameCache ?: return
     val targetRect = Rect()
-    // TODO check frame is valid
-    val frame = cropOverlay.getFrame()
     cropImageView.getHitRect(targetRect)
 
     val sourceBitmap = (cropImageView.drawable as BitmapDrawable).bitmap
@@ -172,5 +205,11 @@ class CropLayout @JvmOverloads constructor(
 
     private const val DEFAULT_OVERLAY_SHAPE = OVERLAY_SHAPE_RECTANGLE
     private const val DEFAULT_MAX_SCALE = 2
+
+    private const val DEFAULT_BASE = 1
+    private const val DEFAULT_PBASE = 1
+
+    private const val DEFAULT_PERCENT_WIDTH = 0.8f
+    private const val DEFAULT_PERCENT_HEIGHT = 0.8f
   }
 }

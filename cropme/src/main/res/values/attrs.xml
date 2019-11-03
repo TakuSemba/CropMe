@@ -25,14 +25,7 @@
     <attr name="cropme_background_alpha" />
   </declare-styleable>
 
-  <declare-styleable name="CropImageView">
-    <attr name="cropme_percent_width" />
-    <attr name="cropme_percent_height" />
-  </declare-styleable>
-
   <declare-styleable name="CropOverlay">
-    <attr name="cropme_percent_width" />
-    <attr name="cropme_percent_height" />
     <attr name="cropme_with_border" />
     <attr name="cropme_background_alpha" />
   </declare-styleable>

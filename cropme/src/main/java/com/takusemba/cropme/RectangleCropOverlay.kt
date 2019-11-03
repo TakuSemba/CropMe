@@ -13,8 +13,9 @@ class RectangleCropOverlay @JvmOverloads constructor(
 ) : CropOverlay(context, attrs, defStyleAttr, cropOverlayAttrs) {
 
   override fun drawCrop(canvas: Canvas, paint: Paint) {
-    val frameWidth = measuredWidth * percentWidth
-    val frameHeight = measuredHeight * percentHeight
+    val frameRect = frame ?: return
+    val frameWidth = frameRect.width()
+    val frameHeight = frameRect.height()
 
     val left = (width - frameWidth) / 2f
     val top = (height - frameHeight) / 2f
