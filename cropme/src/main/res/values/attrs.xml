@@ -50,7 +50,7 @@
     <attr name="cropme_percent_height" />
   </declare-styleable>
 
-  <declare-styleable name="SquareCropOverlay2">
+  <declare-styleable name="CropOverlay2">
     <attr name="cropme_percent_width" />
     <attr name="cropme_percent_height" />
     <attr name="cropme_with_border" />

@@ -2,7 +2,6 @@ package com.takusemba.cropme.internal
 
 import android.animation.ObjectAnimator
 import android.graphics.Rect
-import android.graphics.RectF
 import android.view.View
 import android.view.View.TRANSLATION_X
 import androidx.dynamicanimation.animation.DynamicAnimation
@@ -12,10 +11,13 @@ import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 
 /**
- * HorizontalMoveAnimatorImpl is responsible for animating [CropImageView] horizontally.
+ * HorizontalAnimatorImpl is responsible for animating [CropImageView] horizontally.
  */
-internal class HorizontalMoveAnimatorImpl(
-    target: View, private val restrictionRect: RectF, private val maxScale: Int
+internal class HorizontalAnimatorImpl(
+    target: View,
+    private val leftBound: Int,
+    private val rightBound: Int,
+    private val maxScale: Int
 ) : MoveAnimator {
 
   private val spring: SpringAnimation
@@ -46,8 +48,7 @@ internal class HorizontalMoveAnimatorImpl(
             .setDampingRatio(MoveAnimator.DAMPING_RATIO)
         )
 
-    fling = FlingAnimation(target, DynamicAnimation.X).setFriction(
-        MoveAnimator.FRICTION)
+    fling = FlingAnimation(target, DynamicAnimation.X).setFriction(MoveAnimator.FRICTION)
 
     animator = ObjectAnimator()
     animator.setProperty(TRANSLATION_X)
@@ -91,14 +92,14 @@ internal class HorizontalMoveAnimatorImpl(
       }
       val horizontalDiff = (target.width * scale - target.width) / 2
 
-      if (restrictionRect.left < afterRect.left) {
+      if (leftBound < afterRect.left) {
         cancel()
         spring.setStartVelocity(velocity).animateToFinalPosition(
-            restrictionRect.left + horizontalDiff)
-      } else if (afterRect.right < restrictionRect.right) {
+            leftBound + horizontalDiff)
+      } else if (afterRect.right < rightBound) {
         cancel()
         spring.setStartVelocity(velocity).animateToFinalPosition(
-            restrictionRect.right - target.width.toFloat() - horizontalDiff)
+            rightBound - target.width.toFloat() - horizontalDiff)
       }
     }
   }

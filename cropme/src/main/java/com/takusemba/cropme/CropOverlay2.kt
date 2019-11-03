@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffXfermode
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -26,9 +27,11 @@ abstract class CropOverlay2 @JvmOverloads constructor(
   protected val backgroundAlpha: Int
   protected val withBorder: Boolean
 
+  private var frameCache: RectF? = null
+
   init {
     if (cropOverlayAttrs != null) {
-      val a = context.obtainStyledAttributes(cropOverlayAttrs, R.styleable.SquareCropOverlay2, 0, 0)
+      val a = context.obtainStyledAttributes(cropOverlayAttrs, R.styleable.CropOverlay2, 0, 0)
       try {
         percentWidth = a.getFraction(
             R.styleable.CropImageView2_cropme_percent_width,
@@ -78,7 +81,9 @@ abstract class CropOverlay2 @JvmOverloads constructor(
     super.onDraw(canvas)
     drawBackground(canvas)
     drawCrop(canvas)
-    drawBorder(canvas)
+    if (withBorder) {
+      drawBorder(canvas)
+    }
   }
 
   open fun drawBackground(canvas: Canvas) {
@@ -109,6 +114,29 @@ abstract class CropOverlay2 @JvmOverloads constructor(
     canvas.drawLine(right, top, right, bottom, borderPaint)
   }
 
+  fun getFrame(): RectF {
+    return if (frameCache != null) {
+      checkNotNull(frameCache)
+    } else {
+      if (measuredWidth != 0 && measuredHeight != 0) {
+        val totalWidth = measuredWidth.toFloat()
+        val totalHeight = measuredHeight.toFloat()
+        val frameWidth = measuredWidth * percentWidth
+        val frameHeight = measuredHeight * percentHeight
+        RectF(
+            (totalWidth - frameWidth) / 2f,
+            (totalHeight - frameHeight) / 2f,
+            (totalWidth + frameWidth) / 2f,
+            (totalHeight + frameHeight) / 2f
+        ).also { calculatedRect ->
+          frameCache = calculatedRect
+        }
+      } else {
+        EMPTY_FRAME
+      }
+    }
+  }
+
   final override fun setWillNotDraw(willNotDraw: Boolean) {
     super.setWillNotDraw(willNotDraw)
   }
@@ -131,5 +159,7 @@ abstract class CropOverlay2 @JvmOverloads constructor(
     private const val COLOR_DENSITY = 255f
 
     private const val DEFAULT_WITH_BORDER = true
+
+    private val EMPTY_FRAME = RectF(0f, 0f, 0f, 0f)
   }
 }

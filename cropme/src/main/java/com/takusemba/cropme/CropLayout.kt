@@ -16,11 +16,11 @@ import android.widget.ImageView
 import androidx.annotation.MainThread
 import com.takusemba.cropme.internal.ActionDetector
 import com.takusemba.cropme.internal.ActionListener
-import com.takusemba.cropme.internal.HorizontalMoveAnimatorImpl
+import com.takusemba.cropme.internal.HorizontalAnimatorImpl
 import com.takusemba.cropme.internal.MoveAnimator
 import com.takusemba.cropme.internal.ScaleAnimator
 import com.takusemba.cropme.internal.ScaleAnimatorImpl
-import com.takusemba.cropme.internal.VerticalMoveAnimatorImpl
+import com.takusemba.cropme.internal.VerticalAnimatorImpl
 
 /**
  * CropLayout is a parent layout that has [CropOverlay].
@@ -66,9 +66,9 @@ class CropLayout @JvmOverloads constructor(
         cropImageView.id = R.id.cropme_image_view
         addView(cropImageView, 0)
 
-        horizontalAnimator = HorizontalMoveAnimatorImpl(cropImageView, frame!!, maxScale)
-        verticalAnimator = VerticalMoveAnimatorImpl(cropImageView, frame!!, maxScale)
-        scaleAnimator = ScaleAnimatorImpl(cropImageView, maxScale.toFloat())
+        horizontalAnimator = HorizontalAnimatorImpl(cropImageView, frame!!.left.toInt(), frame!!.right.toInt(), maxScale)
+        verticalAnimator = VerticalAnimatorImpl(cropImageView, frame!!.top.toInt(), frame!!.bottom.toInt(), maxScale)
+        scaleAnimator = ScaleAnimatorImpl(cropImageView, maxScale)
 
         startActionDetector()
 
@@ -124,7 +124,7 @@ class CropLayout @JvmOverloads constructor(
     image.requestLayout()
   }
 
-  override fun isOffOfFrame(): Boolean {
+  override fun isOffFrame(): Boolean {
     val imageView = findViewById<ImageView>(R.id.cropme_image_view)
     val targetRect = Rect()
     imageView.getHitRect(targetRect)

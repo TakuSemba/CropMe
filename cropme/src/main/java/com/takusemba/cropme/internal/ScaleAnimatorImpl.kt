@@ -9,7 +9,7 @@ import android.view.animation.DecelerateInterpolator
 /**
  * ScaleAnimatorImpl is responsible for scaling [CropImageView].
  */
-internal class ScaleAnimatorImpl(target: View, private val maxScale: Float) : ScaleAnimator {
+internal class ScaleAnimatorImpl(target: View, private val maxScale: Int) : ScaleAnimator {
 
   private val animatorX: ObjectAnimator
   private val animatorY: ObjectAnimator
@@ -52,15 +52,13 @@ internal class ScaleAnimatorImpl(target: View, private val maxScale: Float) : Sc
         animatorX.cancel()
         animatorX.duration = DURATION.toLong()
         animatorX.setFloatValues(1f)
-        animatorX.interpolator = DecelerateInterpolator(
-            FACTOR.toFloat())
+        animatorX.interpolator = DecelerateInterpolator(FACTOR.toFloat())
         animatorX.start()
       } else if (maxScale < targetX.scaleX) {
         animatorX.cancel()
         animatorX.duration = DURATION.toLong()
-        animatorX.setFloatValues(maxScale)
-        animatorX.interpolator = DecelerateInterpolator(
-            FACTOR.toFloat())
+        animatorX.setFloatValues(maxScale.toFloat())
+        animatorX.interpolator = DecelerateInterpolator(FACTOR.toFloat())
         animatorX.start()
       }
     }
@@ -71,15 +69,13 @@ internal class ScaleAnimatorImpl(target: View, private val maxScale: Float) : Sc
         animatorY.cancel()
         animatorY.duration = DURATION.toLong()
         animatorY.setFloatValues(1f)
-        animatorY.interpolator = DecelerateInterpolator(
-            FACTOR.toFloat())
+        animatorY.interpolator = DecelerateInterpolator(FACTOR.toFloat())
         animatorY.start()
       } else if (maxScale < targetY.scaleY) {
         animatorY.cancel()
         animatorY.duration = DURATION.toLong()
-        animatorY.setFloatValues(maxScale)
-        animatorY.interpolator = DecelerateInterpolator(
-            FACTOR.toFloat())
+        animatorY.setFloatValues(maxScale.toFloat())
+        animatorY.interpolator = DecelerateInterpolator(FACTOR.toFloat())
         animatorY.start()
       }
     }

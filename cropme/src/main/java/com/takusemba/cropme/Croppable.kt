@@ -14,7 +14,7 @@ interface Croppable {
   /**
    * check if Image is out of the frame.
    */
-  fun isOffOfFrame(): Boolean
+  fun isOffFrame(): Boolean
 
   /**
    * setUri to [ImageView]

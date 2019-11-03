@@ -1,22 +1,25 @@
 package com.takusemba.cropme
 
 import android.content.Context
+import android.graphics.RectF
 import android.util.AttributeSet
-import android.widget.FrameLayout
+import androidx.appcompat.widget.AppCompatImageView
 
 class CropImageView2 @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     cropImageAttrs: AttributeSet? = attrs
-) : FrameLayout(context, attrs, defStyleAttr) {
+) : AppCompatImageView(context, attrs, defStyleAttr) {
+
+  private var frame: RectF? = null
 
   private val percentWidth: Float
   private val percentHeight: Float
 
   init {
     if (cropImageAttrs != null) {
-      val a = context.theme.obtainStyledAttributes(cropImageAttrs, R.styleable.CropImageView2, 0, 0)
+      val a = context.obtainStyledAttributes(cropImageAttrs, R.styleable.CropImageView2, 0, 0)
       try {
         percentWidth = a.getFraction(
             R.styleable.CropImageView2_cropme_percent_width,
@@ -28,7 +31,7 @@ class CropImageView2 @JvmOverloads constructor(
             R.styleable.CropImageView2_cropme_percent_height,
             DEFAULT_BASE,
             DEFAULT_PBASE,
-            DEFAULT_PERCENT_WIDTH
+            DEFAULT_PERCENT_HEIGHT
         )
       } finally {
         a.recycle()
@@ -43,7 +46,14 @@ class CropImageView2 @JvmOverloads constructor(
     super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     val height = measuredHeight.toFloat()
     val width = measuredWidth.toFloat()
-    setMeasuredDimension((width * percentWidth).toInt(), (height * percentHeight).toInt())
+    val widthScale = if (frame != null) frame!!.width() / width else 1f
+    val heightScale = if (frame != null) frame!!.height() / height else 1f
+    val scale = maxOf(widthScale, heightScale)
+    setMeasuredDimension((width * scale).toInt(), (height * scale).toInt())
+  }
+
+  fun setFrame(frame: RectF) {
+    this.frame = frame
   }
 
   companion object {

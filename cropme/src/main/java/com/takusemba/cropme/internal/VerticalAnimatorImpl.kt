@@ -2,7 +2,6 @@ package com.takusemba.cropme.internal
 
 import android.animation.ObjectAnimator
 import android.graphics.Rect
-import android.graphics.RectF
 import android.view.View
 import android.view.View.TRANSLATION_Y
 import androidx.dynamicanimation.animation.DynamicAnimation
@@ -12,10 +11,13 @@ import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 
 /**
- * VerticalMoveAnimatorImpl is responsible for animating [CropImageView] vertically.
+ * VerticalAnimatorImpl is responsible for animating [CropImageView] vertically.
  */
-internal class VerticalMoveAnimatorImpl(
-    target: View, private val restrictionRect: RectF, private val maxScale: Int
+internal class VerticalAnimatorImpl(
+    target: View,
+    private val topBound: Int,
+    private val bottomBound: Int,
+    private val maxScale: Int
 ) : MoveAnimator {
 
   private val spring: SpringAnimation
@@ -95,13 +97,13 @@ internal class VerticalMoveAnimatorImpl(
       }
       val verticalDiff = (target.height * scale - target.height) / 2
 
-      if (restrictionRect.top < afterRect.top) {
+      if (topBound < afterRect.top) {
         cancel()
-        spring.setStartVelocity(velocity).animateToFinalPosition(restrictionRect.top + verticalDiff)
-      } else if (afterRect.bottom < restrictionRect.bottom) {
+        spring.setStartVelocity(velocity).animateToFinalPosition(topBound + verticalDiff)
+      } else if (afterRect.bottom < bottomBound) {
         cancel()
         spring.setStartVelocity(velocity).animateToFinalPosition(
-            restrictionRect.bottom - target.height.toFloat() - verticalDiff)
+            bottomBound - target.height.toFloat() - verticalDiff)
       }
     }
   }
