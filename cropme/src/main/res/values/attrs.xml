@@ -17,26 +17,6 @@
   </attr>
 
   <declare-styleable name="CropLayout">
-    <attr name="cropme_max_scale" />
-    <attr name="cropme_result_width" />
-    <attr name="cropme_result_height" />
-    <attr name="cropme_with_border" />
-    <attr name="cropme_background_alpha" />
-  </declare-styleable>
-
-  <declare-styleable name="SquareCropOverlay">
-    <attr name="cropme_result_width" />
-    <attr name="cropme_result_height" />
-    <attr name="cropme_with_border" />
-    <attr name="cropme_background_alpha" />
-  </declare-styleable>
-
-  <declare-styleable name="CropImageView">
-    <attr name="cropme_result_width" />
-    <attr name="cropme_result_height" />
-  </declare-styleable>
-
-  <declare-styleable name="CropLayout2">
     <attr name="cropme_percent_width" />
     <attr name="cropme_percent_height" />
     <attr name="cropme_max_scale" />
@@ -45,12 +25,12 @@
     <attr name="cropme_background_alpha" />
   </declare-styleable>
 
-  <declare-styleable name="CropImageView2">
+  <declare-styleable name="CropImageView">
     <attr name="cropme_percent_width" />
     <attr name="cropme_percent_height" />
   </declare-styleable>
 
-  <declare-styleable name="CropOverlay2">
+  <declare-styleable name="CropOverlay">
     <attr name="cropme_percent_width" />
     <attr name="cropme_percent_height" />
     <attr name="cropme_with_border" />

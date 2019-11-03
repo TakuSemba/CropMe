@@ -4,12 +4,12 @@ import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 
-class RectangleCropOverlay2 @JvmOverloads constructor(
+class RectangleCropOverlay @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     cropOverlayAttrs: AttributeSet? = attrs
-) : CropOverlay2(context, attrs, defStyleAttr, cropOverlayAttrs) {
+) : CropOverlay(context, attrs, defStyleAttr, cropOverlayAttrs) {
 
   override fun drawCrop(canvas: Canvas) {
     val frameWidth = measuredWidth * percentWidth

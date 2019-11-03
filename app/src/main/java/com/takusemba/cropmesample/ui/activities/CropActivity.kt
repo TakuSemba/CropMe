@@ -16,7 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.takusemba.cropme.CropLayout2
+import com.takusemba.cropme.CropLayout
 import com.takusemba.cropme.OnCropListener
 import com.takusemba.cropmesample.R
 import com.takusemba.cropmesample.clients.AlbumClient
@@ -36,7 +36,7 @@ class CropActivity : AppCompatActivity() {
   private val cropButton by lazy { findViewById<ImageView>(R.id.crop) }
   private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view) }
   private val parent by lazy { findViewById<ConstraintLayout>(R.id.container) }
-  private val cropLayout by lazy { findViewById<CropLayout2>(R.id.crop_view) }
+  private val cropLayout by lazy { findViewById<CropLayout>(R.id.crop_view) }
   private val progressBar by lazy { findViewById<ProgressBar>(R.id.progress) }
 
   private lateinit var adapter: AlbumAdapter

@@ -9,7 +9,7 @@ class CircleCropOverlay @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     cropOverlayAttrs: AttributeSet? = attrs
-) : CropOverlay2(context, attrs, defStyleAttr, cropOverlayAttrs) {
+) : CropOverlay(context, attrs, defStyleAttr, cropOverlayAttrs) {
 
   override fun drawCrop(canvas: Canvas) {
     val x = measuredWidth / 2f

@@ -9,7 +9,7 @@ class NoneCropOverlay @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
     cropOverlayAttrs: AttributeSet? = attrs
-) : CropOverlay2(context, attrs, defStyleAttr, cropOverlayAttrs) {
+) : CropOverlay(context, attrs, defStyleAttr, cropOverlayAttrs) {
 
   override fun drawBackground(canvas: Canvas) = Unit
 
