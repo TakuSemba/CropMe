@@ -1,12 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="CropLayout">
-        <attr name="cropme_max_scale" format="integer" />
-    </declare-styleable>
-    <declare-styleable name="SquareCropOverlay">
-        <attr name="cropme_result_width" format="fraction" />
-        <attr name="cropme_result_height" format="fraction" />
-        <attr name="cropme_with_border" format="boolean" />
-        <attr name="cropme_background_alpha" format="fraction" />
-    </declare-styleable>
+
+  <attr name="cropme_result_width" format="fraction" />
+  <attr name="cropme_result_height" format="fraction" />
+
+  <attr name="cropme_percent_width" format="fraction" />
+  <attr name="cropme_percent_height" format="fraction" />
+  <attr name="cropme_max_scale" format="integer" />
+  <attr name="cropme_with_border" format="boolean" />
+  <attr name="cropme_background_alpha" format="fraction" />
+
+  <attr name="cropme_overlay_shape" format="enum">
+    <enum name="none" value="0" />
+    <enum name="rectangle" value="1" />
+    <enum name="circle" value="2" />
+  </attr>
+
+  <declare-styleable name="CropLayout">
+    <attr name="cropme_max_scale" />
+    <attr name="cropme_result_width" />
+    <attr name="cropme_result_height" />
+    <attr name="cropme_with_border" />
+    <attr name="cropme_background_alpha" />
+  </declare-styleable>
+
+  <declare-styleable name="SquareCropOverlay">
+    <attr name="cropme_result_width" />
+    <attr name="cropme_result_height" />
+    <attr name="cropme_with_border" />
+    <attr name="cropme_background_alpha" />
+  </declare-styleable>
+
+  <declare-styleable name="CropImageView">
+    <attr name="cropme_result_width" />
+    <attr name="cropme_result_height" />
+  </declare-styleable>
+
+  <declare-styleable name="CropLayout2">
+    <attr name="cropme_percent_width" />
+    <attr name="cropme_percent_height" />
+    <attr name="cropme_max_scale" />
+    <attr name="cropme_overlay_shape" />
+    <attr name="cropme_with_border" />
+    <attr name="cropme_background_alpha" />
+  </declare-styleable>
+
+  <declare-styleable name="CropImageView2">
+    <attr name="cropme_percent_width" />
+    <attr name="cropme_percent_height" />
+  </declare-styleable>
+
+  <declare-styleable name="SquareCropOverlay2">
+    <attr name="cropme_percent_width" />
+    <attr name="cropme_percent_height" />
+    <attr name="cropme_with_border" />
+    <attr name="cropme_background_alpha" />
+  </declare-styleable>
 </resources>

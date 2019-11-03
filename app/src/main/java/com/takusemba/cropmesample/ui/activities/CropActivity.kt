@@ -16,8 +16,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.takusemba.cropme.CropLayout
-import com.takusemba.cropme.OnCropListener
 import com.takusemba.cropmesample.R
 import com.takusemba.cropmesample.clients.AlbumClient
 import com.takusemba.cropmesample.clients.ImageClient
@@ -36,7 +34,7 @@ class CropActivity : AppCompatActivity() {
   private val cropButton by lazy { findViewById<ImageView>(R.id.crop) }
   private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_view) }
   private val parent by lazy { findViewById<RelativeLayout>(R.id.container) }
-  private val cropLayout by lazy { findViewById<CropLayout>(R.id.crop_view) }
+  //  private val cropLayout by lazy { findViewById<CropLayout>(R.id.crop_view) }
   private val progressBar by lazy { findViewById<ProgressBar>(R.id.progress) }
 
   private lateinit var adapter: AlbumAdapter
@@ -47,7 +45,7 @@ class CropActivity : AppCompatActivity() {
 
     val listener = object : OnPhotoClickListener {
       override fun onPhotoClicked(photo: Photo) {
-        cropLayout.setUri(photo.uri)
+//        cropLayout.setUri(photo.uri)
       }
     }
     adapter = AlbumAdapter(this, ArrayList(), listener)
@@ -55,18 +53,18 @@ class CropActivity : AppCompatActivity() {
     backButton.setOnClickListener { finish() }
 
     cropButton.setOnClickListener(View.OnClickListener {
-      if (cropLayout.isOffOfFrame()) {
-        Snackbar.make(parent, R.string.error_image_is_off_of_frame, Snackbar.LENGTH_LONG).show()
-        return@OnClickListener
-      }
-      cropLayout.crop(object : OnCropListener {
-        override fun onSuccess(bitmap: Bitmap) {
-          saveBitmapAndStartActivity(bitmap)
-        }
-
-        override fun onFailure() {
-        }
-      })
+      //      if (cropLayout.isOffOfFrame()) {
+//        Snackbar.make(parent, R.string.error_image_is_off_of_frame, Snackbar.LENGTH_LONG).show()
+//        return@OnClickListener
+//      }
+//      cropLayout.crop(object : OnCropListener {
+//        override fun onSuccess(bitmap: Bitmap) {
+//          saveBitmapAndStartActivity(bitmap)
+//        }
+//
+//        override fun onFailure() {
+//        }
+//      })
     })
 
     val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -105,12 +103,12 @@ class CropActivity : AppCompatActivity() {
 
   private fun saveBitmapAndStartActivity(bitmap: Bitmap) {
     progressBar.visibility = View.VISIBLE
-    cropLayout.isEnabled = false
+//    cropLayout.isEnabled = false
     thread {
       imageClient.saveBitmap(bitmap)
       runOnUiThread {
         progressBar.visibility = View.GONE
-        cropLayout.isEnabled = true
+//        cropLayout.isEnabled = true
         startActivity(Intent(this, ResultActivity::class.java))
       }
     }
@@ -125,7 +123,7 @@ class CropActivity : AppCompatActivity() {
           if (album.photos.isNotEmpty()) {
             if (adapter.itemCount == 0) {
               val photo = album.photos[0]
-              cropLayout.setUri(photo.uri)
+//              cropLayout.setUri(photo.uri)
             }
             adapter.addItem(album)
           }
