@@ -1,12 +1,12 @@
 package com.takusemba.cropme
 
-import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
+import android.os.Handler
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -29,14 +29,13 @@ class CropLayout @JvmOverloads constructor(
   private val cropImageView: CropImageView
   private val cropOverlay: CropOverlay
 
-  private val percentWidth: Float
-  private val percentHeight: Float
-
   private var frameCache: RectF? = null
 
   init {
     val a = context.obtainStyledAttributes(attrs, R.styleable.CropLayout, 0, 0)
 
+    val percentWidth: Float
+    val percentHeight: Float
     val scale: Int
 
     try {
@@ -138,52 +137,28 @@ class CropLayout @JvmOverloads constructor(
     val frameRect = frameCache ?: return false
     val targetRect = Rect()
     cropImageView.getHitRect(targetRect)
-    return !frameRect.contains(
-        targetRect.left.toFloat(),
-        targetRect.top.toFloat(),
-        targetRect.right.toFloat(),
-        targetRect.bottom.toFloat()
+    return !targetRect.contains(
+        frameRect.left.toInt(),
+        frameRect.top.toInt(),
+        frameRect.right.toInt(),
+        frameRect.bottom.toInt()
     )
   }
 
   @MainThread
   fun crop(listener: OnCropListener) {
     val frame = frameCache ?: return
-    val targetRect = Rect()
-    cropImageView.getHitRect(targetRect)
-
-    val sourceBitmap = (cropImageView.drawable as BitmapDrawable).bitmap
+    val mainHandler = Handler()
+    val targetRect = Rect().apply { cropImageView.getHitRect(this) }
+    val source = (cropImageView.drawable as BitmapDrawable).bitmap
     thread {
-      val bitmap = Bitmap.createScaledBitmap(sourceBitmap, targetRect.width(), targetRect.height(),
-          false)
-      var leftOffset = (frame.left - targetRect.left).toInt()
-      var topOffset = (frame.top - targetRect.top).toInt()
-      val rightOffset = (targetRect.right - frame.right).toInt()
-      val bottomOffset = (targetRect.bottom - frame.bottom).toInt()
-      var width = frame.width().toInt()
-      var height = frame.height().toInt()
-
-      if (leftOffset < 0) {
-        width += leftOffset
-        leftOffset = 0
-      }
-      if (topOffset < 0) {
-        height += topOffset
-        topOffset = 0
-      }
-      if (rightOffset < 0) {
-        width += rightOffset
-      }
-      if (bottomOffset < 0) {
-        height += bottomOffset
-      }
-      if (width < 0 || height < 0) {
-        throw IllegalStateException("width or heigt is less than 0")
-      }
-
+      val bitmap = Bitmap.createScaledBitmap(source, targetRect.width(), targetRect.height(), false)
+      val leftOffset = (frame.left - targetRect.left).toInt()
+      val topOffset = (frame.top - targetRect.top).toInt()
+      val width = frame.width().toInt()
+      val height = frame.height().toInt()
       val result = Bitmap.createBitmap(bitmap, leftOffset, topOffset, width, height)
-
-      (context as Activity).runOnUiThread {
+      mainHandler.post {
         if (result != null) {
           listener.onSuccess(result)
         } else {
