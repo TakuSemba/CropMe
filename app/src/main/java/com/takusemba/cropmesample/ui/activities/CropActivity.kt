@@ -5,8 +5,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -83,8 +83,17 @@ class CropActivity : AppCompatActivity() {
             REQUEST_CODE_PERMISSION)
       }
     } else {
-      // TODO Fix this workaround
-      Handler().postDelayed({ loadAlbums() }, 1000)
+      val vto = cropLayout.viewTreeObserver
+      vto.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+        override fun onPreDraw(): Boolean {
+          loadAlbums()
+          when {
+            vto.isAlive -> vto.removeOnPreDrawListener(this)
+            else -> cropLayout.viewTreeObserver.removeOnPreDrawListener(this)
+          }
+          return true
+        }
+      })
     }
   }
 
@@ -120,16 +129,12 @@ class CropActivity : AppCompatActivity() {
     adapter.clear()
     val result = albumClient.getAlbums()
     for (album in result) {
-      thread {
-        runOnUiThread {
-          if (album.photos.isNotEmpty()) {
-            if (adapter.itemCount == 0) {
-              val photo = album.photos[0]
-              cropLayout.setUri(photo.uri)
-            }
-            adapter.addItem(album)
-          }
+      if (album.photos.isNotEmpty()) {
+        if (adapter.itemCount == 0) {
+          val photo = album.photos[0]
+          cropLayout.setUri(photo.uri)
         }
+        adapter.addItem(album)
       }
     }
   }

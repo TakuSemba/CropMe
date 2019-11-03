@@ -33,9 +33,11 @@ class AlbumClient(context: Context) {
           }
           photoCursor.close()
           val id = albumCursor.getString(
-              albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_ID))
+              albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_ID)
+          )
           val name = albumCursor.getString(
-              albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME))
+              albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+          )
           val album = Album(id, name, photos)
           albums.add(album)
         } while (albumCursor.moveToNext() && albums.size < 10)
