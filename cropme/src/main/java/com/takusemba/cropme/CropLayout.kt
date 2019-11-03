@@ -42,7 +42,6 @@ class CropLayout @JvmOverloads constructor(
       defaultCropImageView.scaleType = ImageView.ScaleType.FIT_XY
       defaultCropImageView.adjustViewBounds = true
       defaultCropImageView.layoutParams = LayoutParams(WRAP_CONTENT, WRAP_CONTENT, Gravity.CENTER)
-      // TODO fix index of child
       addView(defaultCropImageView, 0)
       cropImageView = defaultCropImageView
 
@@ -65,7 +64,6 @@ class CropLayout @JvmOverloads constructor(
         }
         defaultCropOverlay.id = R.id.cropme_overlay
         defaultCropOverlay.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT, Gravity.CENTER)
-        // TODO fix index of child
         addView(defaultCropOverlay, 1)
         cropOverlay = defaultCropOverlay
       }

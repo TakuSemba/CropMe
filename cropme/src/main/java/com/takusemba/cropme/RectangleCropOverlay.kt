@@ -2,6 +2,7 @@ package com.takusemba.cropme
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.util.AttributeSet
 
 class RectangleCropOverlay @JvmOverloads constructor(
@@ -11,7 +12,7 @@ class RectangleCropOverlay @JvmOverloads constructor(
     cropOverlayAttrs: AttributeSet? = attrs
 ) : CropOverlay(context, attrs, defStyleAttr, cropOverlayAttrs) {
 
-  override fun drawCrop(canvas: Canvas) {
+  override fun drawCrop(canvas: Canvas, paint: Paint) {
     val frameWidth = measuredWidth * percentWidth
     val frameHeight = measuredHeight * percentHeight
 
@@ -20,6 +21,6 @@ class RectangleCropOverlay @JvmOverloads constructor(
     val right = (width + frameWidth) / 2f
     val bottom = (height + frameHeight) / 2f
 
-    canvas.drawRect(left, top, right, bottom, cropPaint)
+    canvas.drawRect(left, top, right, bottom, paint)
   }
 }

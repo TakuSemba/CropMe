@@ -2,6 +2,7 @@ package com.takusemba.cropme
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.util.AttributeSet
 
 class NoneCropOverlay @JvmOverloads constructor(
@@ -11,9 +12,9 @@ class NoneCropOverlay @JvmOverloads constructor(
     cropOverlayAttrs: AttributeSet? = attrs
 ) : CropOverlay(context, attrs, defStyleAttr, cropOverlayAttrs) {
 
-  override fun drawBackground(canvas: Canvas) = Unit
+  override fun drawBackground(canvas: Canvas, paint: Paint) = Unit
 
-  override fun drawCrop(canvas: Canvas) = Unit
+  override fun drawCrop(canvas: Canvas, paint: Paint) = Unit
 
-  override fun drawBorder(canvas: Canvas) = Unit
+  override fun drawBorder(canvas: Canvas, paint: Paint) = Unit
 }

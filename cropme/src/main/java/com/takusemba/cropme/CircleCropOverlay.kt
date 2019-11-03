@@ -2,6 +2,7 @@ package com.takusemba.cropme
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.util.AttributeSet
 
 class CircleCropOverlay @JvmOverloads constructor(
@@ -11,7 +12,7 @@ class CircleCropOverlay @JvmOverloads constructor(
     cropOverlayAttrs: AttributeSet? = attrs
 ) : CropOverlay(context, attrs, defStyleAttr, cropOverlayAttrs) {
 
-  override fun drawCrop(canvas: Canvas) {
+  override fun drawCrop(canvas: Canvas, paint: Paint) {
     val x = measuredWidth / 2f
     val y = measuredHeight / 2f
 
@@ -19,6 +20,6 @@ class CircleCropOverlay @JvmOverloads constructor(
     val frameHeight = measuredHeight * percentHeight
     val radius = maxOf(frameWidth, frameHeight) / 2f
 
-    canvas.drawCircle(x, y, radius, cropPaint)
+    canvas.drawCircle(x, y, radius, paint)
   }
 }

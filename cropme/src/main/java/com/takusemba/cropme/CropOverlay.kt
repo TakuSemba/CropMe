@@ -18,9 +18,9 @@ abstract class CropOverlay @JvmOverloads constructor(
     cropOverlayAttrs: AttributeSet? = attrs
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-  protected val backgroundPaint = Paint()
-  protected val cropPaint = Paint()
-  protected val borderPaint = Paint()
+  private val backgroundPaint = Paint()
+  private val cropPaint = Paint()
+  private val borderPaint = Paint()
 
   protected val percentWidth: Float
   protected val percentHeight: Float
@@ -79,20 +79,20 @@ abstract class CropOverlay @JvmOverloads constructor(
 
   override fun onDraw(canvas: Canvas) {
     super.onDraw(canvas)
-    drawBackground(canvas)
-    drawCrop(canvas)
+    drawBackground(canvas, backgroundPaint)
+    drawCrop(canvas, cropPaint)
     if (withBorder) {
-      drawBorder(canvas)
+      drawBorder(canvas, borderPaint)
     }
   }
 
-  open fun drawBackground(canvas: Canvas) {
+  open fun drawBackground(canvas: Canvas, paint: Paint) {
     canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
   }
 
-  abstract fun drawCrop(canvas: Canvas)
+  abstract fun drawCrop(canvas: Canvas, paint: Paint)
 
-  open fun drawBorder(canvas: Canvas) {
+  open fun drawBorder(canvas: Canvas, paint: Paint) {
     val frameWidth = measuredWidth * percentWidth
     val frameHeight = measuredHeight * percentHeight
     val borderHeight = frameHeight / 3
