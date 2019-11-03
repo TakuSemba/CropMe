@@ -100,9 +100,10 @@ class CropActivity : AppCompatActivity() {
   }
 
   override fun onRequestPermissionsResult(
-      requestCode: Int, permissions: Array<String>, grantResults: IntArray
+      requestCode: Int,
+      permissions: Array<String>,
+      grantResults: IntArray
   ) {
-
     if (requestCode == REQUEST_CODE_PERMISSION) {
       if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
         loadAlbums()
