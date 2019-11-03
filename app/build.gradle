@@ -13,7 +13,6 @@ android {
 dependencies {
   implementation Dep.kotlin
   implementation Dep.appcompat
-  implementation Dep.dynamicAnimation
   implementation Dep.recyclerview
   implementation Dep.exifinterface
   implementation Dep.material
