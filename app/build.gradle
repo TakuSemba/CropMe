@@ -14,7 +14,6 @@ dependencies {
   implementation Dep.kotlin
   implementation Dep.appcompat
   implementation Dep.recyclerview
-  implementation Dep.exifinterface
   implementation Dep.material
   implementation Dep.constraintLayout
   implementation Dep.picasso

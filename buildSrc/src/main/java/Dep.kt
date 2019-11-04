@@ -18,7 +18,6 @@ object Dep {
     val appcompat = "androidx.appcompat:appcompat:${Version.androidx}"
     val dynamicAnimation = "androidx.dynamicanimation:dynamicanimation:${Version.androidx}"
     val recyclerview = "androidx.recyclerview:recyclerview:${Version.androidx}"
-    val exifinterface = "androidx.exifinterface:exifinterface:${Version.androidx}"
 
     /** design */
     val material = "com.google.android.material:material:${Version.material}"
