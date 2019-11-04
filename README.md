@@ -7,7 +7,7 @@
 ```groovy
 
 dependencies {
-    compile 'com.github.takusemba:cropme:x.x.x'
+    implementation 'com.github.takusemba:cropme:x.x.x'
 }
 
 ```
