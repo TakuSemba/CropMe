@@ -1,5 +1,9 @@
 ## Release notes
 
+### 2.0.1
+ - Refactor `HorizontalAnimatorImpl.kt`、`VerticalAnimatorImpl.kt` and `ScaleAnimatorImpl`.
+ - Add more comments to classes.
+
 ### 2.0.0
 
  - Migrate to AndroidX. After this release, your app have to be migrated to AndroidX.

@@ -1,7 +1,7 @@
 object Config {
 
-    const val libraryVersionCode = 9
-    const val libraryVersionName = "2.0.0"
+    const val libraryVersionCode = 10
+    const val libraryVersionName = "2.0.1"
 
     const val compileSdkVersion = 28
     const val minSdkVersion = 16
