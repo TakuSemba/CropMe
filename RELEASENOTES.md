@@ -1,5 +1,8 @@
 ## Release notes
 
+### 2.0.2
+ - Call requestLayout once frame size is settled. This will set a Image properly when the Image is set before CropLayout is laid out. 
+
 ### 2.0.1
  - Refactor `HorizontalAnimatorImpl.kt`、`VerticalAnimatorImpl.kt` and `ScaleAnimatorImpl`.
  - Add more comments to classes.

@@ -114,7 +114,9 @@ class CropLayout @JvmOverloads constructor(
         )
 
         cropImageView.setFrame(frame)
+        cropImageView.requestLayout()
         cropOverlay.setFrame(frame)
+        cropOverlay.requestLayout()
         frameCache = frame
 
         val animator = GestureAnimator.of(cropImageView, frame, scale)

@@ -85,17 +85,7 @@ class CropActivity : AppCompatActivity() {
             REQUEST_CODE_PERMISSION)
       }
     } else {
-      val vto = cropLayout.viewTreeObserver
-      vto.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
-        override fun onPreDraw(): Boolean {
-          loadAlbums()
-          when {
-            vto.isAlive -> vto.removeOnPreDrawListener(this)
-            else -> cropLayout.viewTreeObserver.removeOnPreDrawListener(this)
-          }
-          return true
-        }
-      })
+      loadAlbums()
     }
   }
 
