@@ -7,6 +7,11 @@ import android.util.AttributeSet
 import kotlin.math.pow
 import kotlin.math.sqrt
 
+/**
+ * Circle Overlay.
+ *
+ * This overlay creates a circle frame and draw borders if necessary.
+ */
 class CircleCropOverlay @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

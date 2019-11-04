@@ -1,7 +1,7 @@
 package com.takusemba.cropme.internal
 
 /**
- * ActionListener passes events to [ScaleAnimator] and [MoveAnimator] to animate Image.
+ * ActionListener to notify action events that is needed for moving/scaling a view.
  */
 internal interface ActionListener {
 

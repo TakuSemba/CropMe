@@ -5,6 +5,9 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 
+/**
+ * ImageView to show a image for cropping.
+ */
 class CropImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

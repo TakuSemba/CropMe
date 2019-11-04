@@ -6,6 +6,9 @@ import android.view.ScaleGestureDetector
 import android.view.View
 import androidx.core.view.GestureDetectorCompat
 
+/**
+ * According to the gesture detected on [trackPad], this will notify [actionListener].
+ */
 internal class GestureAnimation(
     private val trackPad: View,
     private val actionListener: ActionListener

@@ -21,6 +21,11 @@ import com.takusemba.cropme.internal.GestureAnimation
 import com.takusemba.cropme.internal.GestureAnimator
 import kotlin.concurrent.thread
 
+/**
+ * Layout to show Image and Frame.
+ *
+ * This will be the parent view that holds [CropImageView] and [CropOverlay].
+ */
 class CropLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

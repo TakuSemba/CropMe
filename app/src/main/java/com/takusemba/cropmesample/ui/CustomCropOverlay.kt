@@ -8,6 +8,12 @@ import android.os.Build.VERSION_CODES
 import android.util.AttributeSet
 import com.takusemba.cropme.CropOverlay
 
+/**
+ * Custom overlay which has a rounded rectangle frame.
+ *
+ * To create a custom overlay, you need to extend [CropOverlay] class and override [CropOverlay.drawCrop].
+ * You can optionally override [CropOverlay.drawBackground], [CropOverlay.drawBorder] too.
+ */
 class CustomCropOverlay @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

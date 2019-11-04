@@ -9,6 +9,9 @@ import com.takusemba.cropmesample.models.Album
 import com.takusemba.cropmesample.models.Photo
 import java.util.ArrayList
 
+/**
+ * client to get photos using [AlbumLoader] and [PhotoLoader].
+ */
 class AlbumClient(context: Context) {
 
   private val albumLoader: AlbumLoader = AlbumLoader(context)
@@ -32,13 +35,10 @@ class AlbumClient(context: Context) {
             } while (photoCursor.moveToNext() && photos.size < 40)
           }
           photoCursor.close()
-          val id = albumCursor.getString(
-              albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_ID)
-          )
           val name = albumCursor.getString(
               albumCursor.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
           )
-          val album = Album(id, name, photos)
+          val album = Album(name, photos)
           albums.add(album)
         } while (albumCursor.moveToNext() && albums.size < 10)
       }

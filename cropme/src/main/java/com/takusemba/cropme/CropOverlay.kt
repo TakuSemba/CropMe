@@ -11,6 +11,12 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 
+/**
+ * Overlay to show a frame with some decorations like borders.
+ *
+ * You have to extend [CropOverlay] to create your own custom overlay.
+ * You have to override [drawCrop], and optionally [drawBackground], [drawBorder]
+ */
 abstract class CropOverlay @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

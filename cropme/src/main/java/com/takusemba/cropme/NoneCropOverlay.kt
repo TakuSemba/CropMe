@@ -5,6 +5,11 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 
+/**
+ * None Overlay.
+ *
+ * This overlay does nothing.
+ */
 class NoneCropOverlay @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

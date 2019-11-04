@@ -3,6 +3,9 @@ package com.takusemba.cropme.internal
 import android.graphics.RectF
 import android.view.View
 
+/**
+ * Animator to move a view horizontally and vertically, and scale a view.
+ */
 internal class GestureAnimator(
     private val horizontalAnimator: MoveAnimator,
     private val verticalAnimator: MoveAnimator,

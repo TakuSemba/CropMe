@@ -5,6 +5,11 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
 
+/**
+ * Rectangle Overlay.
+ *
+ * This overlay creates a rectangle frame and draw borders if necessary.
+ */
 class RectangleCropOverlay @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
