@@ -8,7 +8,6 @@
 
 dependencies {
     compile 'com.github.takusemba:cropme:x.x.x'
-    compile "com.android.support:support-dynamic-animation:26.x.x" // need to be more than 26
 }
 
 ```
@@ -28,24 +27,17 @@ This is an Android library for cropping images. Move images smoothly, and crop i
 ##### Use CropView in your xml file.
 
 ```xml
-<com.takusemba.cropme.CropLayout
+  <com.takusemba.cropme.CropLayout
     android:id="@+id/crop_view"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="2"
-    app:cropme_max_scale="3">
-
-    <com.takusemba.cropme.SquareCropOverlay
-        android:id="@+id/cropme_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cropme_background_alpha="80%"
-        app:cropme_result_height="80%"
-        app:cropme_result_width="80%"
-        app:cropme_with_border="true" />
-
-</com.takusemba.cropme.CropLayout>
-
+    android:layout_height="match_parent"
+    app:cropme_background_alpha="80%"
+    app:cropme_frame_height_percent="80%"
+    app:cropme_frame_width_percent="80%"
+    app:cropme_max_scale="2"
+    app:cropme_overlay_shape="rectangle"
+    app:cropme_with_border="true"
+    >
 ```
 
 <br/>
@@ -56,18 +48,20 @@ This is an Android library for cropping images. Move images smoothly, and crop i
 cropView.setUri(uri);
 // or
 cropView.setBitmap(bitmap);
+// or
+cropView.setDrawable(drawable);
 ```
 
 ##### Crop it!
 
 ```java
 
-cropView.isOffOfFrame(); // optionally check if the image is off of the frame.
+cropView.isOffFrame(); // optionally check if the image is off of the frame.
 
 cropView.crop(new OnCropListener() {
     @Override
     public void onSuccess(Bitmap bitmap) {
-        // do something
+        // do something with Bitmap
     }
 
     @Override
