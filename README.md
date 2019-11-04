@@ -8,7 +8,6 @@
 
 dependencies {
     compile 'com.github.takusemba:cropme:x.x.x'
-    compile "com.android.support:support-dynamic-animation:26.x.x" // need to be more than 26
 }
 
 ```
@@ -28,24 +27,17 @@ This is an Android library for cropping images. Move images smoothly, and crop i
 ##### Use CropView in your xml file.
 
 ```xml
-<com.takusemba.cropme.CropLayout
+  <com.takusemba.cropme.CropLayout
     android:id="@+id/crop_view"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="2"
-    app:cropme_max_scale="3">
-
-    <com.takusemba.cropme.SquareCropOverlay
-        android:id="@+id/cropme_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:cropme_background_alpha="80%"
-        app:cropme_result_height="80%"
-        app:cropme_result_width="80%"
-        app:cropme_with_border="true" />
-
-</com.takusemba.cropme.CropLayout>
-
+    android:layout_height="match_parent"
+    app:cropme_background_alpha="80%"
+    app:cropme_frame_height_percent="80%"
+    app:cropme_frame_width_percent="80%"
+    app:cropme_max_scale="2"
+    app:cropme_overlay_shape="rectangle"
+    app:cropme_with_border="true"
+    >
 ```
 
 <br/>
@@ -56,18 +48,20 @@ This is an Android library for cropping images. Move images smoothly, and crop i
 cropView.setUri(uri);
 // or
 cropView.setBitmap(bitmap);
+// or
+cropView.setDrawable(drawable);
 ```
 
 ##### Crop it!
 
 ```java
 
-cropView.isOffOfFrame(); // optionally check if the image is off of the frame.
+cropView.isOffFrame(); // optionally check if the image is off of the frame.
 
 cropView.crop(new OnCropListener() {
     @Override
     public void onSuccess(Bitmap bitmap) {
-        // do something
+        // do something with Bitmap
     }
 
     @Override
@@ -83,47 +77,45 @@ cropView.crop(new OnCropListener() {
 
 | attribute | description | default |
 |:---|:---|:---|
-| cropme_result_width | width of propping area in CropView | 80% |
-| cropme_result_height | height propping area in CropView | 80% |
-| cropme_max_scale | max scale | 2 |
-| cropme_with_border | true if white borders are shown while cropping | true |
-| cropme_background_alpha | background alpha out side of propping area | 80% |
+| cropme_frame_width_percent | width of croppling frame | 80% |
+| cropme_frame_height_percent | height of croppling frame | 80% |
+| cropme_max_scale | maximum scale while cropping  | 2 |
+| cropme_with_border | if borders are shown while cropping | true |
+| cropme_background_alpha | background alpha out side of cropping area | 80% |
+| cropme_overlay_shape | shape of croppling frame | rectangle / circle / custom |
+| cropme_custom_shape_layout | custom layout for custom shape | @layout/custom_layout |
 
 <br/>
 
 ## Custom Overlay
 
-If you want to show circle overlay or anything else, you can customize the Overlay by extending CropOverlay.
-SquareCropOverlay is provided by default.
+If you want to show a custom overlay, you can customize the Overlay by extending CropOverlay.
+You can see more detail in [app](https://github.com/TakuSemba/CropMe/tree/master/app) module.
 
 ```java
+class CustomCropOverlay @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0,
+    cropOverlayAttrs: AttributeSet? = attrs
+) : CropOverlay(context, attrs, defStyleAttr, cropOverlayAttrs) {
 
-public class CircleCropOverlay extends CropOverlay {
+  override fun drawBackground(canvas: Canvas, paint: Paint) {
+    // draw background
+  }
 
-    @Override
-    RectF getFrame() {
-        // return a rect of the Circle. This is used to restrict animations, and also to crop the image.
-        return RectF(circleLeftEdge, circleTopEdge, circleRightEdge, circleBottomEdge);
-    }
-    
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        // draw transparent circle on black background.
-    }
+  override fun drawCrop(canvas: Canvas, paint: Paint) {
+    // draw croppling frame
+  }
+
+  override fun drawBorder(canvas: Canvas, paint: Paint) {
+    // draw borders
+  }
 }
-
 ```
 
 ## Sample
 Clone this repo and check out the [app](https://github.com/TakuSemba/CropMe/tree/master/app) module.
-
-## Change Log
-
-### Version: 1.0.0
-
-  * Initial Build
-
 
 ## Author
 
