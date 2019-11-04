@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <attr name="cropme_result_width" format="fraction" />
-  <attr name="cropme_result_height" format="fraction" />
-
   <attr name="cropme_percent_width" format="fraction" />
   <attr name="cropme_percent_height" format="fraction" />
   <attr name="cropme_max_scale" format="integer" />
