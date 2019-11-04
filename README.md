@@ -24,7 +24,7 @@ dependencies {
 
 This is an Android library for cropping images. Move images smoothly, and crop images precisely.
 
-##### Use CropView in your xml file.
+### Use CropView in your xml file.
 
 ```xml
   <com.takusemba.cropme.CropLayout
@@ -42,7 +42,7 @@ This is an Android library for cropping images. Move images smoothly, and crop i
 
 <br/>
 
-##### Set your image
+### Set your image
 
 ```java
 cropView.setUri(uri);
@@ -52,7 +52,7 @@ cropView.setBitmap(bitmap);
 cropView.setDrawable(drawable);
 ```
 
-##### Crop it!
+### Crop it!
 
 ```java
 
@@ -90,6 +90,7 @@ cropView.crop(new OnCropListener() {
 ## Custom Overlay
 
 If you want to show a custom overlay, you can customize the Overlay by extending CropOverlay.
+
 You can see more detail in [app](https://github.com/TakuSemba/CropMe/tree/master/app) module.
 
 ```java
