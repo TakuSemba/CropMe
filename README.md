@@ -77,47 +77,45 @@ cropView.crop(new OnCropListener() {
 
 | attribute | description | default |
 |:---|:---|:---|
-| cropme_result_width | width of propping area in CropView | 80% |
-| cropme_result_height | height propping area in CropView | 80% |
-| cropme_max_scale | max scale | 2 |
-| cropme_with_border | true if white borders are shown while cropping | true |
-| cropme_background_alpha | background alpha out side of propping area | 80% |
+| cropme_frame_width_percent | width of croppling frame | 80% |
+| cropme_frame_height_percent | height of croppling frame | 80% |
+| cropme_max_scale | maximum scale while cropping  | 2 |
+| cropme_with_border | if borders are shown while cropping | true |
+| cropme_background_alpha | background alpha out side of cropping area | 80% |
+| cropme_overlay_shape | shape of croppling frame | rectangle / circle / custom |
+| cropme_custom_shape_layout | custom layout for custom shape | @layout/custom_layout |
 
 <br/>
 
 ## Custom Overlay
 
-If you want to show circle overlay or anything else, you can customize the Overlay by extending CropOverlay.
-SquareCropOverlay is provided by default.
+If you want to show a custom overlay, you can customize the Overlay by extending CropOverlay.
+You can see more detail in [app](https://github.com/TakuSemba/CropMe/tree/master/app) module.
 
 ```java
+class CustomCropOverlay @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0,
+    cropOverlayAttrs: AttributeSet? = attrs
+) : CropOverlay(context, attrs, defStyleAttr, cropOverlayAttrs) {
 
-public class CircleCropOverlay extends CropOverlay {
+  override fun drawBackground(canvas: Canvas, paint: Paint) {
+    // draw background
+  }
 
-    @Override
-    RectF getFrame() {
-        // return a rect of the Circle. This is used to restrict animations, and also to crop the image.
-        return RectF(circleLeftEdge, circleTopEdge, circleRightEdge, circleBottomEdge);
-    }
-    
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        // draw transparent circle on black background.
-    }
+  override fun drawCrop(canvas: Canvas, paint: Paint) {
+    // draw croppling frame
+  }
+
+  override fun drawBorder(canvas: Canvas, paint: Paint) {
+    // draw borders
+  }
 }
-
 ```
 
 ## Sample
 Clone this repo and check out the [app](https://github.com/TakuSemba/CropMe/tree/master/app) module.
-
-## Change Log
-
-### Version: 1.0.0
-
-  * Initial Build
-
 
 ## Author
 
