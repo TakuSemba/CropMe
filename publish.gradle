@@ -1,8 +1,8 @@
 apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
-version Config.libraryVersionName
-group Config.groupId
+version configs.libraryVersionName
+group configs.groupId
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
@@ -30,9 +30,9 @@ project.afterEvaluate {
         publications {
             Production(MavenPublication) {
                 artifact "$buildDir/outputs/aar/cropme-release.aar"
-                groupId Config.groupId
-                artifactId Config.artifactId
-                version Config.libraryVersionName
+                groupId configs.groupId
+                artifactId configs.artifactId
+                version configs.libraryVersionName
 
                 pom.withXml {
                     def dependenciesNode = asNode().appendNode('dependencies')
@@ -67,7 +67,7 @@ bintray {
         publicDownloadNumbers = true
         licenses = ['Apache-2.0']
         version {
-            name = Config.libraryVersionName
+            name = configs.libraryVersionName
             released = new Date()
         }
     }
