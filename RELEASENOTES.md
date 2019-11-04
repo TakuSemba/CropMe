@@ -1,6 +1,10 @@
 Release notes
 ==========
 
+Version 2.0.3 **(2019-11-5)**
+----------------------------
+ - Set up CI environment.
+
 Version 2.0.2 **(2019-11-4)**
 ----------------------------
  - Call requestLayout once a frame size is settled. This will set a image properly when a image is set before CropLayout is laid out. 
