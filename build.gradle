@@ -27,11 +27,11 @@ buildscript {
       androidx: [
           appcompat: "androidx.appcompat:appcompat:${versions.androidx}",
           dynamicAnimation: "androidx.dynamicanimation:dynamicanimation:${versions.androidx}",
-          recyclerview: "androidx.recyclerview:recyclerview:${versions.androidx}"
+          recyclerview: "androidx.recyclerview:recyclerview:${versions.androidx}",
       ],
       design: [
           material: "com.google.android.material:material:${versions.material}",
-          constraintLayout: "androidx.constraintlayout:constraintlayout:2.0.0-beta2"
+          constraintLayout: "androidx.constraintlayout:constraintlayout:2.0.0-beta2",
       ],
       picasso: "com.squareup.picasso:picasso:2.71828",
   ]
