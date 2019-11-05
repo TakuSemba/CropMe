@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 android {
   compileSdkVersion configs.compileSdkVersion
@@ -19,3 +18,5 @@ dependencies {
   implementation deps.picasso
   implementation project(':cropme')
 }
+
+apply from: "../publish.gradle"
