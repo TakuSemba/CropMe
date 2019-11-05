@@ -62,7 +62,7 @@ bintray {
     override = true
     pkg {
         repo = 'maven'
-        name = 'cropme'
+        name = configs.artifactId
         publish = true
         publicDownloadNumbers = true
         licenses = ['Apache-2.0']
