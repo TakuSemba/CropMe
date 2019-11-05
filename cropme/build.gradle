@@ -2,17 +2,19 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion configs.compileSdkVersion
-    defaultConfig {
-        minSdkVersion configs.minSdkVersion
-        targetSdkVersion configs.targetSdkVersion
-        versionCode configs.libraryVersionCode
-        versionName configs.libraryVersionName
-    }
+  compileSdkVersion configs.compileSdkVersion
+  defaultConfig {
+    minSdkVersion configs.minSdkVersion
+    targetSdkVersion configs.targetSdkVersion
+    versionCode configs.libraryVersionCode
+    versionName configs.libraryVersionName
+  }
 }
 
 dependencies {
-    implementation deps.kotlin.stdlib
-    implementation deps.androidx.appcompat
-    implementation deps.androidx.dynamicAnimation
+  implementation deps.kotlin.stdlib
+  implementation deps.androidx.appcompat
+  implementation deps.androidx.dynamicAnimation
 }
+
+apply from: "../publish.gradle"

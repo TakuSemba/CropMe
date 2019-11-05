@@ -18,5 +18,3 @@ dependencies {
   implementation deps.picasso
   implementation project(':cropme')
 }
-
-apply from: "../publish.gradle"
