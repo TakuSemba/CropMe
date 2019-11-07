@@ -1,9 +1,10 @@
 Release notes
 ==========
 
-Version 2.0.3 **(xx-xx-xx)**
+Version 2.0.4 **(2019-11-8)**
 ----------------------------
  - Simplify animators.
+ - Add test code
 
 Version 2.0.3 **(2019-11-5)**
 ----------------------------
