@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.graphics.Rect
 import android.view.View
 import android.view.View.TRANSLATION_X
+import androidx.annotation.VisibleForTesting
 import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
 import androidx.dynamicanimation.animation.FlingAnimation
@@ -17,29 +18,40 @@ import com.takusemba.cropme.internal.MoveAnimator.Companion.STIFFNESS
 /**
  * HorizontalAnimatorImpl is responsible for animating [targetView] horizontally.
  */
-internal class HorizontalAnimatorImpl(
+internal class HorizontalAnimatorImpl @VisibleForTesting constructor(
     private val targetView: View,
     private val leftBound: Float,
     private val rightBound: Float,
-    private val maxScale: Float
+    private val maxScale: Float,
+    private val spring: SpringAnimation,
+    private val fling: FlingAnimation,
+    private val animator: ObjectAnimator
 ) : MoveAnimator {
 
-  private val spring = SpringAnimation(targetView, VERTICAL_PROPERTY).setSpring(SPRING_FORCE)
-
-  private val fling = FlingAnimation(targetView, DynamicAnimation.X).setFriction(FRICTION)
-
-  private val animator = ObjectAnimator().apply {
-    setProperty(TRANSLATION_X)
-    target = targetView
-    interpolator = null
-    duration = 0
-  }
+  constructor(
+      targetView: View,
+      leftBound: Float,
+      rightBound: Float,
+      maxScale: Float
+  ) : this(
+      targetView = targetView,
+      leftBound = leftBound,
+      rightBound = rightBound,
+      maxScale = maxScale,
+      spring = SpringAnimation(targetView, VERTICAL_PROPERTY).setSpring(SPRING_FORCE),
+      fling = FlingAnimation(targetView, DynamicAnimation.X).setFriction(FRICTION),
+      animator = ANIMATOR
+  )
 
   private val updateListener = OnAnimationUpdateListener { _, _, velocity ->
     val expectedRect = expectRect()
     if (outOfBounds(expectedRect)) {
       adjustToBounds(expectedRect, velocity)
     }
+  }
+
+  init {
+    animator.target = targetView
   }
 
   override fun move(delta: Float) {
@@ -120,6 +132,12 @@ internal class HorizontalAnimatorImpl(
   }
 
   companion object {
+
+    private val ANIMATOR = ObjectAnimator().apply {
+      setProperty(TRANSLATION_X)
+      interpolator = null
+      duration = 0
+    }
 
     private val VERTICAL_PROPERTY = object : FloatPropertyCompat<View>("X") {
       override fun getValue(view: View): Float {

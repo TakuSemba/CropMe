@@ -5,6 +5,7 @@ import android.view.View
 import android.view.View.SCALE_X
 import android.view.View.SCALE_Y
 import android.view.animation.DecelerateInterpolator
+import androidx.annotation.VisibleForTesting
 import com.takusemba.cropme.internal.ScaleAnimator.Companion.ADJUSTING_DURATION
 import com.takusemba.cropme.internal.ScaleAnimator.Companion.ADJUSTING_FACTOR
 import com.takusemba.cropme.internal.ScaleAnimator.Companion.ORIGINAL_SCALE
@@ -12,19 +13,26 @@ import com.takusemba.cropme.internal.ScaleAnimator.Companion.ORIGINAL_SCALE
 /**
  * ScaleAnimatorImpl is responsible for scaling [targetView].
  */
-internal class ScaleAnimatorImpl(
+internal class ScaleAnimatorImpl @VisibleForTesting constructor(
     private val targetView: View,
-    private val maxScale: Float
+    private val maxScale: Float,
+    private val animatorX: ObjectAnimator,
+    private val animatorY: ObjectAnimator
 ) : ScaleAnimator {
 
-  private val animatorX = ObjectAnimator().apply {
-    target = targetView
-    setProperty(SCALE_X)
-  }
+  constructor(
+      targetView: View,
+      maxScale: Float
+  ) : this(
+      targetView = targetView,
+      maxScale = maxScale,
+      animatorX = ANIMATOR_X,
+      animatorY = ANIMATOR_Y
+  )
 
-  private val animatorY = ObjectAnimator().apply {
-    setProperty(SCALE_Y)
-    target = targetView
+  init {
+    animatorX.target = targetView
+    animatorY.target = targetView
   }
 
   override fun scale(scale: Float) {
@@ -73,5 +81,16 @@ internal class ScaleAnimatorImpl(
   private fun ObjectAnimator.setupProperties() {
     duration = ADJUSTING_DURATION
     interpolator = DecelerateInterpolator(ADJUSTING_FACTOR)
+  }
+
+  companion object {
+
+    private val ANIMATOR_X = ObjectAnimator().apply {
+      setProperty(SCALE_X)
+    }
+
+    private val ANIMATOR_Y = ObjectAnimator().apply {
+      setProperty(SCALE_Y)
+    }
   }
 }

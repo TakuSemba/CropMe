@@ -1,6 +1,10 @@
 Release notes
 ==========
 
+Version 2.0.3 **(xx-xx-xx)**
+----------------------------
+ - Simplify animators.
+
 Version 2.0.3 **(2019-11-5)**
 ----------------------------
  - Set up CI environment.

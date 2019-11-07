@@ -9,12 +9,18 @@ android {
     versionCode configs.libraryVersionCode
     versionName configs.libraryVersionName
   }
+  testOptions {
+    unitTests.returnDefaultValues = true
+  }
 }
 
 dependencies {
   implementation deps.kotlin.stdlib
   implementation deps.androidx.appcompat
   implementation deps.androidx.dynamicAnimation
+  testImplementation deps.junit
+  testImplementation deps.truth
+  testImplementation deps.mockk
 }
 
 apply from: "../publish.gradle"
