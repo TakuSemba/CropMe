@@ -31,12 +31,8 @@ internal class GestureAnimator(
   }
 
   override fun onMoveEnded() {
-    if (horizontalAnimator.isNotFlinging()) {
-      horizontalAnimator.adjust(0f)
-    }
-    if (verticalAnimator.isNotFlinging()) {
-      verticalAnimator.adjust(0f)
-    }
+    horizontalAnimator.adjust(0f)
+    verticalAnimator.adjust(0f)
   }
 
   companion object {

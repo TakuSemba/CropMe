@@ -8,11 +8,6 @@ import androidx.dynamicanimation.animation.SpringForce
 internal interface MoveAnimator {
 
   /**
-   * Returns true if image is flinging, false otherwise
-   */
-  fun isNotFlinging(): Boolean
-
-  /**
    * Move image
    *
    * @param delta distance of how much image moves

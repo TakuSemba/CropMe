@@ -5,6 +5,8 @@ import android.graphics.Rect
 import android.view.View
 import android.view.View.TRANSLATION_X
 import androidx.dynamicanimation.animation.DynamicAnimation
+import androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
+import androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
 import androidx.dynamicanimation.animation.FlingAnimation
 import androidx.dynamicanimation.animation.FloatPropertyCompat
 import androidx.dynamicanimation.animation.SpringAnimation
@@ -24,10 +26,10 @@ internal class HorizontalAnimatorImpl(
   private val fling: FlingAnimation
   private val animator: ObjectAnimator
 
-  private val updateListener = DynamicAnimation.OnAnimationUpdateListener { dynamicAnimation, value, velocity ->
+  private val updateListener = OnAnimationUpdateListener { dynamicAnimation, value, velocity ->
     adjust(velocity)
   }
-  private val endListener = DynamicAnimation.OnAnimationEndListener { dynamicAnimation, b, v, v1 ->
+  private val endListener = OnAnimationEndListener { dynamicAnimation, b, v, v1 ->
     isFlinging = false
   }
 
@@ -64,6 +66,9 @@ internal class HorizontalAnimatorImpl(
   }
 
   override fun adjust(velocity: Float) {
+    if (isFlinging) {
+      return
+    }
     val targetRect = Rect()
     target.getHitRect(targetRect)
 
@@ -116,10 +121,6 @@ internal class HorizontalAnimatorImpl(
     fling.addUpdateListener(updateListener)
     fling.addEndListener(endListener)
     fling.setStartVelocity(velocity).start()
-  }
-
-  override fun isNotFlinging(): Boolean {
-    return !isFlinging
   }
 
   private fun cancel() {

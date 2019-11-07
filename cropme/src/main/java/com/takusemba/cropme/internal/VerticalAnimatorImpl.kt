@@ -29,13 +29,11 @@ internal class VerticalAnimatorImpl(
   private val updateListener = OnAnimationUpdateListener { dynamicAnimation, value, velocity ->
     adjust(velocity)
   }
-  private val endListener = OnAnimationEndListener { dynamicAnimation, b, v, v1 -> isFlinging = false }
+  private val endListener = OnAnimationEndListener { dynamicAnimation, b, v, v1 ->
+    isFlinging = false
+  }
 
   private var isFlinging = false
-
-  override fun isNotFlinging(): Boolean {
-    return !isFlinging
-  }
 
   init {
     spring = SpringAnimation(target, object : FloatPropertyCompat<View>("Y") {
@@ -68,6 +66,9 @@ internal class VerticalAnimatorImpl(
   }
 
   override fun adjust(velocity: Float) {
+//    if (isFlinging) {
+//      return
+//    }
     val targetRect = Rect()
     target.getHitRect(targetRect)
 
@@ -115,19 +116,19 @@ internal class VerticalAnimatorImpl(
   }
 
   override fun fling(velocity: Float) {
-    cancel()
     isFlinging = true
-    fling.addUpdateListener(updateListener)
-    fling.addEndListener(endListener)
+    cancel()
+//    fling.addUpdateListener(updateListener)
+//    fling.addEndListener(endListener)
     fling.setStartVelocity(velocity).start()
   }
 
   private fun cancel() {
-    isFlinging = false
     animator.cancel()
     spring.cancel()
     fling.cancel()
-    fling.removeUpdateListener(updateListener)
-    fling.removeEndListener(endListener)
+//    fling.removeUpdateListener(updateListener)
+//    fling.removeEndListener(endListener)
+    isFlinging = false
   }
 }
