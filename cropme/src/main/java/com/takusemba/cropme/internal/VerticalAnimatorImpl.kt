@@ -35,7 +35,12 @@ internal class VerticalAnimatorImpl(
     duration = 0
   }
 
-  private val updateListener = OnAnimationUpdateListener { _, _, velocity -> adjust(velocity) }
+  private val updateListener = OnAnimationUpdateListener { _, _, velocity ->
+    val expectedRect = expectRect()
+    if (outOfBounds(expectedRect)) {
+      adjustToBounds(expectedRect, velocity)
+    }
+  }
 
   override fun move(delta: Float) {
     cancel()
@@ -43,50 +48,10 @@ internal class VerticalAnimatorImpl(
     animator.start()
   }
 
-  override fun adjust(velocity: Float) {
-    val targetRect = Rect()
-    targetView.getHitRect(targetRect)
-
-    val scale: Float
-    val afterRect: Rect
-    when {
-      maxScale < targetView.scaleY -> {
-        scale = maxScale
-        val heightDiff = ((targetRect.height() - targetRect.height() * (maxScale / targetView.scaleY)) / 2).toInt()
-        val widthDiff = ((targetRect.width() - targetRect.width() * (maxScale / targetView.scaleY)) / 2).toInt()
-        afterRect = Rect(
-            targetRect.left + widthDiff,
-            targetRect.top + heightDiff,
-            targetRect.right - widthDiff,
-            targetRect.bottom - heightDiff
-        )
-      }
-      targetView.scaleY < 1 -> {
-        scale = 1f
-        val heightDiff = (targetView.height - targetRect.height()) / 2
-        val widthDiff = (targetView.width - targetRect.width()) / 2
-        afterRect = Rect(
-            targetRect.left + widthDiff,
-            targetRect.top + heightDiff,
-            targetRect.right - widthDiff,
-            targetRect.bottom - heightDiff
-        )
-      }
-      else -> {
-        scale = targetView.scaleY
-        afterRect = targetRect
-      }
-    }
-    val verticalDiff = (targetView.height * scale - targetView.height) / 2
-
-    if (topBound < afterRect.top) {
-      cancel()
-      spring.setStartVelocity(velocity)
-          .animateToFinalPosition(topBound + verticalDiff)
-    } else if (afterRect.bottom < bottomBound) {
-      cancel()
-      spring.setStartVelocity(velocity)
-          .animateToFinalPosition(bottomBound - targetView.height.toFloat() - verticalDiff)
+  override fun adjust() {
+    val expectedRect = expectRect()
+    if (outOfBounds(expectedRect)) {
+      adjustToBounds(expectedRect)
     }
   }
 
@@ -94,6 +59,56 @@ internal class VerticalAnimatorImpl(
     cancel()
     fling.addUpdateListener(updateListener)
     fling.setStartVelocity(velocity).start()
+  }
+
+  private fun expectRect(): Rect {
+    val targetRect = Rect()
+    targetView.getHitRect(targetRect)
+    return when {
+      maxScale < targetView.scaleY -> {
+        val heightDiff = ((targetRect.height() - targetRect.height() * (maxScale / targetView.scaleY)) / 2).toInt()
+        val widthDiff = ((targetRect.width() - targetRect.width() * (maxScale / targetView.scaleY)) / 2).toInt()
+        Rect(
+            targetRect.left + widthDiff,
+            targetRect.top + heightDiff,
+            targetRect.right - widthDiff,
+            targetRect.bottom - heightDiff
+        )
+      }
+      targetView.scaleY < 1f -> {
+        val heightDiff = (targetView.height - targetRect.height()) / 2
+        val widthDiff = (targetView.width - targetRect.width()) / 2
+        Rect(
+            targetRect.left + widthDiff,
+            targetRect.top + heightDiff,
+            targetRect.right - widthDiff,
+            targetRect.bottom - heightDiff
+        )
+      }
+      else -> targetRect
+    }
+  }
+
+  private fun outOfBounds(rect: Rect): Boolean {
+    return topBound < rect.top || rect.bottom < bottomBound
+  }
+
+  private fun adjustToBounds(rect: Rect, velocity: Float = 0f) {
+    val scale = when {
+      maxScale < targetView.scaleX -> maxScale
+      targetView.scaleX < 1f -> 1f
+      else -> targetView.scaleX
+    }
+    val diff = (targetView.height * scale - targetView.height) / 2
+    if (topBound < rect.top) {
+      cancel()
+      val finalPosition = topBound + diff
+      spring.setStartVelocity(velocity).animateToFinalPosition(finalPosition)
+    } else if (rect.bottom < bottomBound) {
+      cancel()
+      val finalPosition = bottomBound - targetView.height.toFloat() - diff
+      spring.setStartVelocity(velocity).animateToFinalPosition(finalPosition)
+    }
   }
 
   private fun cancel() {

@@ -16,10 +16,8 @@ internal interface MoveAnimator {
 
   /**
    * adjust image when image is off of the frame
-   *
-   * @param velocity velocity when starting to move
    */
-  fun adjust(velocity: Float)
+  fun adjust()
 
   /**
    * fling image

@@ -17,17 +17,11 @@ internal class ScaleAnimatorImpl(
     private val maxScale: Float
 ) : ScaleAnimator {
 
-  /**
-   * Animator to scale target toward x-axis
-   */
   private val animatorX = ObjectAnimator().apply {
     target = targetView
     setProperty(SCALE_X)
   }
 
-  /**
-   * Animator to scale target toward y-axis
-   */
   private val animatorY = ObjectAnimator().apply {
     setProperty(SCALE_Y)
     target = targetView

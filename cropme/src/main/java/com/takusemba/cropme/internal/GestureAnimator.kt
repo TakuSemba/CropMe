@@ -31,8 +31,8 @@ internal class GestureAnimator(
   }
 
   override fun onMoveEnded() {
-    horizontalAnimator.adjust(0f)
-    verticalAnimator.adjust(0f)
+    horizontalAnimator.adjust()
+    verticalAnimator.adjust()
   }
 
   companion object {
