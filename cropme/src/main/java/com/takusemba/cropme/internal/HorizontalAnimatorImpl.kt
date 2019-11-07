@@ -15,9 +15,9 @@ import androidx.dynamicanimation.animation.SpringForce
  */
 internal class HorizontalAnimatorImpl(
     private val target: View,
-    private val leftBound: Int,
-    private val rightBound: Int,
-    private val maxScale: Int
+    private val leftBound: Float,
+    private val rightBound: Float,
+    private val maxScale: Float
 ) : MoveAnimator {
 
   private val spring: SpringAnimation
@@ -25,9 +25,11 @@ internal class HorizontalAnimatorImpl(
   private val animator: ObjectAnimator
 
   private val updateListener = DynamicAnimation.OnAnimationUpdateListener { dynamicAnimation, value, velocity ->
-    reMoveIfNeeded(velocity)
+    adjust(velocity)
   }
-  private val endListener = DynamicAnimation.OnAnimationEndListener { dynamicAnimation, b, v, v1 -> isFlinging = false }
+  private val endListener = DynamicAnimation.OnAnimationEndListener { dynamicAnimation, b, v, v1 ->
+    isFlinging = false
+  }
 
   private var isFlinging = false
 
@@ -61,7 +63,7 @@ internal class HorizontalAnimatorImpl(
     animator.start()
   }
 
-  override fun reMoveIfNeeded(velocity: Float) {
+  override fun adjust(velocity: Float) {
     val targetRect = Rect()
     target.getHitRect(targetRect)
 
@@ -69,7 +71,7 @@ internal class HorizontalAnimatorImpl(
     val afterRect: Rect
     when {
       maxScale < target.scaleX -> {
-        scale = maxScale.toFloat()
+        scale = maxScale
         val heightDiff = ((targetRect.height() - targetRect.height() * (maxScale / target.scaleY)) / 2).toInt()
         val widthDiff = ((targetRect.width() - targetRect.width() * (maxScale / target.scaleY)) / 2).toInt()
         afterRect = Rect(

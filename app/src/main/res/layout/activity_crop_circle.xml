@@ -15,7 +15,7 @@
     app:cropme_background_alpha="80%"
     app:cropme_frame_height_percent="80%"
     app:cropme_frame_width_percent="80%"
-    app:cropme_max_scale="3"
+    app:cropme_max_scale="3.0"
     app:cropme_overlay_shape="circle"
     app:cropme_with_border="true"
     app:layout_constraintDimensionRatio="h,1:1"

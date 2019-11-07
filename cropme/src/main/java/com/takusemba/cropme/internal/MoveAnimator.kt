@@ -3,28 +3,28 @@ package com.takusemba.cropme.internal
 import androidx.dynamicanimation.animation.SpringForce
 
 /**
- * interface to move Image.
+ * Interface to move Image.
  */
 internal interface MoveAnimator {
 
   /**
-   * true if image is flinging, false otherwise
+   * Returns true if image is flinging, false otherwise
    */
   fun isNotFlinging(): Boolean
 
   /**
-   * move image
+   * Move image
    *
    * @param delta distance of how much image moves
    */
   fun move(delta: Float)
 
   /**
-   * bounce image when image is off of [CropOverlay.frame]
+   * adjust image when image is off of the frame
    *
    * @param velocity velocity when starting to move
    */
-  fun reMoveIfNeeded(velocity: Float)
+  fun adjust(velocity: Float)
 
   /**
    * fling image

@@ -42,7 +42,7 @@ class CropLayout @JvmOverloads constructor(
 
     val percentWidth: Float
     val percentHeight: Float
-    val scale: Int
+    val scale: Float
 
     try {
       // Propagate attrs as cropImageAttrs so that CropImageView's custom attributes are transferred,
@@ -79,7 +79,7 @@ class CropLayout @JvmOverloads constructor(
       addView(defaultCropOverlay, 1)
       cropOverlay = defaultCropOverlay
 
-      scale = a.getInt(R.styleable.CropLayout_cropme_max_scale, DEFAULT_MAX_SCALE)
+      scale = a.getFloat(R.styleable.CropLayout_cropme_max_scale, DEFAULT_MAX_SCALE)
 
       percentWidth = a.getFraction(
           R.styleable.CropLayout_cropme_frame_width_percent,
@@ -188,7 +188,7 @@ class CropLayout @JvmOverloads constructor(
     private const val OVERLAY_SHAPE_CUSTOM = 3
 
     private const val DEFAULT_OVERLAY_SHAPE = OVERLAY_SHAPE_RECTANGLE
-    private const val DEFAULT_MAX_SCALE = 2
+    private const val DEFAULT_MAX_SCALE = 2f
 
     private const val DEFAULT_BASE = 1
     private const val DEFAULT_PBASE = 1

@@ -34,7 +34,7 @@ This is an Android library for cropping images. Move images smoothly, and crop i
     app:cropme_background_alpha="80%"
     app:cropme_frame_height_percent="80%"
     app:cropme_frame_width_percent="80%"
-    app:cropme_max_scale="2"
+    app:cropme_max_scale="2.0"
     app:cropme_overlay_shape="rectangle"
     app:cropme_with_border="true"
     >
@@ -79,7 +79,7 @@ cropView.crop(new OnCropListener() {
 |:---|:---|:---|
 | cropme_frame_width_percent | width of croppling frame | 80% |
 | cropme_frame_height_percent | height of croppling frame | 80% |
-| cropme_max_scale | maximum scale while cropping  | 2 |
+| cropme_max_scale | maximum scale while cropping  | 2.0 |
 | cropme_with_border | if borders are shown while cropping | true |
 | cropme_background_alpha | background alpha out side of cropping area | 80% |
 | cropme_overlay_shape | shape of croppling frame | rectangle / circle / custom |

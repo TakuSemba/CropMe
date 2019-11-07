@@ -5,73 +5,79 @@ import android.view.View
 import android.view.View.SCALE_X
 import android.view.View.SCALE_Y
 import android.view.animation.DecelerateInterpolator
+import com.takusemba.cropme.internal.ScaleAnimator.Companion.ADJUSTING_DURATION
+import com.takusemba.cropme.internal.ScaleAnimator.Companion.ADJUSTING_FACTOR
+import com.takusemba.cropme.internal.ScaleAnimator.Companion.ORIGINAL_SCALE
 
 /**
- * ScaleAnimatorImpl is responsible for scaling [target].
+ * ScaleAnimatorImpl is responsible for scaling [targetView].
  */
 internal class ScaleAnimatorImpl(
-    private val target: View,
-    private val maxScale: Int
+    private val targetView: View,
+    private val maxScale: Float
 ) : ScaleAnimator {
 
-  private val animatorX: ObjectAnimator = ObjectAnimator()
-  private val animatorY: ObjectAnimator = ObjectAnimator()
+  /**
+   * Animator to scale target toward x-axis
+   */
+  private val animatorX = ObjectAnimator().apply {
+    target = targetView
+    setProperty(SCALE_X)
+  }
 
-  init {
-    animatorX.setProperty(SCALE_X)
-    animatorX.target = target
-
-    animatorY.setProperty(SCALE_Y)
-    animatorY.target = target
+  /**
+   * Animator to scale target toward y-axis
+   */
+  private val animatorY = ObjectAnimator().apply {
+    setProperty(SCALE_Y)
+    target = targetView
   }
 
   override fun scale(scale: Float) {
     animatorX.cancel()
-    animatorX.duration = 0
-    animatorX.interpolator = null
-    animatorX.setFloatValues(target.scaleX * scale)
+    animatorX.clearProperties()
+    animatorX.setFloatValues(targetView.scaleX * scale)
     animatorX.start()
 
     animatorY.cancel()
-    animatorY.duration = 0
-    animatorY.interpolator = null
-    animatorY.setFloatValues(target.scaleY * scale)
+    animatorY.clearProperties()
+    animatorY.setFloatValues(targetView.scaleY * scale)
     animatorY.start()
   }
 
-  override fun reScaleIfNeeded() {
-    if (target.scaleX < 1) {
+  override fun adjust() {
+    if (targetView.scaleX < ORIGINAL_SCALE) {
       animatorX.cancel()
-      animatorX.duration = DURATION.toLong()
-      animatorX.setFloatValues(1f)
-      animatorX.interpolator = DecelerateInterpolator(FACTOR.toFloat())
+      animatorX.setupProperties()
+      animatorX.setFloatValues(ORIGINAL_SCALE)
       animatorX.start()
-    } else if (maxScale < target.scaleX) {
+    } else if (maxScale < targetView.scaleX) {
       animatorX.cancel()
-      animatorX.duration = DURATION.toLong()
-      animatorX.setFloatValues(maxScale.toFloat())
-      animatorX.interpolator = DecelerateInterpolator(FACTOR.toFloat())
+      animatorX.setupProperties()
+      animatorX.setFloatValues(maxScale)
       animatorX.start()
     }
 
-    if (target.scaleY < 1) {
+    if (targetView.scaleY < ORIGINAL_SCALE) {
       animatorY.cancel()
-      animatorY.duration = DURATION.toLong()
-      animatorY.setFloatValues(1f)
-      animatorY.interpolator = DecelerateInterpolator(FACTOR.toFloat())
+      animatorY.setupProperties()
+      animatorY.setFloatValues(ORIGINAL_SCALE)
       animatorY.start()
-    } else if (maxScale < target.scaleY) {
+    } else if (maxScale < targetView.scaleY) {
       animatorY.cancel()
-      animatorY.duration = DURATION.toLong()
-      animatorY.setFloatValues(maxScale.toFloat())
-      animatorY.interpolator = DecelerateInterpolator(FACTOR.toFloat())
+      animatorY.setupProperties()
+      animatorY.setFloatValues(maxScale)
       animatorY.start()
     }
   }
 
-  companion object {
+  private fun ObjectAnimator.clearProperties() {
+    duration = 0
+    interpolator = null
+  }
 
-    private const val DURATION = 600
-    private const val FACTOR = 2
+  private fun ObjectAnimator.setupProperties() {
+    duration = ADJUSTING_DURATION
+    interpolator = DecelerateInterpolator(ADJUSTING_FACTOR)
   }
 }

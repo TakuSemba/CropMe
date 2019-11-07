@@ -5,6 +5,8 @@ import android.graphics.Rect
 import android.view.View
 import android.view.View.TRANSLATION_Y
 import androidx.dynamicanimation.animation.DynamicAnimation
+import androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
+import androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
 import androidx.dynamicanimation.animation.FlingAnimation
 import androidx.dynamicanimation.animation.FloatPropertyCompat
 import androidx.dynamicanimation.animation.SpringAnimation
@@ -15,19 +17,19 @@ import androidx.dynamicanimation.animation.SpringForce
  */
 internal class VerticalAnimatorImpl(
     private val target: View,
-    private val topBound: Int,
-    private val bottomBound: Int,
-    private val maxScale: Int
+    private val topBound: Float,
+    private val bottomBound: Float,
+    private val maxScale: Float
 ) : MoveAnimator {
 
   private val spring: SpringAnimation
   private val fling: FlingAnimation
   private val animator: ObjectAnimator
 
-  private val updateListener = DynamicAnimation.OnAnimationUpdateListener { dynamicAnimation, value, velocity ->
-    reMoveIfNeeded(velocity)
+  private val updateListener = OnAnimationUpdateListener { dynamicAnimation, value, velocity ->
+    adjust(velocity)
   }
-  private val endListener = DynamicAnimation.OnAnimationEndListener { dynamicAnimation, b, v, v1 -> isFlinging = false }
+  private val endListener = OnAnimationEndListener { dynamicAnimation, b, v, v1 -> isFlinging = false }
 
   private var isFlinging = false
 
@@ -65,7 +67,7 @@ internal class VerticalAnimatorImpl(
     animator.start()
   }
 
-  override fun reMoveIfNeeded(velocity: Float) {
+  override fun adjust(velocity: Float) {
     val targetRect = Rect()
     target.getHitRect(targetRect)
 
@@ -73,7 +75,7 @@ internal class VerticalAnimatorImpl(
     val afterRect: Rect
     when {
       maxScale < target.scaleY -> {
-        scale = maxScale.toFloat()
+        scale = maxScale
         val heightDiff = ((targetRect.height() - targetRect.height() * (maxScale / target.scaleY)) / 2).toInt()
         val widthDiff = ((targetRect.width() - targetRect.width() * (maxScale / target.scaleY)) / 2).toInt()
         afterRect = Rect(

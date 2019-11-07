@@ -17,7 +17,7 @@ internal class GestureAnimator(
   }
 
   override fun onScaleEnded() {
-    scaleAnimator.reScaleIfNeeded()
+    scaleAnimator.adjust()
   }
 
   override fun onMoved(dx: Float, dy: Float) {
@@ -32,30 +32,30 @@ internal class GestureAnimator(
 
   override fun onMoveEnded() {
     if (horizontalAnimator.isNotFlinging()) {
-      horizontalAnimator.reMoveIfNeeded(0f)
+      horizontalAnimator.adjust(0f)
     }
     if (verticalAnimator.isNotFlinging()) {
-      verticalAnimator.reMoveIfNeeded(0f)
+      verticalAnimator.adjust(0f)
     }
   }
 
   companion object {
 
-    fun of(target: View, frame: RectF, scale: Int): GestureAnimator {
+    fun of(target: View, frame: RectF, scale: Float): GestureAnimator {
       val horizontalAnimator = HorizontalAnimatorImpl(
           target = target,
-          leftBound = frame.left.toInt(),
-          rightBound = frame.right.toInt(),
+          leftBound = frame.left,
+          rightBound = frame.right,
           maxScale = scale
       )
       val verticalAnimator = VerticalAnimatorImpl(
           target = target,
-          topBound = frame.top.toInt(),
-          bottomBound = frame.bottom.toInt(),
+          topBound = frame.top,
+          bottomBound = frame.bottom,
           maxScale = scale
       )
       val scaleAnimator = ScaleAnimatorImpl(
-          target = target,
+          targetView = target,
           maxScale = scale
       )
       return GestureAnimator(horizontalAnimator, verticalAnimator, scaleAnimator)

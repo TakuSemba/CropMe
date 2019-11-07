@@ -1,19 +1,38 @@
 package com.takusemba.cropme.internal
 
 /**
- * interface to scale Image.
+ * Interface to scale Image.
  */
 internal interface ScaleAnimator {
 
   /**
-   * scale image
+   * Scale image
    *
    * @param scale how much image scales
    */
   fun scale(scale: Float)
 
   /**
-   * rescale image when image is too much big or small
+   * Adjust scaling when image is too much big or small
    */
-  fun reScaleIfNeeded()
+  fun adjust()
+
+  companion object {
+
+    /**
+     * Original scale
+     */
+    const val ORIGINAL_SCALE = 1f
+
+    /**
+     * The length of animation while adjusting
+     */
+    const val ADJUSTING_DURATION = 600L
+
+    /**
+     * The Interpolate factor while adjusting
+     */
+    const val ADJUSTING_FACTOR = 2f
+  }
 }
+
