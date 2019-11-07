@@ -17,7 +17,7 @@ dependencies {
 
 <img src="https://github.com/TakuSemba/CropMe/blob/master/arts/crop.gif" align="right" width="30%">
 
-![Platform](http://img.shields.io/badge/platform-android-green.svg?style=flat)
+![Build Status](https://app.bitrise.io/app/1c8ba06a60a25360/status.svg?token=qkQNVMnD0E6PXXhcorNyuQ&branch=master)
 ![Download](https://api.bintray.com/packages/takusemba/maven/cropme/images/download.svg)
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
 ![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)
