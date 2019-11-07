@@ -15,50 +15,45 @@ import com.takusemba.cropme.internal.MoveAnimator.Companion.FRICTION
 import com.takusemba.cropme.internal.MoveAnimator.Companion.STIFFNESS
 
 /**
- * HorizontalAnimatorImpl is responsible for animating [target] horizontally.
+ * HorizontalAnimatorImpl is responsible for animating [targetView] horizontally.
  */
 internal class HorizontalAnimatorImpl(
-    private val target: View,
+    private val targetView: View,
     private val leftBound: Float,
     private val rightBound: Float,
     private val maxScale: Float
 ) : MoveAnimator {
 
-  private val spring = SpringAnimation(target, VERTICAL_FLOAT_PROPERTY).setSpring(SPRING_FORCE)
+  private val spring = SpringAnimation(targetView, VERTICAL_PROPERTY).setSpring(SPRING_FORCE)
 
-  private val fling = FlingAnimation(target, DynamicAnimation.X).setFriction(FRICTION)
+  private val fling = FlingAnimation(targetView, DynamicAnimation.X).setFriction(FRICTION)
 
-  private val animator: ObjectAnimator
-
-  private val updateListener = OnAnimationUpdateListener { dynamicAnimation, value, velocity ->
-    adjust(velocity)
+  private val animator = ObjectAnimator().apply {
+    setProperty(TRANSLATION_X)
+    target = targetView
+    interpolator = null
+    duration = 0
   }
 
-  init {
-    animator = ObjectAnimator()
-    animator.setProperty(TRANSLATION_X)
-    animator.target = target
-  }
+  private val updateListener = OnAnimationUpdateListener { _, _, velocity -> adjust(velocity) }
 
   override fun move(delta: Float) {
     cancel()
-    animator.interpolator = null
-    animator.duration = 0
-    animator.setFloatValues(target.translationX + delta)
+    animator.setFloatValues(targetView.translationX + delta)
     animator.start()
   }
 
   override fun adjust(velocity: Float) {
     val targetRect = Rect()
-    target.getHitRect(targetRect)
+    targetView.getHitRect(targetRect)
 
     val scale: Float
     val afterRect: Rect
     when {
-      maxScale < target.scaleX -> {
+      maxScale < targetView.scaleX -> {
         scale = maxScale
-        val heightDiff = ((targetRect.height() - targetRect.height() * (maxScale / target.scaleY)) / 2).toInt()
-        val widthDiff = ((targetRect.width() - targetRect.width() * (maxScale / target.scaleY)) / 2).toInt()
+        val heightDiff = ((targetRect.height() - targetRect.height() * (maxScale / targetView.scaleY)) / 2).toInt()
+        val widthDiff = ((targetRect.width() - targetRect.width() * (maxScale / targetView.scaleY)) / 2).toInt()
         afterRect = Rect(
             targetRect.left + widthDiff,
             targetRect.top + heightDiff,
@@ -66,10 +61,10 @@ internal class HorizontalAnimatorImpl(
             targetRect.bottom - heightDiff
         )
       }
-      target.scaleX < 1 -> {
+      targetView.scaleX < 1 -> {
         scale = 1f
-        val heightDiff = (target.height - targetRect.height()) / 2
-        val widthDiff = (target.width - targetRect.width()) / 2
+        val heightDiff = (targetView.height - targetRect.height()) / 2
+        val widthDiff = (targetView.width - targetRect.width()) / 2
         afterRect = Rect(
             targetRect.left + widthDiff,
             targetRect.top + heightDiff,
@@ -78,11 +73,11 @@ internal class HorizontalAnimatorImpl(
         )
       }
       else -> {
-        scale = target.scaleX
+        scale = targetView.scaleX
         afterRect = targetRect
       }
     }
-    val horizontalDiff = (target.width * scale - target.width) / 2
+    val horizontalDiff = (targetView.width * scale - targetView.width) / 2
 
     if (leftBound < afterRect.left) {
       cancel()
@@ -91,7 +86,7 @@ internal class HorizontalAnimatorImpl(
     } else if (afterRect.right < rightBound) {
       cancel()
       spring.setStartVelocity(velocity)
-          .animateToFinalPosition(rightBound - target.width.toFloat() - horizontalDiff)
+          .animateToFinalPosition(rightBound - targetView.width.toFloat() - horizontalDiff)
     }
   }
 
@@ -110,7 +105,7 @@ internal class HorizontalAnimatorImpl(
 
   companion object {
 
-    private val VERTICAL_FLOAT_PROPERTY = object : FloatPropertyCompat<View>("X") {
+    private val VERTICAL_PROPERTY = object : FloatPropertyCompat<View>("X") {
       override fun getValue(view: View): Float {
         return view.x
       }

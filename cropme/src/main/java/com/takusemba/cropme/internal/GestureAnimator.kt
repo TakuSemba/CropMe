@@ -39,13 +39,13 @@ internal class GestureAnimator(
 
     fun of(target: View, frame: RectF, scale: Float): GestureAnimator {
       val horizontalAnimator = HorizontalAnimatorImpl(
-          target = target,
+          targetView = target,
           leftBound = frame.left,
           rightBound = frame.right,
           maxScale = scale
       )
       val verticalAnimator = VerticalAnimatorImpl(
-          target = target,
+          targetView = target,
           topBound = frame.top,
           bottomBound = frame.bottom,
           maxScale = scale
