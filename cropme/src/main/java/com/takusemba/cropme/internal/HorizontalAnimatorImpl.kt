@@ -5,12 +5,14 @@ import android.graphics.Rect
 import android.view.View
 import android.view.View.TRANSLATION_X
 import androidx.dynamicanimation.animation.DynamicAnimation
-import androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationEndListener
 import androidx.dynamicanimation.animation.DynamicAnimation.OnAnimationUpdateListener
 import androidx.dynamicanimation.animation.FlingAnimation
 import androidx.dynamicanimation.animation.FloatPropertyCompat
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
+import com.takusemba.cropme.internal.MoveAnimator.Companion.DAMPING_RATIO
+import com.takusemba.cropme.internal.MoveAnimator.Companion.FRICTION
+import com.takusemba.cropme.internal.MoveAnimator.Companion.STIFFNESS
 
 /**
  * HorizontalAnimatorImpl is responsible for animating [target] horizontally.
@@ -22,36 +24,17 @@ internal class HorizontalAnimatorImpl(
     private val maxScale: Float
 ) : MoveAnimator {
 
-  private val spring: SpringAnimation
-  private val fling: FlingAnimation
+  private val spring = SpringAnimation(target, VERTICAL_FLOAT_PROPERTY).setSpring(SPRING_FORCE)
+
+  private val fling = FlingAnimation(target, DynamicAnimation.X).setFriction(FRICTION)
+
   private val animator: ObjectAnimator
 
   private val updateListener = OnAnimationUpdateListener { dynamicAnimation, value, velocity ->
     adjust(velocity)
   }
-  private val endListener = OnAnimationEndListener { dynamicAnimation, b, v, v1 ->
-    isFlinging = false
-  }
-
-  private var isFlinging = false
 
   init {
-    spring = SpringAnimation(target, object : FloatPropertyCompat<View>("X") {
-      override fun getValue(view: View): Float {
-        return view.x
-      }
-
-      override fun setValue(view: View, value: Float) {
-        view.x = value
-      }
-    }).setSpring(
-        SpringForce()
-            .setStiffness(MoveAnimator.STIFFNESS)
-            .setDampingRatio(MoveAnimator.DAMPING_RATIO)
-    )
-
-    fling = FlingAnimation(target, DynamicAnimation.X).setFriction(MoveAnimator.FRICTION)
-
     animator = ObjectAnimator()
     animator.setProperty(TRANSLATION_X)
     animator.target = target
@@ -66,9 +49,6 @@ internal class HorizontalAnimatorImpl(
   }
 
   override fun adjust(velocity: Float) {
-    if (isFlinging) {
-      return
-    }
     val targetRect = Rect()
     target.getHitRect(targetRect)
 
@@ -116,10 +96,8 @@ internal class HorizontalAnimatorImpl(
   }
 
   override fun fling(velocity: Float) {
-    isFlinging = true
     cancel()
     fling.addUpdateListener(updateListener)
-    fling.addEndListener(endListener)
     fling.setStartVelocity(velocity).start()
   }
 
@@ -128,7 +106,20 @@ internal class HorizontalAnimatorImpl(
     spring.cancel()
     fling.cancel()
     fling.removeUpdateListener(updateListener)
-    fling.removeEndListener(endListener)
-    isFlinging = false
+  }
+
+  companion object {
+
+    private val VERTICAL_FLOAT_PROPERTY = object : FloatPropertyCompat<View>("X") {
+      override fun getValue(view: View): Float {
+        return view.x
+      }
+
+      override fun setValue(view: View, value: Float) {
+        view.x = value
+      }
+    }
+
+    private val SPRING_FORCE = SpringForce().setStiffness(STIFFNESS).setDampingRatio(DAMPING_RATIO)
   }
 }
