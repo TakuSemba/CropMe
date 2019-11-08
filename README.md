@@ -44,31 +44,28 @@ This is an Android library for cropping images. Move images smoothly, and crop i
 
 ### Set your image
 
-```java
+```kt
 cropView.setUri(uri);
 // or
-cropView.setBitmap(bitmap);
-// or
-cropView.setDrawable(drawable);
+cropView.setBitmap(bitmap)
 ```
 
 ### Crop it!
 
-```java
+```kt
+cropLayout.addOnCropListener(object : OnCropListener {
+  override fun onSuccess(bitmap: Bitmap) {
+    // do somethhing with bitmap.
+  }
 
-cropView.isOffFrame(); // optionally check if the image is off of the frame.
+  override fun onFailure(e: Exception) {
+    // do error handling.
+  }
+})
+    
+cropView.isOffFrame() // optionally check if the image is off of the frame.
 
-cropView.crop(new OnCropListener() {
-    @Override
-    public void onSuccess(Bitmap bitmap) {
-        // do something with Bitmap
-    }
-
-    @Override
-    public void onFailure() {
-        
-    }
-});
+cropView.crop() // crop image
 ```
 
 <br/>
