@@ -1,7 +1,7 @@
 Release notes
 ==========
 
-Version 2.0.4 **(2019-11-9)**
+Version 2.0.5 **(2019-11-9)**
 ----------------------------
  - Add addOnCropListener/removeOnCropListener.
  - Do nothing when the image is off of the frame when calling crop().
