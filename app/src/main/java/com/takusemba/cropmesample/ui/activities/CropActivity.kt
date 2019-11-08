@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.appcompat.app.AlertDialog
@@ -51,24 +50,26 @@ class CropActivity : AppCompatActivity() {
 
     backButton.setOnClickListener { finish() }
 
+    cropLayout.addOnCropListener(object : OnCropListener {
+      override fun onSuccess(bitmap: Bitmap) {
+        progressBar.visibility = View.GONE
+        val view = layoutInflater.inflate(R.layout.dialog_result, null)
+        view.findViewById<ImageView>(R.id.image).setImageBitmap(bitmap)
+        AlertDialog.Builder(this@CropActivity).setView(view).show()
+      }
+
+      override fun onFailure(e: Exception) {
+        Snackbar.make(parent, R.string.error_failed_to_clip_image, Snackbar.LENGTH_LONG).show()
+      }
+    })
+
     cropButton.setOnClickListener(View.OnClickListener {
       if (cropLayout.isOffFrame()) {
         Snackbar.make(parent, R.string.error_image_is_off_of_frame, Snackbar.LENGTH_LONG).show()
         return@OnClickListener
       }
       progressBar.visibility = View.VISIBLE
-      cropLayout.crop(object : OnCropListener {
-        override fun onSuccess(bitmap: Bitmap) {
-          progressBar.visibility = View.GONE
-          val view = layoutInflater.inflate(R.layout.dialog_result, null)
-          view.findViewById<ImageView>(R.id.image).setImageBitmap(bitmap)
-          AlertDialog.Builder(this@CropActivity).setView(view).show()
-        }
-
-        override fun onFailure() {
-          Snackbar.make(parent, R.string.error_failed_to_clip_image, Snackbar.LENGTH_LONG).show()
-        }
-      })
+      cropLayout.crop()
     })
 
     val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)

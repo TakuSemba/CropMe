@@ -17,5 +17,5 @@ interface OnCropListener {
   /**
    * called when cropping is failed
    */
-  fun onFailure()
+  fun onFailure(e: Exception)
 }

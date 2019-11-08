@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Handler
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -19,6 +20,7 @@ import androidx.annotation.IntDef
 import androidx.annotation.MainThread
 import com.takusemba.cropme.internal.GestureAnimation
 import com.takusemba.cropme.internal.GestureAnimator
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.concurrent.thread
 
 /**
@@ -37,6 +39,8 @@ class CropLayout @JvmOverloads constructor(
 
   private var frameCache: RectF? = null
 
+  private val listeners = CopyOnWriteArrayList<OnCropListener>()
+
   init {
     val a = context.obtainStyledAttributes(attrs, R.styleable.CropLayout, 0, 0)
 
@@ -45,9 +49,6 @@ class CropLayout @JvmOverloads constructor(
     val scale: Float
 
     try {
-      // Propagate attrs as cropImageAttrs so that CropImageView's custom attributes are transferred,
-      // but standard attributes (e.g. background) are not.
-      // Inspired from https://github.com/google/ExoPlayer/blob/r2.10.6/library/ui/src/main/java/com/google/android/exoplayer2/ui/PlayerView.java#L464
       val defaultCropImageView = CropImageView(context, null, 0)
       defaultCropImageView.id = R.id.cropme_image_view
       defaultCropImageView.scaleType = ImageView.ScaleType.FIT_XY
@@ -141,6 +142,20 @@ class CropLayout @JvmOverloads constructor(
     cropImageView.requestLayout()
   }
 
+  fun addOnCropListener(listener: OnCropListener) {
+    listeners.addIfAbsent(listener)
+  }
+
+  fun removeOnCropListener(listener: OnCropListener) {
+    listeners.addIfAbsent(listener)
+  }
+
+  /**
+   * Check if image is off of the frame.
+   *
+   * You would need to call this to make sure if image is croppable.
+   * If the image is off of the frame, [crop] does nothing.
+   */
   fun isOffFrame(): Boolean {
     val frameRect = frameCache ?: return false
     val targetRect = Rect()
@@ -153,8 +168,18 @@ class CropLayout @JvmOverloads constructor(
     )
   }
 
+  /**
+   * Crop the image and returns the result via [OnCropListener].
+   *
+   * If cropping is successful [OnCropListener.onSuccess] would be called, otherwise [OnCropListener.onFailure].
+   * This [crop] only works when the image is fully on the frame, otherwise [crop] does nothing.
+   */
   @MainThread
-  fun crop(listener: OnCropListener) {
+  fun crop() {
+    if (isOffFrame()) {
+      Log.w(TAG, "Image is off of the frame.")
+      return
+    }
     val frame = frameCache ?: return
     val mainHandler = Handler()
     val targetRect = Rect().apply { cropImageView.getHitRect(this) }
@@ -165,18 +190,24 @@ class CropLayout @JvmOverloads constructor(
       val topOffset = (frame.top - targetRect.top).toInt()
       val width = frame.width().toInt()
       val height = frame.height().toInt()
-      val result = Bitmap.createBitmap(bitmap, leftOffset, topOffset, width, height)
-      mainHandler.post {
-        if (result != null) {
-          listener.onSuccess(result)
-        } else {
-          listener.onFailure()
+      try {
+        val result = Bitmap.createBitmap(bitmap, leftOffset, topOffset, width, height)
+        mainHandler.post {
+          for (listener in listeners) {
+            listener.onSuccess(result)
+          }
+        }
+      } catch (e: Exception) {
+        for (listener in listeners) {
+          listener.onFailure(e)
         }
       }
     }
   }
 
   companion object {
+
+    private const val TAG = "CropLayout"
 
     @Retention(AnnotationRetention.SOURCE)
     @IntDef(OVERLAY_SHAPE_NONE, OVERLAY_SHAPE_RECTANGLE, OVERLAY_SHAPE_CIRCLE, OVERLAY_SHAPE_CUSTOM)
