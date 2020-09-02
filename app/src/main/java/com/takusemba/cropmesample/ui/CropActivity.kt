@@ -3,6 +3,7 @@ package com.takusemba.cropmesample.ui
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -10,11 +11,17 @@ import androidx.activity.result.contract.ActivityResultContracts.GetContent
 import androidx.activity.result.contract.ActivityResultContracts.TakePicture
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.FileProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.takusemba.cropme.CropLayout
 import com.takusemba.cropme.OnCropListener
+import com.takusemba.cropmesample.BuildConfig
 import com.takusemba.cropmesample.R
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class CropActivity : AppCompatActivity() {
   private val backButton by lazy { findViewById<ImageView>(R.id.cross) }
@@ -49,11 +56,17 @@ class CropActivity : AppCompatActivity() {
                 launcher.launch("image/*")
               }
               1 -> {
-                val launcher = registerForActivityResult(TakePicture()) { bitmap: Bitmap? ->
-                  if (bitmap == null) return@registerForActivityResult
-                  cropLayout.setBitmap(bitmap)
+                val format = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+                val timestamp = format.format(Date())
+                val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                val file = File.createTempFile("JPEG_${timestamp}_", ".jpg", storageDir)
+                val authority = "${BuildConfig.APPLICATION_ID}.fileprovider"
+                val uri = FileProvider.getUriForFile(this, authority, file)
+                val launcher = registerForActivityResult(TakePicture()) { isSuccessful: Boolean ->
+                  if (!isSuccessful) return@registerForActivityResult
+                  cropLayout.setUri(uri)
                 }
-                launcher.launch(null)
+                launcher.launch(uri)
               }
             }
             dialog.dismiss()

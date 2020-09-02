@@ -25,7 +25,7 @@ buildscript {
       ],
       androidx: [
           appcompat: "androidx.appcompat:appcompat:1.2.0",
-          activityKtx: "androidx.activity:activity-ktx:1.2.0-alpha04",
+          activityKtx: "androidx.activity:activity-ktx:1.2.0-alpha06",
           dynamicAnimation: "androidx.dynamicanimation:dynamicanimation:1.0.0",
       ],
       design: [
