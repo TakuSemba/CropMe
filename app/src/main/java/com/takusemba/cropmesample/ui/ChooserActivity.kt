@@ -1,4 +1,4 @@
-package com.takusemba.cropmesample.ui.activities
+package com.takusemba.cropmesample.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,11 +6,14 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.takusemba.cropmesample.R
-import com.takusemba.cropmesample.ui.activities.CropActivity.Companion.EXTRA_SHAPE_TYPE
+import com.takusemba.cropmesample.ui.CropActivity.Companion.EXTRA_SHAPE_TYPE
 
 class ChooserActivity : AppCompatActivity() {
 
-  private val samples: Array<String> = arrayOf(RECTANGLE, CIRCLE, CUSTOM)
+  private val samples: Array<String> = arrayOf(
+      RECTANGLE,
+      CIRCLE,
+      CUSTOM)
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -21,6 +24,7 @@ class ChooserActivity : AppCompatActivity() {
     listView.setOnItemClickListener { _, _, position, _ ->
       val intent = Intent(this, CropActivity::class.java)
       val layoutId = when (samples[position]) {
+        // TODO pass type and retrieve layoutId in destination Activity.
         RECTANGLE -> R.layout.activity_crop_rectangle
         CIRCLE -> R.layout.activity_crop_circle
         CUSTOM -> R.layout.activity_crop_custom

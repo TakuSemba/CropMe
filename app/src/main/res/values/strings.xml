@@ -1,9 +1,14 @@
 <resources>
   <string name="app_name">CropMe</string>
 
-  <string name="result">Result</string>
+  <!-- dialog -->
+  <string name="dialog_title_result">Result</string>
+  <string name="dialog_button_close">Close</string>
+  <string name="dialog_message_get_picture">Get Picture</string>
+  <string name="dialog_message_select_picture">Select Picture</string>
+  <string name="dialog_message_take_picture">Take Picture</string>
 
-  <!--error-->
+  <!-- error -->
   <string name="error_permission_denied">Permission is denied.</string>
   <string name="error_permission_is_off">Permission is off.</string>
   <string name="error_image_is_off_frame">Image is off the frame.</string>

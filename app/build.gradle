@@ -13,9 +13,7 @@ dependencies {
   implementation deps.kotlin.stdlib
   implementation deps.androidx.appcompat
   implementation deps.androidx.activityKtx
-  implementation deps.androidx.recyclerview
   implementation deps.design.material
   implementation deps.design.constraintLayout
-  implementation deps.picasso
   implementation project(':cropme')
 }

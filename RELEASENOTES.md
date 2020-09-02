@@ -1,6 +1,10 @@
 Release notes
 ==========
 
+Version 2.0.6 **(2020-xx-xx)**
+----------------------------
+ - Update dependencies.
+ 
 Version 2.0.5 **(2019-11-9)**
 ----------------------------
  - Add addOnCropListener/removeOnCropListener.

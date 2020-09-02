@@ -10,13 +10,14 @@
 
   <com.takusemba.cropme.CropLayout
     android:id="@+id/crop_view"
-    android:layout_width="match_parent"
+    android:layout_width="0dp"
     android:layout_height="0dp"
     app:cropme_custom_shape_layout="@layout/custom_overlay"
     app:cropme_frame_height_percent="80%"
     app:cropme_frame_width_percent="80%"
     app:cropme_max_scale="3.0"
     app:cropme_overlay_shape="custom"
+    app:layout_constraintBottom_toTopOf="@+id/select"
     app:layout_constraintDimensionRatio="h,1:1"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +26,7 @@
 
   </com.takusemba.cropme.CropLayout>
 
-  <include layout="@layout/merge_crop_recycler_view" />
+  <include layout="@layout/merge_crop_button" />
 
   <include layout="@layout/merge_crop_progress" />
 

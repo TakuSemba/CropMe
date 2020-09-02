@@ -17,7 +17,7 @@
     tools:ignore="GoogleAppIndexingWarning"
     >
     <activity
-      android:name=".ui.activities.ChooserActivity"
+      android:name=".ui.ChooserActivity"
       android:screenOrientation="portrait"
       >
       <intent-filter>
@@ -27,7 +27,7 @@
       </intent-filter>
     </activity>
     <activity
-      android:name=".ui.activities.CropActivity"
+      android:name=".ui.CropActivity"
       android:screenOrientation="portrait"
       />
   </application>

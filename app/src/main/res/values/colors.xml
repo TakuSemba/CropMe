@@ -1,24 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <color name="colorPrimary">#FAFAFA</color>
-  <color name="colorPrimaryDark">@color/black_87</color>
+  <color name="colorPrimaryDark">#DE000000</color>
   <color name="colorAccent">#3897F0</color>
+  <color name="colorSurface">@color/colorPrimary</color>
 
-  <color name="black_87">#DE000000</color>
-  <color name="black_70">#B3000000</color>
-  <color name="black_60">#99000000</color>
-  <color name="black_54">#8A000000</color>
-  <color name="black_50">#80000000</color>
-  <color name="black_40">#64000000</color>
-  <color name="black_38">#61000000</color>
-  <color name="black_32">#52000000</color>
-  <color name="black_20">#33000000</color>
-  <color name="black_12">#1F000000</color>
-  <color name="white_90">#E6FFFFFF</color>
-  <color name="white_70">#B3FFFFFF</color>
-  <color name="white_50">#80FFFFFF</color>
-  <color name="white_40">#64FFFFFF</color>
-  <color name="white_30">#4DFFFFFF</color>
-  <color name="white_20">#33FFFFFF</color>
-  <color name="white_12">#1FFFFFFF</color>
 </resources>
