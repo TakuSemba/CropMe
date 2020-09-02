@@ -2,11 +2,9 @@
 
 buildscript {
   ext.configs = [
+      version: "2.0.6",
       groupId: "com.github.takusemba",
       artifactId: "cropme",
-
-      libraryVersionCode: 14,
-      libraryVersionName: "2.0.5",
 
       compileSdkVersion: 30,
       minSdkVersion: 16,

@@ -1,7 +1,7 @@
 Release notes
 ==========
 
-Version 2.0.6 **(2020-xx-xx)**
+Version 2.0.6 **(2020-9-2)**
 ----------------------------
  - Update dependencies.
  - Update target SDK version to 30.
