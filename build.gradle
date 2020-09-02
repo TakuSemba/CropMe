@@ -8,9 +8,9 @@ buildscript {
       libraryVersionCode: 14,
       libraryVersionName: "2.0.5",
 
-      compileSdkVersion: 28,
+      compileSdkVersion: 30,
       minSdkVersion: 16,
-      targetSdkVersion: 28,
+      targetSdkVersion: 30,
   ]
   ext.versions = [
       kotlin: '1.4.0',

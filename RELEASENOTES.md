@@ -4,6 +4,9 @@ Release notes
 Version 2.0.6 **(2020-xx-xx)**
 ----------------------------
  - Update dependencies.
+ - Update target SDK version to 30.
+ - Simplify demo app.
+ - Add sample code to use picture taken by camera.
  
 Version 2.0.5 **(2019-11-9)**
 ----------------------------
