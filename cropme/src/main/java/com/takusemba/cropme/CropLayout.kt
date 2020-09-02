@@ -7,6 +7,7 @@ import android.graphics.RectF
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Handler
+import android.os.Looper
 import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
@@ -181,7 +182,7 @@ class CropLayout @JvmOverloads constructor(
       return
     }
     val frame = frameCache ?: return
-    val mainHandler = Handler()
+    val mainHandler = Handler(Looper.getMainLooper())
     val targetRect = Rect().apply { cropImageView.getHitRect(this) }
     val source = (cropImageView.drawable as BitmapDrawable).bitmap
     thread {
