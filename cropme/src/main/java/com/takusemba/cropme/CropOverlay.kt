@@ -43,7 +43,7 @@ abstract class CropOverlay @JvmOverloads constructor(
             DEFAULT_BASE,
             DEFAULT_PBASE,
             DEFAULT_BACKGROUND_ALPHA
-        ) * COLOR_DENSITY
+        )
         withBorder = a.getBoolean(
             R.styleable.CropOverlay_cropme_with_border,
             DEFAULT_WITH_BORDER
