@@ -24,6 +24,7 @@ import java.util.Date
 import java.util.Locale
 
 class CropActivity : AppCompatActivity() {
+
   private val backButton by lazy { findViewById<ImageView>(R.id.cross) }
   private val selectButton by lazy { findViewById<ImageView>(R.id.select) }
   private val cropButton by lazy { findViewById<ImageView>(R.id.crop) }
