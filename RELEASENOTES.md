@@ -3,7 +3,7 @@ Release notes
 
 Version 2.0.7 **(2020-9-2)**
 ----------------------------
- - Fix issue where cropme_background_alpha is not working. (https://github.com/TakuSemba/CropMe/issues/17)
+ - Fix issue where cropme_background_alpha is not working. ([#17](https://github.com/TakuSemba/CropMe/issues/17))
  - Fix issue with using deprecated method. 
  
 Version 2.0.6 **(2020-9-2)**
