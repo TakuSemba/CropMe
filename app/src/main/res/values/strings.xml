@@ -6,7 +6,7 @@
   <!--error-->
   <string name="error_permission_denied">Permission is denied.</string>
   <string name="error_permission_is_off">Permission is off.</string>
-  <string name="error_image_is_off_of_frame">Image is off of the frame.</string>
+  <string name="error_image_is_off_frame">Image is off the frame.</string>
   <string name="error_failed_to_clip_image">Failed to clip image.</string>
 
 </resources>

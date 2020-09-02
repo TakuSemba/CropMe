@@ -15,7 +15,7 @@ internal interface MoveAnimator {
   fun move(delta: Float)
 
   /**
-   * adjust image when image is off of the frame
+   * adjust image when image is off the frame
    */
   fun adjust()
 

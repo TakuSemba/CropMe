@@ -151,10 +151,10 @@ class CropLayout @JvmOverloads constructor(
   }
 
   /**
-   * Check if image is off of the frame.
+   * Check if image is off the frame.
    *
    * You would need to call this to make sure if image is croppable.
-   * If the image is off of the frame, [crop] does nothing.
+   * If the image is off the frame, [crop] does nothing.
    */
   fun isOffFrame(): Boolean {
     val frameRect = frameCache ?: return false
@@ -177,7 +177,7 @@ class CropLayout @JvmOverloads constructor(
   @MainThread
   fun crop() {
     if (isOffFrame()) {
-      Log.w(TAG, "Image is off of the frame.")
+      Log.w(TAG, "Image is off the frame.")
       return
     }
     val frame = frameCache ?: return

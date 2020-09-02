@@ -63,7 +63,7 @@ cropLayout.addOnCropListener(object : OnCropListener {
   }
 })
     
-cropView.isOffFrame() // optionally check if the image is off of the frame.
+cropView.isOffFrame() // optionally check if the image is off the frame.
 
 cropView.crop() // crop image
 ```
