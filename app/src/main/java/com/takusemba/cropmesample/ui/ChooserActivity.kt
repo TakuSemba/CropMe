@@ -6,7 +6,10 @@ import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.takusemba.cropmesample.R
+import com.takusemba.cropmesample.ui.CropActivity.Companion.CIRCLE
+import com.takusemba.cropmesample.ui.CropActivity.Companion.CUSTOM
 import com.takusemba.cropmesample.ui.CropActivity.Companion.EXTRA_SHAPE_TYPE
+import com.takusemba.cropmesample.ui.CropActivity.Companion.RECTANGLE
 
 class ChooserActivity : AppCompatActivity(R.layout.activity_chooser) {
 
@@ -19,20 +22,8 @@ class ChooserActivity : AppCompatActivity(R.layout.activity_chooser) {
     listView.adapter = adapter
     listView.setOnItemClickListener { _, _, position, _ ->
       val intent = Intent(this, CropActivity::class.java)
-      val layoutId = when (samples[position]) {
-        RECTANGLE -> R.layout.activity_crop_rectangle
-        CIRCLE -> R.layout.activity_crop_circle
-        CUSTOM -> R.layout.activity_crop_custom
-        else -> throw IllegalStateException("unknown shape")
-      }
-      intent.putExtra(EXTRA_SHAPE_TYPE, layoutId)
+      intent.putExtra(EXTRA_SHAPE_TYPE, samples[position])
       startActivity(intent)
     }
-  }
-
-  companion object {
-    private const val RECTANGLE = "Rectangle"
-    private const val CIRCLE = "Circle"
-    private const val CUSTOM = "Custom"
   }
 }

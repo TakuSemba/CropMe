@@ -33,7 +33,13 @@ class CropActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(intent.getIntExtra(EXTRA_SHAPE_TYPE, -1))
+    val layoutId = when (intent.getStringExtra(EXTRA_SHAPE_TYPE)) {
+      RECTANGLE -> R.layout.activity_crop_rectangle
+      CIRCLE -> R.layout.activity_crop_circle
+      CUSTOM -> R.layout.activity_crop_custom
+      else -> throw IllegalStateException("unknown shape")
+    }
+    setContentView(layoutId)
 
     backButton.setOnClickListener { finish() }
 
@@ -105,5 +111,9 @@ class CropActivity : AppCompatActivity() {
   companion object {
 
     const val EXTRA_SHAPE_TYPE = "shape_type"
+
+    const val RECTANGLE = "Rectangle"
+    const val CIRCLE = "Circle"
+    const val CUSTOM = "Custom"
   }
 }
