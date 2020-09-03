@@ -1,4 +1,4 @@
-package com.takusemba.cropmesample.ui
+package com.takusemba.cropmesample
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -16,8 +16,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.takusemba.cropme.CropLayout
 import com.takusemba.cropme.OnCropListener
-import com.takusemba.cropmesample.BuildConfig
-import com.takusemba.cropmesample.R
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date

@@ -1,4 +1,4 @@
-package com.takusemba.cropmesample.ui
+package com.takusemba.cropmesample
 
 import android.content.Context
 import android.graphics.Canvas

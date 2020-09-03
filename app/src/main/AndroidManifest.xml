@@ -26,7 +26,7 @@
     </provider>
 
     <activity
-      android:name=".ui.ChooserActivity"
+      android:name=".ChooserActivity"
       android:screenOrientation="portrait"
       >
       <intent-filter>
@@ -36,7 +36,7 @@
       </intent-filter>
     </activity>
     <activity
-      android:name=".ui.CropActivity"
+      android:name=".CropActivity"
       android:screenOrientation="portrait"
       />
   </application>

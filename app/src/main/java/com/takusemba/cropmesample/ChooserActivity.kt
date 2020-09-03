@@ -1,15 +1,14 @@
-package com.takusemba.cropmesample.ui
+package com.takusemba.cropmesample
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import com.takusemba.cropmesample.R
-import com.takusemba.cropmesample.ui.CropActivity.Companion.CIRCLE
-import com.takusemba.cropmesample.ui.CropActivity.Companion.CUSTOM
-import com.takusemba.cropmesample.ui.CropActivity.Companion.EXTRA_SHAPE_TYPE
-import com.takusemba.cropmesample.ui.CropActivity.Companion.RECTANGLE
+import com.takusemba.cropmesample.CropActivity.Companion.CIRCLE
+import com.takusemba.cropmesample.CropActivity.Companion.CUSTOM
+import com.takusemba.cropmesample.CropActivity.Companion.EXTRA_SHAPE_TYPE
+import com.takusemba.cropmesample.CropActivity.Companion.RECTANGLE
 
 class ChooserActivity : AppCompatActivity(R.layout.activity_chooser) {
 
