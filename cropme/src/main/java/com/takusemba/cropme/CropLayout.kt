@@ -23,6 +23,8 @@ import com.takusemba.cropme.internal.GestureAnimation
 import com.takusemba.cropme.internal.GestureAnimator
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.concurrent.thread
+import kotlin.math.ceil
+import kotlin.math.floor
 
 /**
  * Layout to show Image and Frame.
@@ -162,10 +164,11 @@ class CropLayout @JvmOverloads constructor(
     val targetRect = Rect()
     cropImageView.getHitRect(targetRect)
     return !targetRect.contains(
-        frameRect.left.toInt(),
-        frameRect.top.toInt(),
-        frameRect.right.toInt(),
-        frameRect.bottom.toInt()
+        ceil(frameRect.left.toDouble()).toInt(),
+        ceil(frameRect.top.toDouble()).toInt(),
+        floor(frameRect.right.toDouble()).toInt(),
+        floor(frameRect.bottom.toDouble()).toInt()
+
     )
   }
 
