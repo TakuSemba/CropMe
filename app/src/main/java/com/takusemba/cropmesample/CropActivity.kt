@@ -3,23 +3,16 @@ package com.takusemba.cropmesample
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.activity.result.contract.ActivityResultContracts.GetContent
-import androidx.activity.result.contract.ActivityResultContracts.TakePicture
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.FileProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.takusemba.cropme.CropLayout
 import com.takusemba.cropme.OnCropListener
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 class CropActivity : AppCompatActivity() {
 
@@ -42,42 +35,12 @@ class CropActivity : AppCompatActivity() {
 
     backButton.setOnClickListener { finish() }
 
-    selectButton.setOnClickListener {
-
-      MaterialAlertDialogBuilder(this)
-          .setTitle(getString(R.string.dialog_message_get_picture))
-          .setItems(
-              arrayOf(
-                  getString(R.string.dialog_message_select_picture),
-                  getString(R.string.dialog_message_take_picture)
-              )
-          ) { dialog, which ->
-            when (which) {
-              0 -> {
-                val launcher = registerForActivityResult(GetContent()) { uri: Uri? ->
-                  if (uri == null) return@registerForActivityResult
-                  cropLayout.setUri(uri)
-                }
-                launcher.launch("image/*")
-              }
-              1 -> {
-                val format = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
-                val timestamp = format.format(Date())
-                val storageDir: File? = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-                val file = File.createTempFile("JPEG_${timestamp}_", ".jpg", storageDir)
-                val authority = "${BuildConfig.APPLICATION_ID}.fileprovider"
-                val uri = FileProvider.getUriForFile(this, authority, file)
-                val launcher = registerForActivityResult(TakePicture()) { isSuccessful: Boolean ->
-                  if (!isSuccessful) return@registerForActivityResult
-                  cropLayout.setUri(uri)
-                }
-                launcher.launch(uri)
-              }
-            }
-            dialog.dismiss()
-          }
-          .show()
+    val contentLauncher = registerForActivityResult(GetContent()) { uri: Uri? ->
+      if (uri == null) return@registerForActivityResult
+      cropLayout.setUri(uri)
     }
+
+    selectButton.setOnClickListener { contentLauncher.launch("image/*") }
 
     cropLayout.addOnCropListener(object : OnCropListener {
       override fun onSuccess(bitmap: Bitmap) {
