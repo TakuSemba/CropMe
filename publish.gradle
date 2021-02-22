@@ -1,74 +1,82 @@
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'signing'
 
-version configs.version
+def sonatypeUsername = rootProject.hasProperty('sonatypeUsername')? rootProject.sonatypeUsername : ''
+def sonatypePassword = rootProject.hasProperty('sonatypePassword')? rootProject.sonatypePassword : ''
+
+version configs.libraryVersionName
 group configs.groupId
 
 task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
+    archiveClassifier.set("sources")
+    from android.sourceSets.getByName("main").java.srcDirs
 }
 
 task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
+    options.addStringOption('Xdoclint:none', '-quiet')
+    source = android.sourceSets.getByName("main").java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     excludes = ['**/*.kt']
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
+    archiveClassifier.set("javadoc")
     from javadoc.destinationDir
 }
 
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-
-project.afterEvaluate {
+afterEvaluate {
     publishing {
         publications {
-            Production(MavenPublication) {
-                artifact "$buildDir/outputs/aar/cropme-release.aar"
-                groupId configs.groupId
-                artifactId configs.artifactId
-                version configs.version
-
-                pom.withXml {
-                    def dependenciesNode = asNode().appendNode('dependencies')
-
-                    // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
-                    configurations.implementation.allDependencies.each {
-                        // Ensure dependencies such as fileTree are not included in the pom.
-                        if (it.name != 'unspecified') {
-                            def dependencyNode = dependenciesNode.appendNode('dependency')
-                            dependencyNode.appendNode('groupId', it.group)
-                            dependencyNode.appendNode('artifactId', it.name)
-                            dependencyNode.appendNode('version', it.version)
+            release(MavenPublication) {
+                artifactId = configs.artifactId
+                from components.release
+                artifact javadocJar
+                artifact sourcesJar
+                pom {
+                    name = configs.artifactId
+                    description = configs.description
+                    url = configs.siteUrl
+                    licenses {
+                        license {
+                            name = configs.licenseName
+                            url = configs.licenseUrl
                         }
                     }
+                    developers {
+                        developer {
+                            id = configs.developerId
+                            name = configs.developerName
+                            email = configs.developerEmail
+                        }
+                    }
+                    scm {
+                        connection = configs.gitUrl
+                        developerConnection = configs.gitUrl
+                        url = configs.siteUrl
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+                def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
+                url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+                credentials {
+                    username = "${sonatypeUsername}"
+                    password = "${sonatypePassword}"
                 }
             }
         }
     }
 }
 
-bintray {
-    user = project.hasProperty('bintrayUser') ? project.bintrayUser : ""
-    key = project.hasProperty('bintrayApiKey') ? project.bintrayApiKey : ""
-    publications = ['Production']
-    configurations = ['archives']
-    dryRun = false
-    override = true
-    pkg {
-        repo = 'maven'
-        name = configs.artifactId
-        publish = true
-        publicDownloadNumbers = true
-        licenses = ['Apache-2.0']
-        version {
-            name = configs.version
-            released = new Date()
-        }
+signing {
+    sign publishing.publications
+}
+
+javadoc {
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
     }
 }
