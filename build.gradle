@@ -2,7 +2,7 @@
 
 buildscript {
   ext.configs = [
-      version: "2.0.7",
+      version: "2.0.8",
       groupId: "com.github.takusemba",
       artifactId: "cropme",
       description: "Extremely Smooth and Easy Cropping library for you.",

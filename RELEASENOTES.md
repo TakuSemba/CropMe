@@ -1,9 +1,10 @@
 Release notes
 ==========
 
-Version 2.0.8 **(2021-xx-xx)**
+Version 2.0.8 **(2021-2-22)**
 ----------------------------
  - Update kotlin version to v1.3.20.
+ - Fix issue with offFrame judgement. ([#20](https://github.com/TakuSemba/CropMe/issues/20))
 
 Version 2.0.7 **(2020-9-2)**
 ----------------------------
