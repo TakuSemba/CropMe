@@ -1,6 +1,10 @@
 Release notes
 ==========
 
+Version 2.0.8 **(2021-xx-xx)**
+----------------------------
+ - Update kotlin version to v1.3.20.
+
 Version 2.0.7 **(2020-9-2)**
 ----------------------------
  - Fix issue where cropme_background_alpha is not working. ([#17](https://github.com/TakuSemba/CropMe/issues/17))
