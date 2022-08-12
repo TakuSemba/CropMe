@@ -106,6 +106,10 @@ class CropLayout @JvmOverloads constructor(
 
       override fun onPreDraw(): Boolean {
 
+        if (measuredWidth == 0 && measuredHeight == 0) {
+          return true
+        }
+
         val totalWidth = measuredWidth.toFloat()
         val totalHeight = measuredHeight.toFloat()
         val frameWidth = measuredWidth * percentWidth
