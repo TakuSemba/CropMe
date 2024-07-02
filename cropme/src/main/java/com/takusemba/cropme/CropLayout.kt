@@ -209,6 +209,47 @@ class CropLayout @JvmOverloads constructor(
     }
   }
 
+  /**
+   * Crop the image using the source image's size and returns the result via [OnCropListener].
+   *
+   * If cropping is successful [OnCropListener.onSuccess] would be called, otherwise [OnCropListener.onFailure].
+   * This [cropUsingSourceSize] only works when the image is fully on the frame, otherwise
+   * [cropUsingSourceSize] does nothing.
+   */
+  @MainThread
+  fun cropUsingSourceSize() {
+    if (isOffFrame()) {
+      Log.w(TAG, "Image is off the frame.")
+      return
+    }
+    val frame = frameCache ?: return
+    val mainHandler = Handler(Looper.getMainLooper())
+    val targetRect = Rect().apply { cropImageView.getHitRect(this) }
+    val source = (cropImageView.drawable as BitmapDrawable).bitmap
+    thread {
+      val ratioX = source.width / cropImageView.width.toFloat()
+      val ratioY = source.height / cropImageView.height.toFloat()
+      val leftOffset = ((frame.left - targetRect.left) / cropImageView.scaleX * ratioX).toInt()
+      val topOffset = ((frame.top - targetRect.top) / cropImageView.scaleY * ratioY).toInt()
+      val rightOffset = (source.width - (targetRect.right - frame.right) / cropImageView.scaleX * ratioX).toInt()
+      val bottomOffset = (source.height - (targetRect.bottom - frame.bottom) / cropImageView.scaleY * ratioY).toInt()
+      val width = rightOffset - leftOffset
+      val height = bottomOffset - topOffset
+      try {
+        val result = Bitmap.createBitmap(source, leftOffset, topOffset, width, height)
+        mainHandler.post {
+          for (listener in listeners) {
+            listener.onSuccess(result)
+          }
+        }
+      } catch (e: Exception) {
+        for (listener in listeners) {
+          listener.onFailure(e)
+        }
+      }
+    }
+  }
+
   companion object {
 
     private const val TAG = "CropLayout"
